@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>taskCat</title>
+
+    <style>
+        *{
+            box-sizing: content-box;
+            font-family: monospace;
+        }
+        html,body{
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+
+        body{
+            height: 100dvh;
+            padding: 0;
+            margin: 0;
+        }
+        .main-screen{
+            background-color: whitesmoke;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #loading{
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            color: white;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        #main-stage{
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0, 128, 0, 0.481);
+            position: relative;
+            justify-content: center;
+            align-items: center;
+        }
+        #firstTimeScreen, #oldUserScreen{
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            
+        }
+
+        /*FIRST TIME SCREEN */
+        #box{
+            height: 25%;
+            aspect-ratio: 1/1;
+            background-color: purple;
+            position: absolute;
+        }
+        #cat{
+            height: 30%;
+            aspect-ratio: 1/1;
+            background-color: yellow;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+       }
+       #youReceivedText{
+        position: absolute;
+        top: 65%;
+        text-align: center;
+        opacity: 0;
+
+       }
+
+       #renamePopUpScreen{
+        height: 100%;
+        width: 100%;
+        background-color: rgba(255, 0, 0, 0.388);
+        position: absolute;
+        top:0;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+       }
+       #renamePopUp{
+        width: 70%;
+        height: 50%;
+        background-color: blue;
+        display:flex;
+        flex-direction: column;
+
+       }
+       .rename-title{
+        height:10%;
+        width: 100%;
+        background-color: green;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+       }
+       .rename-photo-name-wrapper{
+        height: 50%;
+        width: 100%;
+        background-color: whitesmoke;
+        display: flex;
+           }
+
+        .rename-photo{
+            height: 100%;
+            width: 40%;
+            background-color: yellow;
+        }
+        .rename-name{
+            height:100%;
+            width: 60%;
+            background-color: orange;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .rename-name h1{
+            margin: 0;
+            padding: 0;
+        }
+        #renameInput{
+            position: absolute;
+            height: 50%;
+            width : 100%;
+            opacity: 0;
+        }
+        .rename-button-wrapper{
+            height: 40%;
+            width: 100%;
+            background-color: pink;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #renameConfirmBtn{
+            padding: 20px;
+
+        }
+            </style>
+</head>
+<body>
+    <main class="main-screen">
+        <div id="loading">
+            <h1>Loading</h1>
+        </div>
+        <div id="main-stage">
+            <h1>Main screen</h1>
+            <div id="firstTimeScreen">
+                <h1>First Time</h1>
+                <div id="box"></div>
+                <div id="cat">
+                   <h1 id="catTypeText">Cat</h1>
+                </div>
+                <h1 id="youReceivedText">You received</h1>
+            </div>
+            <div id="renamePopUpScreen">
+                <div id="renamePopUp">
+                    <div class="rename-title">Rename?</div>
+                    <div class="rename-photo-name-wrapper">
+                        <div class="rename-photo"></div>
+                        <div class="rename-name">
+                            <h1 id="renameName">Name</h1>
+                            <input id="renameInput" type="text" />
+                        </div>
+                    </div>
+                    <div class="rename-button-wrapper">
+                        <button id="renameConfirmBtn">Confirm</div>
+                    </div>
+                </div>
+            </div>
+            <div id="oldUserScreen">
+                <h1>Old user</h1>
+
+            </div>
+        </div>
+
+    </main>
+    <script>
+
+        const loadingScreen = document.getElementById("loading");
+        const MainScreen = document.getElementById("main-stage");
+        const renamePopUpScreen = document.getElementById("renamePopUpScreen");
+        const oldUserScreen = document.getElementById("oldUserScreen");
+        const firstTimeScreen = document.getElementById("firstTimeScreen");
+        const youReceivedText = document.getElementById("youReceivedText");
+        const catTypeText = document.getElementById('catTypeText');
+        const box = document.getElementById('box');
+        const cat = document.getElementById('cat');
+        const renameName = document.getElementById('renameName');
+        let catName;
+        const renameInput = document.getElementById("renameInput");
+        const renameConfirmBtn = document.getElementById('renameConfirmBtn');
+        
+
+        const STATES = {
+            LOADING : 'loadingScreen',
+            MAIN : 'MainScreen'
+        }
+
+        const checkIfFirstTime =()=>{
+            if (!localStorage.getItem("firstTimeUsing")){
+                localStorage.setItem("firstTimeUsing", "true")
+            }
+            const isFirstTime = localStorage.getItem("firstTimeUsing") === "true";
+
+            if (isFirstTime){
+                firstTimeScreen.style.display = "flex";
+                oldUserScreen.style.display = "none";
+            }
+            else{
+                oldUserScreen.style.display = "flex";
+                firstTimeScreen.style.display = "none";
+            }
+        }
+    
+        const randomizeCatType =()=>{
+            const catTypes = ["wawu", "mimi", "mekus","kuchi","nano"];
+            const catRandomizer = catTypes[Math.floor(Math.random() * (catTypes.length))];
+
+            youReceivedText.innerHTML = `You Received, <br/> ${catRandomizer}!`;
+            catTypeText.innerHTML = catRandomizer;
+            renameName.innerHTML = catRandomizer;
+
+        }
+
+        const displayRenamePopUp =()=>{
+            renamePopUpScreen.style.display = "flex";
+        }
+
+        window.addEventListener('load', ()=>{
+            checkIfFirstTime();
+            //remove later: // 
+            cat.style.display = "none";
+            renamePopUpScreen.style.display = "none";
+
+            //remove later://
+
+        })
+
+        box.addEventListener('click', ()=>{
+            randomizeCatType();
+            setTimeout(()=>displayRenamePopUp(), 100); //remove later for testing only//
+            youReceivedText.style.opacity = 1;
+            box.style.display = "none";
+            cat.style.display = "flex";
+
+        })
+
+        renameInput.addEventListener('input', ()=>{
+            renameName.innerHTML = renameInput.value;
+
+            if ((renameInput.value).length > 10){
+                renameName.innerHTML = (renameInput.value).slice(0,10);
+            }
+        })
+
+        renameInput.addEventListener('keydown',(event)=>{
+            if (event.key === "Enter"){
+                renameInput.blur();
+            }
+        })
+
+
+            
+
+    </script>
+    
+</body>
+</html>
