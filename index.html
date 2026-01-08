@@ -153,6 +153,14 @@
             padding: 20px;
 
         }
+        #statusBox{
+            height: 30%;
+            width: 40%;
+            background-color: red;
+            position: absolute;
+            top:0;
+            left: 0;
+        }
             </style>
 </head>
 <body>
@@ -161,7 +169,6 @@
             <h1>Loading</h1>
         </div>
         <div id="main-stage">
-            <h1>Main screen</h1>
             <div id="firstTimeScreen">
                 <h1>First Time</h1>
                 <div id="box"></div>
@@ -189,6 +196,7 @@
                 <h1>Old user</h1>
 
             </div>
+            <div id=statusBox></div>
         </div>
 
     </main>
@@ -197,6 +205,7 @@
         const loadingScreen = document.getElementById("loading");
         const MainScreen = document.getElementById("main-stage");
         const renamePopUpScreen = document.getElementById("renamePopUpScreen");
+        const statusBox = document.getElementById("statusBox");
         const oldUserScreen = document.getElementById("oldUserScreen");
         const firstTimeScreen = document.getElementById("firstTimeScreen");
         const youReceivedText = document.getElementById("youReceivedText");
@@ -237,11 +246,12 @@
             youReceivedText.innerHTML = `You Received, <br/> ${catRandomizer}!`;
             catTypeText.innerHTML = catRandomizer;
             renameName.innerHTML = catRandomizer;
-
+            catName = catRandomizer;
         }
 
         const displayRenamePopUp =()=>{
             renamePopUpScreen.style.display = "flex";
+            youReceivedText.style.display = "none";
         }
 
         window.addEventListener('load', ()=>{
@@ -275,6 +285,20 @@
             if (event.key === "Enter"){
                 renameInput.blur();
             }
+        })
+
+        renameConfirmBtn.addEventListener('click', ()=>{
+            if(!renameInput.value){
+                localStorage.setItem("catName", catName);
+            }
+            else{
+                catName = renameInput.value;
+                localStorage.setItem("catName",JSON.stringify(catName));
+
+            }
+
+            renamePopUpScreen.style.display = "none";
+            catTypeText.innerHTML = catName;
         })
 
 
