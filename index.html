@@ -86,7 +86,6 @@
        #renamePopUpScreen{
         height: 100%;
         width: 100%;
-        background-color: rgba(255, 0, 0, 0.388);
         position: absolute;
         top:0;
         justify-content: center;
@@ -160,6 +159,39 @@
             position: absolute;
             top:0;
             left: 0;
+display: flex;
+            flex-direction: column;
+
+        }
+        #statusBoxName, #statusBoxHunger, #statusBoxHappiness{
+            height: 33.3%;
+            width: 100%;
+            background-color:white;
+            display: flex;
+            flex-direction: column;
+        }
+        #statusBoxNameH1{
+            margin: 0;
+            
+        } 
+        #hungerBar, #happinessBar{
+            height:50%;
+            width:95%;
+            border: 2px black solid;
+            overflow: hidden;
+            margin-left: 1.5%;
+
+        }
+        #hungerBarContent{
+            height: 100%;
+            width: 100%;
+            background-color: green;
+        }
+
+        #happinessBarContent{
+            height: 100%;
+            width: 100%;
+            background-color: red;
         }
             </style>
 </head>
@@ -196,7 +228,21 @@
                 <h1>Old user</h1>
 
             </div>
-            <div id=statusBox></div>
+            <div id=statusBox>
+                <div id="statusBoxName"> Name
+                    <h1 id="statusBoxNameH1"> Name </h1>
+                </div>
+                <div id="statusBoxHunger" > Hunger
+                    <div id="hungerBar">
+                        <div id="hungerBarContent"></div>
+                    </div>
+                </div>
+                <div id="statusBoxHappiness" > Happiness
+                    <div id="happinessBar">
+                        <div id="happinessBarContent"></div>
+                    </div>
+                         </div>
+            </div>
         </div>
 
     </main>
@@ -216,7 +262,9 @@
         let catName;
         const renameInput = document.getElementById("renameInput");
         const renameConfirmBtn = document.getElementById('renameConfirmBtn');
-        
+        const statusBoxNameH1 = document.getElementById('statusBoxNameH1');      
+        const hungerBarContent = document.getElementById('hungerBarContent');
+        const happinessBarContent = document.getElementById('happinessBarContent'); 
 
         const STATES = {
             LOADING : 'loadingScreen',
@@ -254,11 +302,37 @@
             youReceivedText.style.display = "none";
         }
 
+        const displayStatusBox =()=>{
+            statusBox.style.display = "flex";
+            const catSavedName = JSON.parse(localStorage.getItem("catSavedName"));
+            computeHunger();
+            setInterval(computeHunger, 5000);
+            statusBoxNameH1.innerHTML = catSavedName;
+        }
+
+        const computeHunger =()=>{
+            if (!localStorage.getItem('lastHungerAmount')){
+                localStorage.setItem('lastHungerAmount', JSON.stringify(100));
+            }
+            if (!localStorage.getItem("lastHungerTimeCheck")){
+                localStorage.setItem("lastHungerTimeCheck", JSON.stringify(Date.now()));
+            }
+            const lastHungerAmount = JSON.parse(localStorage.getItem('lastHungerAmount'));
+            const lastHungerTimeCheck = JSON.parse(localStorage.getItem("lastHungerTimeCheck"));
+            let elapsedTime = Date.now() - lastHungerTimeCheck;
+            let hungerAmount = (lastHungerAmount - Math.floor(elapsedTime/ 10000)); //120,000 equals 2 minutes to seconds (120), and then seconds to miliseconds
+            hungerBarContent.style.width = `${hungerAmount}%`;
+            localStorage.setItem("lastHungerTimeCheck", JSON.stringify(Date.now()));
+            localStorage.setItem("lastHungerAmount", JSON.stringify(hungerAmount));
+            
+        }
+
         window.addEventListener('load', ()=>{
             checkIfFirstTime();
             //remove later: // 
             cat.style.display = "none";
             renamePopUpScreen.style.display = "none";
+            statusBox.style.display = "none";
 
             //remove later://
 
@@ -278,6 +352,7 @@
 
             if ((renameInput.value).length > 10){
                 renameName.innerHTML = (renameInput.value).slice(0,10);
+                
             }
         })
 
@@ -289,16 +364,17 @@
 
         renameConfirmBtn.addEventListener('click', ()=>{
             if(!renameInput.value){
-                localStorage.setItem("catName", catName);
+                localStorage.setItem("catSavedName", JSON.stringify(catName));
             }
             else{
                 catName = renameInput.value;
-                localStorage.setItem("catName",JSON.stringify(catName));
+                localStorage.setItem("catSavedName",JSON.stringify(catName));
 
             }
 
             renamePopUpScreen.style.display = "none";
             catTypeText.innerHTML = catName;
+            displayStatusBox();
         })
 
 
