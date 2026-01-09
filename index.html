@@ -222,6 +222,17 @@ display: flex;
             margin: 10px;
             height: 70%;
         }
+
+        #itemsPopUpWrapper, #storePopUpWrapper, #tasksPopUpWrapper{
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0, 0, 255, 0.213);
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
             </style>
 </head>
 <body>
@@ -279,6 +290,12 @@ display: flex;
                 <button id="store"> Store </button>
                 <button id="tasks"> Task </button>
             </div>
+
+            <div id="itemsPopUpWrapper">
+                <h1>ITEMS</h1>
+            </div>
+            <div id="storePopUpWrapper"><h1>STORE</h1></div>
+            <div id="tasksPopUpWrapper"><h1>TASKS</h1></div>
         </div>
 
     </main>
@@ -303,13 +320,21 @@ display: flex;
         const happinessBarContent = document.getElementById('happinessBarContent'); 
         const hungerBarPoints = document.getElementById("hungerBarPoints");
 
+        const itemsBtn = document.getElementById('items');
+        const storeBtn = document.getElementById('store');
+        const tasksBtn = document.getElementById('tasks');
+
+        const itemsPopUpWrapper = document.getElementById('itemsPopUpWrapper');
+        const storePopUpWrapper = document.getElementById('storePopUpWrapper');
+        const tasksPopUpWrapper = document.getElementById('tasksPopUpWrapper');
+
         const STATES = {
             LOADING : 'loadingScreen',
             MAIN : 'MainScreen'
         }
 
         const checkIfFirstTime =()=>{
-            if (!localStorage.getItem("firstTimeUsing")){
+            if (localStorage.getItem("firstTimeUsing") === null){
                 localStorage.setItem("firstTimeUsing", "true")
             }
             const isFirstTime = localStorage.getItem("firstTimeUsing") === "true";
@@ -322,6 +347,10 @@ display: flex;
                 oldUserScreen.style.display = "flex";
                 firstTimeScreen.style.display = "none";
             }
+        }
+
+        const clearWrappers =()=>{
+            ([itemsPopUpWrapper, storePopUpWrapper, tasksPopUpWrapper]).forEach(wrapper => wrapper.style.display = "none");
         }
     
         const randomizeCatType =()=>{
@@ -348,10 +377,10 @@ display: flex;
         }
 
 const computeHunger = () => {
-    if (!localStorage.getItem('lastHungerAmount')) {
+    if (localStorage.getItem('lastHungerAmount') === null) {
         localStorage.setItem('lastHungerAmount', 100);
     }
-    if (!localStorage.getItem('lastHungerTimeCheck')) {
+    if (!localStorage.getItem('lastHungerTimeCheck') === null) {
         localStorage.setItem('lastHungerTimeCheck', Date.now());
     }
 
@@ -382,7 +411,7 @@ const computeHunger = () => {
             cat.style.display = "none";
             renamePopUpScreen.style.display = "none";
             statusBox.style.display = "none";
-            
+            clearWrappers();
 
             //for testing and reset// 
             
@@ -433,6 +462,15 @@ const computeHunger = () => {
             displayStatusBox();
         })
 
+        itemsBtn.addEventListener('click', ()=>{
+            itemsPopUpWrapper.style.display = "flex";
+        })
+        storeBtn.addEventListener('click', ()=>{
+            storePopUpWrapper.style.display = "flex";
+        })
+        tasksBtn.addEventListener('click', ()=>{
+            tasksPopUpWrapper.style.display = "flex";
+        })
 
             
 
