@@ -180,6 +180,9 @@ display: flex;
             border: 2px black solid;
             overflow: hidden;
             margin-left: 1.5%;
+            display: flex;
+            position: relative;
+
 
         }
         #hungerBarContent{
@@ -192,6 +195,32 @@ display: flex;
             height: 100%;
             width: 100%;
             background-color: red;
+        }
+
+        #hungerBarPoints{
+            position: absolute;
+            top:0%;
+            left: 0%;
+            margin:0;
+            padding: 0;
+            
+        }
+        #bottomAccessBar{
+            width: 100%;
+            height: 10dvh;
+            background-color: yellow;
+            position: absolute;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+        }
+
+        #items, #store, #tasks{
+            flex: 1;
+            margin: 10px;
+            height: 70%;
         }
             </style>
 </head>
@@ -234,14 +263,21 @@ display: flex;
                 </div>
                 <div id="statusBoxHunger" > Hunger
                     <div id="hungerBar">
+                        <h1 id="hungerBarPoints">n /100</h1>
                         <div id="hungerBarContent"></div>
                     </div>
                 </div>
                 <div id="statusBoxHappiness" > Happiness
                     <div id="happinessBar">
-                        <div id="happinessBarContent"></div>
+                        <div id="happinessBarContent">
+                        </div>
                     </div>
                          </div>
+            </div>
+            <div id="bottomAccessBar">
+                <button id="items"> Items </button>
+                <button id="store"> Store </button>
+                <button id="tasks"> Task </button>
             </div>
         </div>
 
@@ -265,6 +301,7 @@ display: flex;
         const statusBoxNameH1 = document.getElementById('statusBoxNameH1');      
         const hungerBarContent = document.getElementById('hungerBarContent');
         const happinessBarContent = document.getElementById('happinessBarContent'); 
+        const hungerBarPoints = document.getElementById("hungerBarPoints");
 
         const STATES = {
             LOADING : 'loadingScreen',
@@ -306,26 +343,38 @@ display: flex;
             statusBox.style.display = "flex";
             const catSavedName = JSON.parse(localStorage.getItem("catSavedName"));
             computeHunger();
-            setInterval(computeHunger, 5000);
+            setInterval(computeHunger, 1000);
             statusBoxNameH1.innerHTML = catSavedName;
         }
 
-        const computeHunger =()=>{
-            if (!localStorage.getItem('lastHungerAmount')){
-                localStorage.setItem('lastHungerAmount', JSON.stringify(100));
-            }
-            if (!localStorage.getItem("lastHungerTimeCheck")){
-                localStorage.setItem("lastHungerTimeCheck", JSON.stringify(Date.now()));
-            }
-            const lastHungerAmount = JSON.parse(localStorage.getItem('lastHungerAmount'));
-            const lastHungerTimeCheck = JSON.parse(localStorage.getItem("lastHungerTimeCheck"));
-            let elapsedTime = Date.now() - lastHungerTimeCheck;
-            let hungerAmount = (lastHungerAmount - Math.floor(elapsedTime/ 10000)); //120,000 equals 2 minutes to seconds (120), and then seconds to miliseconds
-            hungerBarContent.style.width = `${hungerAmount}%`;
-            localStorage.setItem("lastHungerTimeCheck", JSON.stringify(Date.now()));
-            localStorage.setItem("lastHungerAmount", JSON.stringify(hungerAmount));
-            
-        }
+const computeHunger = () => {
+    if (!localStorage.getItem('lastHungerAmount')) {
+        localStorage.setItem('lastHungerAmount', 100);
+    }
+    if (!localStorage.getItem('lastHungerTimeCheck')) {
+        localStorage.setItem('lastHungerTimeCheck', Date.now());
+    }
+
+    let hungerAmount = Number(localStorage.getItem('lastHungerAmount'));
+    let lastHungerTimeCheck = Number(localStorage.getItem('lastHungerTimeCheck'));
+
+    let elapsedTime = Date.now() - lastHungerTimeCheck;
+    let hungerLoss = Math.floor(elapsedTime / 300000);
+
+    hungerBarPoints.innerHTML = `${hungerAmount}/100`;
+
+    if (hungerLoss > 0) {
+        hungerAmount = Math.max(0, hungerAmount - hungerLoss);
+
+        lastHungerTimeCheck += hungerLoss * 300000;
+
+        localStorage.setItem('lastHungerAmount', hungerAmount);
+        localStorage.setItem('lastHungerTimeCheck', lastHungerTimeCheck);
+    }
+
+    hungerBarContent.style.width = `${hungerAmount}%`;
+};
+
 
         window.addEventListener('load', ()=>{
             checkIfFirstTime();
@@ -333,6 +382,13 @@ display: flex;
             cat.style.display = "none";
             renamePopUpScreen.style.display = "none";
             statusBox.style.display = "none";
+            
+
+            //for testing and reset// 
+            
+            //localStorage.setItem('lastHungerAmount', 100);
+            //localStorage.setItem('lastHungerTimeCheck', Date.now());
+            
 
             //remove later://
 
