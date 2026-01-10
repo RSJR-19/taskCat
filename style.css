@@ -307,6 +307,7 @@ body {
 .empty-screen{
   justify-content: center;
   align-items: center;
+  background-color: pink;
 }
 
 #tutorialPopUpWrapper {
