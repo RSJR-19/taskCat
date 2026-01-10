@@ -49,11 +49,6 @@
                     <div id="hungerBarContent"></div>
                 </div>
             </div>
-            <div id="statusBoxHappiness"> Happiness <div id="happinessBar">
-                    <div id="happinessBarContent">
-                    </div>
-                </div>
-            </div>
         </div>
         <div id="tutorialPopUpWrapper">
             <div id="tutorialPopUp">
@@ -69,7 +64,12 @@
         </div>
         <div id="itemsPopUpWrapper">
             <div id="itemsPopUp">
-                <div class="top-popup"></div>
+                <div class="top-popup">
+                  <div class="top-buttons-wrapper"></div>
+                  <div class="top-return-button-wrapper">
+                    <button id="exitPopUpBtn" onclick="exitPopUp(itemsPopUpWrapper)">X</button>
+                  </div>
+                </div>
                 <div id="itemsMainScreen"></div>
                 <div class="bottom-popup">
                     <h1> ITEMS </h1>
