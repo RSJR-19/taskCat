@@ -207,3 +207,8 @@ tasksBtn.addEventListener("click", () => {
 tutorialPopUp.addEventListener("click", () => {
     displayTutorial();
 });
+
+//onclick events//
+const exitPopUp =(popup)=>{
+  popup.style.display = "none";
+}
