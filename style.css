@@ -242,6 +242,8 @@ body {
     background-color: yellow;
     display: flex;
 }
+
+
 #exitPopUpBtn{
   padding: 10px;
 }
@@ -250,7 +252,16 @@ body {
   height: 100%;
   width: 90%;
   background-color: white;
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.main-btn{
+  flex: 1;
+  padding: 10px;
+  margin: 10px;
 }
 .top-return-button-wrapper{
   height: 100%;
@@ -271,10 +282,18 @@ body {
 #tasksMainScreen {
     height: 80%;
     width: 100%;
-    background-color: orange;
+    background-color: white;
     overflow: hidden;
 }
 
+#itemsFoodMain, #itemsToysMain, #itemsDesignMain, #storeFoodMain, #storeToysMain, #storeDesignMain{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
 #tutorialPopUpWrapper {
     height: 100%;
     width: 100%;
