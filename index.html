@@ -232,6 +232,39 @@ display: flex;
             justify-content: center;
             align-items: center;
         }
+      
+      #tutorialPopUpWrapper{
+        height: 100%;
+        width: 100%;
+        background-color: rgba(231, 238, 69, 0.34);
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      #tutorialPopUp{
+       aspect-ratio: 2.5/1.5;
+        width: 50%;
+        background-color: white;
+        border-radius: 10px;
+        border: 2px black solid;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+      
+      #tutorialText{
+        margin: 0;
+        padding: 5px;
+
+      }
+      .tap-to-continue{
+        top: 80%;
+        position: absolute;
+      }
 
             </style>
 </head>
@@ -285,6 +318,14 @@ display: flex;
                     </div>
                          </div>
             </div>
+          <div id="tutorialPopUpWrapper">
+            <div id="tutorialPopUp">
+              <p id="tutorialText">Hello</p>
+               <p class="tap-to-continue"> Tap to Continue </p>
+            </div>
+
+            </div>
+               </div>
             <div id="bottomAccessBar">
                 <button id="items"> Items </button>
                 <button id="store"> Store </button>
@@ -319,6 +360,8 @@ display: flex;
         const hungerBarContent = document.getElementById('hungerBarContent');
         const happinessBarContent = document.getElementById('happinessBarContent'); 
         const hungerBarPoints = document.getElementById("hungerBarPoints");
+      
+      const bottomAccessBar = document.getElementById('bottomAccessBar');
 
         const itemsBtn = document.getElementById('items');
         const storeBtn = document.getElementById('store');
@@ -327,6 +370,14 @@ display: flex;
         const itemsPopUpWrapper = document.getElementById('itemsPopUpWrapper');
         const storePopUpWrapper = document.getElementById('storePopUpWrapper');
         const tasksPopUpWrapper = document.getElementById('tasksPopUpWrapper');
+      
+      const tutorialPopUpWrapper = document.getElementById("tutorialPopUpWrapper");
+      const tutorialPopUp = document.getElementById('tutorialPopUp');
+      const tutorialText = document.getElementById("tutorialText");
+      
+
+      
+      let currentTutorialText = 0;
 
         const STATES = {
             LOADING : 'loadingScreen',
@@ -375,6 +426,20 @@ display: flex;
             setInterval(computeHunger, 1000);
             statusBoxNameH1.innerHTML = catSavedName;
         }
+        
+        const displayTutorial =(textNumber)=>{
+          tutorialPopUpWrapper.style.display = 'flex';
+          let message;
+          switch(textNumber){
+            case 0:
+              message = "Your cat seems hungry"
+              break
+          }
+          tutorialText.innerHTML = message;
+              
+          
+        }
+          
 
 const computeHunger = () => {
     if (localStorage.getItem('lastHungerAmount') === null) {
@@ -411,12 +476,14 @@ const computeHunger = () => {
             cat.style.display = "none";
             renamePopUpScreen.style.display = "none";
             statusBox.style.display = "none";
+          bottomAccessBar.style.display = "none";
+          tutorialPopUpWrapper.style.display = "none";
             clearWrappers();
 
             //for testing and reset// 
             
             //localStorage.setItem('lastHungerAmount', 100);
-            //localStorage.setItem('lastHungerTimeCheck', Date.now());
+        //localStorage.setItem('lastHungerTimeCheck',Date.now());
             
 
             //remove later://
@@ -460,6 +527,8 @@ const computeHunger = () => {
             renamePopUpScreen.style.display = "none";
             catTypeText.innerHTML = catName;
             displayStatusBox();
+          
+          displayTutorial(currentTutorialText);
         })
 
         itemsBtn.addEventListener('click', ()=>{
@@ -471,6 +540,8 @@ const computeHunger = () => {
         tasksBtn.addEventListener('click', ()=>{
             tasksPopUpWrapper.style.display = "flex";
         })
+      
+
 
             
 
