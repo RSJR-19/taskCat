@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>taskCat</title>
     <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
     <main class="main-screen">
         <div id="loading">
@@ -16,7 +18,7 @@
                 <h1>First Time</h1>
                 <div id="box"></div>
                 <div id="cat">
-                   <h1 id="catTypeText">Cat</h1>
+                    <h1 id="catTypeText">Cat</h1>
                 </div>
                 <h1 id="youReceivedText">You received</h1>
             </div>
@@ -31,78 +33,71 @@
                         </div>
                     </div>
                     <div class="rename-button-wrapper">
-                        <button id="renameConfirmBtn">Confirm</div>
+                        <button id="renameConfirmBtn">Confirm
                     </div>
                 </div>
             </div>
-            <div id="oldUserScreen">
-                <h1>Old user</h1>
-
+        </div>
+        <div id="oldUserScreen">
+            <h1>Old user</h1>
+        </div>
+        <div id=statusBox>
+            <div id="statusBoxName"> Name <h1 id="statusBoxNameH1"> Name </h1>
             </div>
-            <div id=statusBox>
-                <div id="statusBoxName"> Name
-                    <h1 id="statusBoxNameH1"> Name </h1>
+            <div id="statusBoxHunger"> Hunger <div id="hungerBar">
+                    <h1 id="hungerBarPoints">n /100</h1>
+                    <div id="hungerBarContent"></div>
                 </div>
-                <div id="statusBoxHunger" > Hunger
-                    <div id="hungerBar">
-                        <h1 id="hungerBarPoints">n /100</h1>
-                        <div id="hungerBarContent"></div>
+            </div>
+            <div id="statusBoxHappiness"> Happiness <div id="happinessBar">
+                    <div id="happinessBarContent">
                     </div>
                 </div>
-                <div id="statusBoxHappiness" > Happiness
-                    <div id="happinessBar">
-                        <div id="happinessBarContent">
-                        </div>
-                    </div>
-                         </div>
             </div>
-          <div id="tutorialPopUpWrapper">
+        </div>
+        <div id="tutorialPopUpWrapper">
             <div id="tutorialPopUp">
-              <p id="tutorialText">Hello</p>
-               <p class="tap-to-continue" id="tapToContinue"> Tap to Continue </p>
+                <p id="tutorialText">Hello</p>
+                <p class="tap-to-continue" id="tapToContinue"> Tap to Continue </p>
             </div>
-
-            </div>
-               </div>
-            <div id="bottomAccessBar">
-                <button id="items">Items
-                </button>
-                <button id="store"> Store </button>
-                <button id="tasks"> Task </button>
-            </div>
-
-            <div id="itemsPopUpWrapper">
-              <div id="itemsPopUp">
+        </div>
+        </div>
+        <div id="bottomAccessBar">
+            <button id="items">Items </button>
+            <button id="store"> Store </button>
+            <button id="tasks"> Task </button>
+        </div>
+        <div id="itemsPopUpWrapper">
+            <div id="itemsPopUp">
                 <div class="top-popup"></div>
                 <div id="itemsMainScreen"></div>
                 <div class="bottom-popup">
-                  <h1> ITEMS </h1>
+                    <h1> ITEMS </h1>
                 </div>
-      </div>
-              </div>
-            </div>
-            <div id="storePopUpWrapper">
-               <div id="storePopUp">
-                 <div class="top-popup"></div>
-                 <div id="storeMainScreen"></div>
-                 <div class="bottom-popup">
-                   <h1> STORE </h1>
-                 </div>
-               </div>
-            </div>
-            <div id="tasksPopUpWrapper">
-               <div id="tasksPopUp">
-                 <div class="top-popup"></div>
-                 <div id="tasksMainScreen"></div>
-                 <div class="bottom-popup">
-                   <h1> TASKS </h1>
-                 </div>
-               </div>
             </div>
         </div>
-
+        </div>
+        <div id="storePopUpWrapper">
+            <div id="storePopUp">
+                <div class="top-popup"></div>
+                <div id="storeMainScreen"></div>
+                <div class="bottom-popup">
+                    <h1> STORE </h1>
+                </div>
+            </div>
+        </div>
+        <div id="tasksPopUpWrapper">
+            <div id="tasksPopUp">
+                <div class="top-popup"></div>
+                <div id="tasksMainScreen"></div>
+                <div class="bottom-popup">
+                    <h1> TASKS </h1>
+                </div>
+            </div>
+        </div>
+        </div>
     </main>
-    <script src="script.js" ></script>
-    
+    <script src="script.js"></script>
 </body>
+
 </html>
