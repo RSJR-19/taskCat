@@ -32,6 +32,20 @@ const tutorialPopUp = document.getElementById("tutorialPopUp");
 const tutorialText = document.getElementById("tutorialText");
 const tapToContinue = document.getElementById("tapToContinue");
 
+const itemsFoodMain = document.getElementById('itemsFoodMain');
+const itemsToysMain = document.getElementById('itemsToysMain');
+const itemsDesignMain = document.getElementById('itemsDesignMain');
+const itemsFoodBtn = document.getElementById('itemsFoodBtn');
+const itemsToysBtn = document.getElementById('itemsToysBtn');
+const itemsDesignBtn = document.getElementById('itemsDesignBtn');
+
+const storeFoodMain = document.getElementById('storeFoodMain');
+const storeToysMain = document.getElementById('storeToysMain');
+const storeDesignMain = document.getElementById('storeDesignMain');
+const storeFoodBtn = document.getElementById('storeFoodBtn');
+const storeToysBtn = document.getElementById('storeToysBtn');
+const storeDesignBtn = document.getElementById('storeDesignBtn');
+
 let currentTutorialText = 0;
 
 const STATES = {
@@ -58,7 +72,7 @@ const checkIfFirstTime = () => {
 };
 
 const clearWrappers = () => {
-    [itemsPopUpWrapper, storePopUpWrapper, tasksPopUpWrapper].forEach(
+    [itemsPopUpWrapper, storePopUpWrapper, tasksPopUpWrapper, itemsDesignMain, itemsToysMain, itemsFoodMain, storeToysMain, storeDesignMain, storeFoodMain].forEach(
         (wrapper) => (wrapper.style.display = "none")
     );
 };
@@ -103,7 +117,7 @@ const displayTutorial = () => {
             currentTutorialText = 2;
             tapToContinue.style.opacity = 0;
             bottomAccessBar.style.display = "flex";
-            disablePointerEvents([tutorialPopUp, storeBtn, tasksBtn]);
+            disablePointerEvents([tutorialPopUp, storeBtn, tasksBtn, itemsDesignBtn, itemsToysBtn, storeToysMain, storeDesignMain]);
             break;
 
         case 2:
@@ -148,6 +162,7 @@ window.addEventListener("load", () => {
     statusBox.style.display = "none";
     bottomAccessBar.style.display = "none";
     tutorialPopUpWrapper.style.display = "none";
+    
     clearWrappers();
 
     //for testing and reset//
@@ -197,9 +212,11 @@ renameConfirmBtn.addEventListener("click", () => {
 
 itemsBtn.addEventListener("click", () => {
     itemsPopUpWrapper.style.display = "flex";
+    openSelectionMain(itemsFoodMain);
 });
 storeBtn.addEventListener("click", () => {
     storePopUpWrapper.style.display = "flex";
+    openSelectionMain(storeFoodMain);
 });
 tasksBtn.addEventListener("click", () => {
     tasksPopUpWrapper.style.display = "flex";
@@ -211,4 +228,9 @@ tutorialPopUp.addEventListener("click", () => {
 //onclick events//
 const exitPopUp =(popup)=>{
   popup.style.display = "none";
+}
+
+const openSelectionMain =(activeScreen)=>{
+  [itemsFoodMain, itemsToysMain, itemsDesignMain, storeFoodMain, storeDesignMain, storeToysMain].forEach(screen => screen.style.display = 'none');
+  activeScreen.style.display = "flex";
 }
