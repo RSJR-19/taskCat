@@ -233,6 +233,36 @@ display: flex;
             align-items: center;
         }
       
+      #itemsPopUp, #storePopUp, #tasksPopUp{
+        height: 90%;
+        width: 90%;
+        background-color: white;
+        border-radius: 10px;
+        border: 2px black solid;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        
+      }
+      
+      .top-popup, .bottom-popup{
+        height: 10%;
+        width: 100%;
+        background-color: yellow;
+      }
+      
+      .bottom-popup{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+       #itemsMainScreen, #storeMainScreen, #tasksMainScreen{
+        height: 80%;
+         width: 100%;
+         background-color: orange;
+         overflow: hidden;
+      }
+      
       #tutorialPopUpWrapper{
         height: 100%;
         width: 100%;
@@ -255,6 +285,7 @@ display: flex;
         align-items: center;
         position: relative;
       }
+      
       
       #tutorialText{
         margin: 0;
@@ -329,16 +360,40 @@ display: flex;
             </div>
                </div>
             <div id="bottomAccessBar">
-                <button id="items"> Items </button>
+                <button id="items">Items
+                </button>
                 <button id="store"> Store </button>
                 <button id="tasks"> Task </button>
             </div>
 
             <div id="itemsPopUpWrapper">
-                <h1>ITEMS</h1>
+              <div id="itemsPopUp">
+                <div class="top-popup"></div>
+                <div id="itemsMainScreen"></div>
+                <div class="bottom-popup">
+                  <h1> ITEMS </h1>
+                </div>
+      </div>
+              </div>
             </div>
-            <div id="storePopUpWrapper"><h1>STORE</h1></div>
-            <div id="tasksPopUpWrapper"><h1>TASKS</h1></div>
+            <div id="storePopUpWrapper">
+               <div id="storePopUp">
+                 <div class="top-popup"></div>
+                 <div id="storeMainScreen"></div>
+                 <div class="bottom-popup">
+                   <h1> STORE </h1>
+                 </div>
+               </div>
+            </div>
+            <div id="tasksPopUpWrapper">
+               <div id="tasksPopUp">
+                 <div class="top-popup"></div>
+                 <div id="tasksMainScreen"></div>
+                 <div class="bottom-popup">
+                   <h1> TASKS </h1>
+                 </div>
+               </div>
+            </div>
         </div>
 
     </main>
