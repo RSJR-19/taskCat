@@ -45,8 +45,11 @@ const storeDesignMain = document.getElementById('storeDesignMain');
 const storeFoodBtn = document.getElementById('storeFoodBtn');
 const storeToysBtn = document.getElementById('storeToysBtn');
 const storeDesignBtn = document.getElementById('storeDesignBtn');
+const foodInStockScreen = document.getElementById('foodInStock');
+const foodEmptyScreen = document.getElementById('foodEmpty');
 
 let currentTutorialText = 0;
+let foodInventory;
 
 const STATES = {
     LOADING: "loadingScreen",
@@ -59,6 +62,11 @@ const checkIfFirstTime = () => {
 
         localStorage.setItem("lastHungerAmount", 50); //lowHealth
         localStorage.setItem("lastHungerTimeCheck", Date.now()); //remove later//
+        
+        localStorage.setItem("foodInventory", JSON.stringify([{foodClass : 3, quantity: 1}]));
+        foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
+        
+        
     }
     const isFirstTime = localStorage.getItem("firstTimeUsing") === "true";
 
@@ -162,6 +170,8 @@ window.addEventListener("load", () => {
     statusBox.style.display = "none";
     bottomAccessBar.style.display = "none";
     tutorialPopUpWrapper.style.display = "none";
+    foodInStockScreen.style.display = "none";
+    foodEmptyScreen.style.display = 'none';
     
     clearWrappers();
 
@@ -233,4 +243,14 @@ const exitPopUp =(popup)=>{
 const openSelectionMain =(activeScreen)=>{
   [itemsFoodMain, itemsToysMain, itemsDesignMain, storeFoodMain, storeDesignMain, storeToysMain].forEach(screen => screen.style.display = 'none');
   activeScreen.style.display = "flex";
+  
+  switch(activeScreen){
+    case itemsFoodMain:
+      if (foodInventory === []){
+        foodEmptyScreen.style.display = "flex";
+      }
+      else{
+        foodInStockScreen.style.display = "flex";
+      }
+  }
 }
