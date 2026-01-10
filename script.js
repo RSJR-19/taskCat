@@ -49,12 +49,14 @@ const foodInStockScreen = document.getElementById('foodInStock');
 const foodEmptyScreen = document.getElementById('foodEmpty');
 
 let currentTutorialText = 0;
-let foodInventory;
+let foodInventory = JSON.parse(localStorage.getItem("foodInventory"))||[];
 
 const STATES = {
     LOADING: "loadingScreen",
     MAIN: "MainScreen",
 };
+
+
 
 const checkIfFirstTime = () => {
     if (localStorage.getItem("firstTimeUsing") === null) {
@@ -63,8 +65,9 @@ const checkIfFirstTime = () => {
         localStorage.setItem("lastHungerAmount", 50); //lowHealth
         localStorage.setItem("lastHungerTimeCheck", Date.now()); //remove later//
         
-        localStorage.setItem("foodInventory", JSON.stringify([{foodClass : 3, quantity: 1}]));
+        localStorage.setItem("foodInventory", JSON.stringify([]));
         foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
+        console.log(foodInventory)
         
         
     }
@@ -246,11 +249,18 @@ const openSelectionMain =(activeScreen)=>{
   
   switch(activeScreen){
     case itemsFoodMain:
-      if (foodInventory === []){
-        foodEmptyScreen.style.display = "flex";
+      if (foodInventory.length > 0){
+        foodEmptyScreen.style.display = "none";
+        foodInStockScreen.style.display = 'flex';
+        
+        
       }
       else{
-        foodInStockScreen.style.display = "flex";
+        foodEmptyScreen.style.display = "flex";
+        foodInStockScreen.style.display = 'none';
+        
       }
+      break
   }
 }
+
