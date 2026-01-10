@@ -65,12 +65,26 @@
         <div id="itemsPopUpWrapper">
             <div id="itemsPopUp">
                 <div class="top-popup">
-                  <div class="top-buttons-wrapper"></div>
+                  <div class="top-buttons-wrapper">
+                    <button id="itemsFoodBtn" class="main-btn" onclick="openSelectionMain(itemsFoodMain)">Food</button>
+                    <button id="itemsToysBtn" class="main-btn" onclick="openSelectionMain(itemsToysMain)">Toys</button>
+                    <button id="itemsDesignBtn" class="main-btn" onclick="openSelectionMain(itemsDesignMain)">Design</button>
+                  </div>
                   <div class="top-return-button-wrapper">
                     <button id="exitPopUpBtn" onclick="exitPopUp(itemsPopUpWrapper)">X</button>
                   </div>
                 </div>
-                <div id="itemsMainScreen"></div>
+                <div id="itemsMainScreen">
+                  <div id="itemsFoodMain" >
+                    <h1>FOOD</h1>
+                  </div>
+                  <div id="itemsToysMain">
+                    <h1>TOYS</h1>
+                  </div>
+                  <div id="itemsDesignMain">
+                    <h1>DESIGN</h1>
+                  </div>
+                </div>
                 <div class="bottom-popup">
                     <h1> ITEMS </h1>
                 </div>
@@ -79,8 +93,27 @@
         </div>
         <div id="storePopUpWrapper">
             <div id="storePopUp">
-                <div class="top-popup"></div>
-                <div id="storeMainScreen"></div>
+                <div class="top-popup">
+                   <div class="top-buttons-wrapper">
+                    <button id="storeFoodBtn" class="main-btn" onclick="openSelectionMain(storeFoodMain)">Food</button>
+                    <button id="storeToysBtn"  class="main-btn" onclick="openSelectionMain(storeToysMain)">Toys</button>
+                    <button id="storeDesignBtn" class="main-btn" onclick="openSelectionMain(storeDesignMain)">Design</button>
+                  </div>
+                  <div class="top-return-button-wrapper">
+                    <button id="exitPopUpBtn" onclick="exitPopUp(storePopUpWrapper)">X</button>
+                  </div>
+                </div>
+                <div id="storeMainScreen">
+                  <div id="storeFoodMain" >
+                    <h1>FOOD</h1>
+                  </div>
+                  <div id="storeToysMain">
+                    <h1>TOYS</h1>
+                  </div>
+                  <div id="storeDesignMain">
+                    <h1>DESIGN</h1>
+                  </div>
+                </div>
                 <div class="bottom-popup">
                     <h1> STORE </h1>
                 </div>
@@ -88,7 +121,12 @@
         </div>
         <div id="tasksPopUpWrapper">
             <div id="tasksPopUp">
-                <div class="top-popup"></div>
+                <div class="top-popup">
+                  <div class="top-buttons-wrapper"></div>
+                  <div class="top-return-button-wrapper">
+                    <button id="exitPopUpBtn" onclick="exitPopUp(tasksPopUpWrapper)">X</button>
+                  </div>
+                </div>
                 <div id="tasksMainScreen"></div>
                 <div class="bottom-popup">
                     <h1> TASKS </h1>
