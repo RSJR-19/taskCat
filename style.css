@@ -1,0 +1,292 @@
+* {
+    box-sizing: content-box;
+    font-family: monospace;
+}
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+body {
+    height: 100dvh;
+    padding: 0;
+    margin: 0;
+}
+.main-screen {
+    background-color: whitesmoke;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#loading {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+#main-stage {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 128, 0, 0.481);
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+#firstTimeScreen,
+#oldUserScreen {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+/*FIRST TIME SCREEN */
+#box {
+    height: 25%;
+    aspect-ratio: 1/1;
+    background-color: purple;
+    position: absolute;
+}
+#cat {
+    height: 30%;
+    aspect-ratio: 1/1;
+    background-color: yellow;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#youReceivedText {
+    position: absolute;
+    top: 65%;
+    text-align: center;
+    opacity: 0;
+}
+
+#renamePopUpScreen {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+#renamePopUp {
+    width: 70%;
+    height: 50%;
+    background-color: blue;
+    display: flex;
+    flex-direction: column;
+}
+.rename-title {
+    height: 10%;
+    width: 100%;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rename-photo-name-wrapper {
+    height: 50%;
+    width: 100%;
+    background-color: whitesmoke;
+    display: flex;
+}
+
+.rename-photo {
+    height: 100%;
+    width: 40%;
+    background-color: yellow;
+}
+.rename-name {
+    height: 100%;
+    width: 60%;
+    background-color: orange;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.rename-name h1 {
+    margin: 0;
+    padding: 0;
+}
+#renameInput {
+    position: absolute;
+    height: 50%;
+    width: 100%;
+    opacity: 0;
+}
+.rename-button-wrapper {
+    height: 40%;
+    width: 100%;
+    background-color: pink;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#renameConfirmBtn {
+    padding: 20px;
+}
+#statusBox {
+    height: 30%;
+    width: 40%;
+    background-color: red;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+}
+#statusBoxName,
+#statusBoxHunger,
+#statusBoxHappiness {
+    height: 33.3%;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+#statusBoxNameH1 {
+    margin: 0;
+}
+#hungerBar,
+#happinessBar {
+    height: 50%;
+    width: 95%;
+    border: 2px black solid;
+    overflow: hidden;
+    margin-left: 1.5%;
+    display: flex;
+    position: relative;
+}
+#hungerBarContent {
+    height: 100%;
+    width: 100%;
+    background-color: green;
+}
+
+#happinessBarContent {
+    height: 100%;
+    width: 100%;
+    background-color: red;
+}
+
+#hungerBarPoints {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+}
+#bottomAccessBar {
+    width: 100%;
+    height: 10dvh;
+    background-color: yellow;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#items,
+#store,
+#tasks {
+    flex: 1;
+    margin: 10px;
+    height: 70%;
+}
+
+#itemsPopUpWrapper,
+#storePopUpWrapper,
+#tasksPopUpWrapper {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 255, 0.213);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#itemsPopUp,
+#storePopUp,
+#tasksPopUp {
+    height: 90%;
+    width: 90%;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px black solid;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-popup,
+.bottom-popup {
+    height: 10%;
+    width: 100%;
+    background-color: yellow;
+}
+
+.bottom-popup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#itemsMainScreen,
+#storeMainScreen,
+#tasksMainScreen {
+    height: 80%;
+    width: 100%;
+    background-color: orange;
+    overflow: hidden;
+}
+
+#tutorialPopUpWrapper {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(222, 217, 217, 0.23);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#tutorialPopUp {
+    aspect-ratio: 2.5/1.5;
+    width: 50%;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px black solid;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#tutorialText {
+    margin: 0;
+    padding: 5px;
+    user-select: none;
+}
+.tap-to-continue {
+    top: 80%;
+    position: absolute;
+    color: gray;
+}
