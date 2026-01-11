@@ -48,7 +48,7 @@ const storeDesignMain = document.getElementById('storeDesignMain');
 const storeFoodBtn = document.getElementById('storeFoodBtn');
 const storeToysBtn = document.getElementById('storeToysBtn');
 const storeDesignBtn = document.getElementById('storeDesignBtn');
-const foodInStockScreen = document.getElementById('foodInStock');
+let foodInStockScreen = document.getElementById('foodInStock');
 const foodEmptyScreen = document.getElementById('foodEmpty');
 
 let addedHunger = 0;
@@ -70,7 +70,7 @@ let currentTutorialText = 0;
 let foodInventory = JSON.parse(localStorage.getItem("foodInventory"))||[];
 let foodTitle;
 let foodDescription;
-
+let selectedFood;
 
 const STATES = {
     LOADING: "loadingScreen",
@@ -99,10 +99,13 @@ const checkFoodType = (foodClassType) =>{
 
 const displayFoodStock =()=>{
   foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
-  if(createFoodItem, createFoodItemPic, createFoodItemDetails, createFoodItemFeed, createFoodItemFeedBtn, createFoodTitle, createFoodDescript, createFoodStock){
-  [createFoodItem, createFoodItemPic, createFoodItemDetails, createFoodItemFeed, createFoodTitle, createFoodDescript, createFoodStock].forEach(element => element.remove())
-  }
+  foodInStockScreen.remove();
+  let createInStockScreen = document.createElement('div');
+  createInStockScreen.id = 'foodInStockScreen';
+  createInStockScreen.className = 'stock-screen';
+  itemsFoodMain.appendChild(createInStockScreen);
   foodInventory.forEach(availableItem =>{
+    foodInStockScreen = document.getElementById('foodInStockScreen');
     if (availableItem.foodQuantity > 0){
       console.log('show')
       createFoodItem = document.createElement("div");
@@ -181,6 +184,10 @@ const disablePointerEvents = (toDisable) => {
     toDisable.forEach((element) => (element.style.pointerEvents = "none"));
 };
 
+const enablePointerEvents = (toEnable) =>{
+  toEnable.forEach((element)=> (element.style.pointerEvents = 'auto'));
+}
+
 const randomizeCatType = () => {
     const catTypes = ["wawu", "mimi", "mekus", "kuchi", "nano"];
     const catRandomizer = catTypes[Math.floor(Math.random() * catTypes.length)];
@@ -230,6 +237,23 @@ const displayTutorial = () => {
         case 3:
           tutorialPopUpWrapper.style.alignItems = 'flex-start';
           message = "Tap the food";
+          currentTutorialText = 4;
+          break;
+        
+        case 4:
+          message = "The cat seems still hungry...";
+          tapToContinue.style.opacity = 1;
+          currentTutorialText = 5;
+          enablePointerEvents([tutorialPopUp]);
+          break;
+          
+        case 5:
+          foodSprite.style.display = 'none';
+          bottomAccessBar.style.display = 'flex';
+          message = "Since we don't no longer have food, we have to buy";
+          itemsPopUpWrapper.style.display = 'flex';
+          openSelectionMain(itemsFoodMain);
+          currentTutorialText = 6;
           break;
     }
     tutorialText.innerHTML = message;
@@ -251,9 +275,18 @@ function feedFoodAnimation(){
 
 foodSprite.addEventListener('transitionend', ()=>{
   let hungerAmount = Number(localStorage.getItem('lastHungerAmount'));
+  foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
+  
+  foodInventory[selectedFood].foodQuantity =- 1;
+  localStorage.setItem('foodInventory', JSON.stringify(foodInventory));
+  
   hungerAmount += addedHunger;
   localStorage.setItem('lastHungerAmount', hungerAmount);
   displayHunger();
+  
+  if (tutorialMode){
+    displayTutorial();
+  }
 })
 
 const feedFood =(food)=>{
@@ -265,18 +298,22 @@ const feedFood =(food)=>{
     case 1:
     foodSprite.style.backgroundColor = 'red';
     addedHunger = 10;
+    selectedFood = 0;
       break;
     case 2:
     foodSprite.style.backgroundColor = 'green';
     addedHunger = 15;
+    selectedFood = 1;
       break;
     case 3:
    foodSprite.style.backgroundColor = 'orange';
    addedHunger = 30;
+   selectedFood = 2;
       break;
     case 4:
    foodSprite.style.backgroundColor = 'blue';
    addedHunger = 1000;
+   selectedFood = 3;
       break;
   }
   itemsPopUpWrapper.style.display = 'none';
