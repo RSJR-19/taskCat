@@ -48,10 +48,13 @@ const storeDesignBtn = document.getElementById('storeDesignBtn');
 const foodInStockScreen = document.getElementById('foodInStock');
 const foodEmptyScreen = document.getElementById('foodEmpty');
 
+let tutorialMode;
+
 let createFoodItem;
 let createFoodItemPic;
 let createFoodItemDetails;
 let createFoodItemFeed;
+let createFoodItemFeedBtn;
 let createFoodTitle;
 let createFoodDescript;
 let createFoodStock;
@@ -91,7 +94,7 @@ const checkFoodType = (foodClassType) =>{
 
 const displayFoodStock =()=>{
   foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
-  if(createFoodItem, createFoodItemPic, createFoodItemDetails, createFoodItemFeed, createFoodTitle, createFoodDescript, createFoodStock){
+  if(createFoodItem, createFoodItemPic, createFoodItemDetails, createFoodItemFeed, createFoodItemFeedBtn, createFoodTitle, createFoodDescript, createFoodStock){
   [createFoodItem, createFoodItemPic, createFoodItemDetails, createFoodItemFeed, createFoodTitle, createFoodDescript, createFoodStock].forEach(element => element.remove())
   }
   foodInventory.forEach(availableItem =>{
@@ -110,6 +113,11 @@ const displayFoodStock =()=>{
     createFoodItemFeed = document.createElement('div');
     createFoodItemFeed.className = 'food-item-feed';
     createFoodItem.appendChild(createFoodItemFeed);
+    
+    createFoodItemFeedBtn = document.createElement('button');
+    createFoodItemFeedBtn.className = 'food-item-feed-btn';
+    createFoodItemFeedBtn.textContent = 'Feed';
+    createFoodItemFeed.appendChild(createFoodItemFeedBtn);
     
     createFoodTitle = document.createElement('h1');
     createFoodDescript = document.createElement('p');
@@ -132,23 +140,17 @@ const displayFoodStock =()=>{
 
 const checkIfFirstTime = () => {
     if (localStorage.getItem("firstTimeUsing") === null) {
-        localStorage.setItem("firstTimeUsing", "true");
-
+      tutorialMode = true;
         localStorage.setItem("lastHungerAmount", 50); //lowHealth
         localStorage.setItem("lastHungerTimeCheck", Date.now()); //remove later//
         
         localStorage.setItem("foodInventory", JSON.stringify([{foodClass : 3, foodQuantity : 1}]));
         foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
-        console.log(foodInventory)
         
-        
-    }
-    const isFirstTime = localStorage.getItem("firstTimeUsing") === "true";
-
-    if (isFirstTime) {
         firstTimeScreen.style.display = "flex";
         oldUserScreen.style.display = "none";
-    } else {
+    }
+    else {
         oldUserScreen.style.display = "flex";
         firstTimeScreen.style.display = "none";
     }
@@ -305,6 +307,11 @@ itemsBtn.addEventListener("click", () => {
 storeBtn.addEventListener("click", () => {
     storePopUpWrapper.style.display = "flex";
     openSelectionMain(storeFoodMain);
+    
+    if (tutorialMode){
+      
+      displayTutorial();
+    }
 });
 tasksBtn.addEventListener("click", () => {
     tasksPopUpWrapper.style.display = "flex";
