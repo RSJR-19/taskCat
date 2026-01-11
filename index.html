@@ -29,7 +29,7 @@
                         <div class="rename-photo"></div>
                         <div class="rename-name">
                             <h1 id="renameName">Name</h1>
-                            <input id="renameInput" type="text" />
+                            <input id="renameInput" maxlength="10" type="text" />
                         </div>
                     </div>
                     <div class="rename-button-wrapper">
@@ -76,7 +76,17 @@
                 </div>
                 <div id="itemsMainScreen">
                   <div id="itemsFoodMain" >
-                    <div id="foodInStock"class="stock-screen"></div>
+                    <div id="foodInStock"class="stock-screen">
+                      <div id="foodItem" class="food-item"> <!--FoR TESTING ONLY -->
+                        <div id="foodItemPic" class="food-item-pic"></div>
+                        <div id="foodItemDetails" class="food-item-details">
+                          <h1 id='foodTitle' class="food-title">TITLE HERE</h1>
+                          <p id='foodDescript' class="food-descript">Description here</p>
+                          <p id='foodStock' class="food-stock">Stock :</p>
+                        </div>
+                        <div id="foodItemFeed" class="food-item-feed"></div>
+                      </div>
+                    </div>
                     <div id="foodEmpty" class="empty-screen">
                       <h1>No Food left</h1>
                     </div>
