@@ -178,10 +178,20 @@ body {
     background-color: green;
 }
 
-#happinessBarContent {
-    height: 100%;
-    width: 100%;
-    background-color: red;
+.food-sprite{
+  position: absolute;
+  height: 20%;
+  aspect-ratio: 1/1;
+  background-color: yellow;
+  top: 80%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+transition: height 0.67s ease-in; /* SIX SEVEEEEN??? */
+}
+.food-sprite.shrink{
+  height: 0;
 }
 
 #hungerBarPoints {
