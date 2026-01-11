@@ -50,13 +50,72 @@ const foodEmptyScreen = document.getElementById('foodEmpty');
 
 let currentTutorialText = 0;
 let foodInventory = JSON.parse(localStorage.getItem("foodInventory"))||[];
+let foodTitle;
+let foodDescription;
+
 
 const STATES = {
     LOADING: "loadingScreen",
     MAIN: "MainScreen",
 };
 
+const checkFoodType = (foodClassType) =>{
+  switch(foodClassType){
+    case 1:
+      foodTitle = "Cheap Food";
+      foodDescription = "Cheap food low price";
+      break
+    case 2:
+      foodTitle = "Normal Food";
+      foodDescription = "Normal food normal price";
+      break
+    case 3:
+      foodTitle = "Good Food";
+      foodDescription = "Good food mild price";
+      break
+    case 4:
+      foodTitle = "Feast";
+      foodDescription = "feast high price";
+      break
+}}
 
+const displayFoodStock =()=>{
+  foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
+  foodInventory.forEach(availableItem =>{
+    let createFoodItem = document.createElement("div");
+    createFoodItem.className = "food-item";
+    foodInStockScreen.appendChild(createFoodItem);
+    
+    let createFoodItemPic = document.createElement('div');
+    createFoodItemPic.className = 'food-item-pic';
+    createFoodItem.appendChild(createFoodItemPic);
+    
+    let createFoodItemDetails = document.createElement('div');
+    createFoodItemDetails.className = 'food-item-details';
+    createFoodItem.appendChild(createFoodItemDetails);
+    
+    let createFoodItemFeed = document.createElement('div');
+    createFoodItemFeed.className = 'food-item-feed';
+    createFoodItem.appendChild(createFoodItemFeed);
+    
+    let createFoodTitle = document.createElement('h1');
+    let createFoodDescript = document.createElement('p');
+    createFoodTitle.className = 'food-title';
+    createFoodDescript.className = 'food-descript';
+    checkFoodType(availableItem.foodClass);
+    createFoodTitle.textContent = foodTitle;
+    createFoodDescript.textContent = foodDescription;
+    createFoodItemDetails.appendChild(createFoodTitle);
+    createFoodItemDetails.appendChild(createFoodDescript);
+    
+    let createFoodStock = document.createElement('p');
+    createFoodStock.className = 'food-stock';
+    createFoodStock.textContent = `Stock left: ${availableItem.foodQuantity}`;
+    createFoodItemDetails.appendChild(createFoodStock);
+  })
+
+  
+}
 
 const checkIfFirstTime = () => {
     if (localStorage.getItem("firstTimeUsing") === null) {
@@ -65,7 +124,7 @@ const checkIfFirstTime = () => {
         localStorage.setItem("lastHungerAmount", 50); //lowHealth
         localStorage.setItem("lastHungerTimeCheck", Date.now()); //remove later//
         
-        localStorage.setItem("foodInventory", JSON.stringify([]));
+        localStorage.setItem("foodInventory", JSON.stringify([{foodClass : 3, foodQuantity : 1}]));
         foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
         console.log(foodInventory)
         
@@ -140,9 +199,7 @@ const displayTutorial = () => {
 
 const computeHunger = () => {
     let hungerAmount = Number(localStorage.getItem("lastHungerAmount"));
-    let lastHungerTimeCheck = Number(
-        localStorage.getItem("lastHungerTimeCheck")
-    );
+    let lastHungerTimeCheck = Number(localStorage.getItem("lastHungerTimeCheck"));
 
     let elapsedTime = Date.now() - lastHungerTimeCheck;
     let hungerLoss = Math.floor(elapsedTime / 300000);
@@ -166,6 +223,7 @@ function displayHunger() {
 }
 
 window.addEventListener("load", () => {
+  localStorage.clear();
     checkIfFirstTime();
     //remove later: //
     cat.style.display = "none";
@@ -196,6 +254,10 @@ box.addEventListener("click", () => {
 
 renameInput.addEventListener("input", () => {
     renameName.innerHTML = renameInput.value;
+    
+    if (renameInput.value.length <= 0){
+      renameName.innerHTML = catName;
+    }
 
     if (renameInput.value.length > 10) {
         renameName.innerHTML = renameInput.value.slice(0, 10);
@@ -252,6 +314,7 @@ const openSelectionMain =(activeScreen)=>{
       if (foodInventory.length > 0){
         foodEmptyScreen.style.display = "none";
         foodInStockScreen.style.display = 'flex';
+        displayFoodStock();
         
         
       }
