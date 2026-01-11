@@ -38,6 +38,7 @@ const itemsDesignMain = document.getElementById('itemsDesignMain');
 const itemsFoodBtn = document.getElementById('itemsFoodBtn');
 const itemsToysBtn = document.getElementById('itemsToysBtn');
 const itemsDesignBtn = document.getElementById('itemsDesignBtn');
+const exitPopUpBtn = document.getElementById('exitPopUpBtn');
 
 const storeFoodMain = document.getElementById('storeFoodMain');
 const storeToysMain = document.getElementById('storeToysMain');
@@ -47,6 +48,7 @@ const storeToysBtn = document.getElementById('storeToysBtn');
 const storeDesignBtn = document.getElementById('storeDesignBtn');
 const foodInStockScreen = document.getElementById('foodInStock');
 const foodEmptyScreen = document.getElementById('foodEmpty');
+
 
 let tutorialMode;
 
@@ -119,6 +121,7 @@ const displayFoodStock =()=>{
       createFoodItemFeedBtn = document.createElement('button');
       createFoodItemFeedBtn.className = 'food-item-feed-btn';
       createFoodItemFeedBtn.textContent = 'Feed';
+      createFoodItemFeedBtn.addEventListener('click', ()=> feedFood(availableItem.foodClass));
       createFoodItemFeed.appendChild(createFoodItemFeedBtn);
       
       createFoodTitle = document.createElement('h1');
@@ -211,15 +214,38 @@ const displayTutorial = () => {
             currentTutorialText = 2;
             tapToContinue.style.opacity = 0;
             bottomAccessBar.style.display = "flex";
-            disablePointerEvents([tutorialPopUp, storeBtn, tasksBtn, itemsDesignBtn, itemsToysBtn, storeToysMain, storeDesignMain]);
+            disablePointerEvents([tutorialPopUp, storeBtn, tasksBtn, itemsDesignBtn, itemsToysBtn, storeToysMain, storeDesignMain, exitPopUpBtn]);
             break;
 
         case 2:
-            message = "oi oi oi";
+            tutorialPopUpWrapper.style.alignItems = 'center';
+            tutorialPopUpWrapper.style.pointerEvents = 'none';
+            message = "Tap the feed button";
             break;
     }
     tutorialText.innerHTML = message;
 };
+
+const feedFood =(food)=>{
+  switch (food){
+    case 1:
+      alert('feeding cheap food');
+      break;
+    case 2:
+      alert('feeding normal food');
+      break;
+    case 3:
+      alert('feeding good food');
+      break;
+    case 4:
+      alert('feeding Feast');
+      break;
+    
+  }
+  
+  
+  
+}
 
 const computeHunger = () => {
     let hungerAmount = Number(localStorage.getItem("lastHungerAmount"));
@@ -312,15 +338,16 @@ renameConfirmBtn.addEventListener("click", () => {
 itemsBtn.addEventListener("click", () => {
     itemsPopUpWrapper.style.display = "flex";
     openSelectionMain(itemsFoodMain);
+    
+    if (tutorialMode){
+    tutorialPopUpWrapper.style.zIndex = 99;
+    displayTutorial();
+    }
 });
 storeBtn.addEventListener("click", () => {
     storePopUpWrapper.style.display = "flex";
     openSelectionMain(storeFoodMain);
     
-    if (tutorialMode){
-      
-      displayTutorial();
-    }
 });
 tasksBtn.addEventListener("click", () => {
     tasksPopUpWrapper.style.display = "flex";
