@@ -303,7 +303,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: yellow;
+  background-color: whitesmoke;
   padding: 10px 20px 10px 20px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -328,15 +328,26 @@ body {
   height:100%;
   flex: 2.5;
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+  padding: 10px;
 }
-#foodTitle, #foodDescript, #foodStock{
-  margin: 5px;
+.food-title, .food-descript, .food-stock{
+  margin: 0;
   padding : 0;
+  
 }
 .food-item-feed{
   height:100%;
   flex: 0.5;
   background-color: yellow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.food-item-feed-btn{
+  padding: 10px;
 }
 .empty-screen{
   justify-content: center;
@@ -352,6 +363,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+   
 }
 
 #tutorialPopUp {
