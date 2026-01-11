@@ -17,6 +17,8 @@ const hungerBarContent = document.getElementById("hungerBarContent");
 const happinessBarContent = document.getElementById("happinessBarContent");
 const hungerBarPoints = document.getElementById("hungerBarPoints");
 
+const foodSprite = document.getElementById('foodSprite');
+
 const bottomAccessBar = document.getElementById("bottomAccessBar");
 
 const itemsBtn = document.getElementById("items");
@@ -49,6 +51,7 @@ const storeDesignBtn = document.getElementById('storeDesignBtn');
 const foodInStockScreen = document.getElementById('foodInStock');
 const foodEmptyScreen = document.getElementById('foodEmpty');
 
+let addedHunger = 0;
 
 let tutorialMode;
 
@@ -221,31 +224,74 @@ const displayTutorial = () => {
             tutorialPopUpWrapper.style.alignItems = 'center';
             tutorialPopUpWrapper.style.pointerEvents = 'none';
             message = "Tap the feed button";
+            currentTutorialText = 3;
             break;
+        
+        case 3:
+          tutorialPopUpWrapper.style.alignItems = 'flex-start';
+          message = "Tap the food";
+          break;
     }
     tutorialText.innerHTML = message;
 };
 
-const feedFood =(food)=>{
-  switch (food){
-    case 1:
-      alert('feeding cheap food');
-      break;
-    case 2:
-      alert('feeding normal food');
-      break;
-    case 3:
-      alert('feeding good food');
-      break;
-    case 4:
-      alert('feeding Feast');
-      break;
-    
+let initialTop;
+
+function feedFoodAnimation(){
+  foodSprite.style.top = `${initialTop}%`;
+  
+  if (initialTop === 50){
+    foodSprite.classList.add('shrink');
+    return
   }
   
-  
-  
+  initialTop -= 1;
+  requestAnimationFrame(feedFoodAnimation);
 }
+
+foodSprite.addEventListener('transitionend', ()=>{
+  let hungerAmount = Number(localStorage.getItem('lastHungerAmount'));
+  hungerAmount += addedHunger;
+  localStorage.setItem('lastHungerAmount', hungerAmount);
+  displayHunger();
+})
+
+const feedFood =(food)=>{
+  if(tutorialMode){
+    tutorialPopUpWrapper.style.display = 'none';
+    displayTutorial();
+  }
+  switch (food){
+    case 1:
+    foodSprite.style.backgroundColor = 'red';
+    addedHunger = 10;
+      break;
+    case 2:
+    foodSprite.style.backgroundColor = 'green';
+    addedHunger = 15;
+      break;
+    case 3:
+   foodSprite.style.backgroundColor = 'orange';
+   addedHunger = 30;
+      break;
+    case 4:
+   foodSprite.style.backgroundColor = 'blue';
+   addedHunger = 1000;
+      break;
+  }
+  itemsPopUpWrapper.style.display = 'none';
+  bottomAccessBar.style.display = 'none';
+  foodSprite.style.display = 'flex';
+}
+
+foodSprite.addEventListener('click', ()=>{
+  initialTop = 80; //to be changed soon
+  requestAnimationFrame(feedFoodAnimation);
+  
+  if(tutorialMode){
+    tutorialPopUpWrapper.style.display = 'none';
+  }
+})
 
 const computeHunger = () => {
     let hungerAmount = Number(localStorage.getItem("lastHungerAmount"));
@@ -283,7 +329,7 @@ window.addEventListener("load", () => {
     tutorialPopUpWrapper.style.display = "none";
     foodInStockScreen.style.display = "none";
     foodEmptyScreen.style.display = 'none';
-    
+    foodSprite.style.display = 'none';
     clearWrappers();
 
     //for testing and reset//
