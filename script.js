@@ -48,6 +48,16 @@ const storeDesignBtn = document.getElementById('storeDesignBtn');
 const foodInStockScreen = document.getElementById('foodInStock');
 const foodEmptyScreen = document.getElementById('foodEmpty');
 
+let createFoodItem;
+let createFoodItemPic;
+let createFoodItemDetails;
+let createFoodItemFeed;
+let createFoodTitle;
+let createFoodDescript;
+let createFoodStock;
+
+
+
 let currentTutorialText = 0;
 let foodInventory = JSON.parse(localStorage.getItem("foodInventory"))||[];
 let foodTitle;
@@ -81,25 +91,28 @@ const checkFoodType = (foodClassType) =>{
 
 const displayFoodStock =()=>{
   foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
+  if(createFoodItem, createFoodItemPic, createFoodItemDetails, createFoodItemFeed, createFoodTitle, createFoodDescript, createFoodStock){
+  [createFoodItem, createFoodItemPic, createFoodItemDetails, createFoodItemFeed, createFoodTitle, createFoodDescript, createFoodStock].forEach(element => element.remove())
+  }
   foodInventory.forEach(availableItem =>{
-    let createFoodItem = document.createElement("div");
+    createFoodItem = document.createElement("div");
     createFoodItem.className = "food-item";
     foodInStockScreen.appendChild(createFoodItem);
     
-    let createFoodItemPic = document.createElement('div');
+    createFoodItemPic = document.createElement('div');
     createFoodItemPic.className = 'food-item-pic';
     createFoodItem.appendChild(createFoodItemPic);
     
-    let createFoodItemDetails = document.createElement('div');
+    createFoodItemDetails = document.createElement('div');
     createFoodItemDetails.className = 'food-item-details';
     createFoodItem.appendChild(createFoodItemDetails);
     
-    let createFoodItemFeed = document.createElement('div');
+    createFoodItemFeed = document.createElement('div');
     createFoodItemFeed.className = 'food-item-feed';
     createFoodItem.appendChild(createFoodItemFeed);
     
-    let createFoodTitle = document.createElement('h1');
-    let createFoodDescript = document.createElement('p');
+    createFoodTitle = document.createElement('h1');
+    createFoodDescript = document.createElement('p');
     createFoodTitle.className = 'food-title';
     createFoodDescript.className = 'food-descript';
     checkFoodType(availableItem.foodClass);
@@ -108,7 +121,7 @@ const displayFoodStock =()=>{
     createFoodItemDetails.appendChild(createFoodTitle);
     createFoodItemDetails.appendChild(createFoodDescript);
     
-    let createFoodStock = document.createElement('p');
+    createFoodStock = document.createElement('p');
     createFoodStock.className = 'food-stock';
     createFoodStock.textContent = `Stock left: ${availableItem.foodQuantity}`;
     createFoodItemDetails.appendChild(createFoodStock);
