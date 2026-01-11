@@ -98,43 +98,47 @@ const displayFoodStock =()=>{
   [createFoodItem, createFoodItemPic, createFoodItemDetails, createFoodItemFeed, createFoodTitle, createFoodDescript, createFoodStock].forEach(element => element.remove())
   }
   foodInventory.forEach(availableItem =>{
-    createFoodItem = document.createElement("div");
-    createFoodItem.className = "food-item";
-    foodInStockScreen.appendChild(createFoodItem);
+    if (availableItem.foodQuantity > 0){
+      console.log('show')
+      createFoodItem = document.createElement("div");
+      createFoodItem.className = "food-item";
+      foodInStockScreen.appendChild(createFoodItem);
+      
+      createFoodItemPic = document.createElement('div');
+      createFoodItemPic.className = 'food-item-pic';
+      createFoodItem.appendChild(createFoodItemPic);
+      
+      createFoodItemDetails = document.createElement('div');
+      createFoodItemDetails.className = 'food-item-details';
+      createFoodItem.appendChild(createFoodItemDetails);
+      
+      createFoodItemFeed = document.createElement('div');
+      createFoodItemFeed.className = 'food-item-feed';
+      createFoodItem.appendChild(createFoodItemFeed);
+      
+      createFoodItemFeedBtn = document.createElement('button');
+      createFoodItemFeedBtn.className = 'food-item-feed-btn';
+      createFoodItemFeedBtn.textContent = 'Feed';
+      createFoodItemFeed.appendChild(createFoodItemFeedBtn);
+      
+      createFoodTitle = document.createElement('h1');
+      createFoodDescript = document.createElement('p');
+      createFoodTitle.className = 'food-title';
+      createFoodDescript.className = 'food-descript';
+      checkFoodType(availableItem.foodClass);
+      createFoodTitle.textContent = foodTitle;
+      createFoodDescript.textContent = foodDescription;
+      createFoodItemDetails.appendChild(createFoodTitle);
+      createFoodItemDetails.appendChild(createFoodDescript);
+      
+      createFoodStock = document.createElement('p');
+      createFoodStock.className = 'food-stock';
+      createFoodStock.textContent = `Stock left: ${availableItem.foodQuantity}`;
+      createFoodItemDetails.appendChild(createFoodStock);
+    }
     
-    createFoodItemPic = document.createElement('div');
-    createFoodItemPic.className = 'food-item-pic';
-    createFoodItem.appendChild(createFoodItemPic);
-    
-    createFoodItemDetails = document.createElement('div');
-    createFoodItemDetails.className = 'food-item-details';
-    createFoodItem.appendChild(createFoodItemDetails);
-    
-    createFoodItemFeed = document.createElement('div');
-    createFoodItemFeed.className = 'food-item-feed';
-    createFoodItem.appendChild(createFoodItemFeed);
-    
-    createFoodItemFeedBtn = document.createElement('button');
-    createFoodItemFeedBtn.className = 'food-item-feed-btn';
-    createFoodItemFeedBtn.textContent = 'Feed';
-    createFoodItemFeed.appendChild(createFoodItemFeedBtn);
-    
-    createFoodTitle = document.createElement('h1');
-    createFoodDescript = document.createElement('p');
-    createFoodTitle.className = 'food-title';
-    createFoodDescript.className = 'food-descript';
-    checkFoodType(availableItem.foodClass);
-    createFoodTitle.textContent = foodTitle;
-    createFoodDescript.textContent = foodDescription;
-    createFoodItemDetails.appendChild(createFoodTitle);
-    createFoodItemDetails.appendChild(createFoodDescript);
-    
-    createFoodStock = document.createElement('p');
-    createFoodStock.className = 'food-stock';
-    createFoodStock.textContent = `Stock left: ${availableItem.foodQuantity}`;
-    createFoodItemDetails.appendChild(createFoodStock);
   })
-
+  
   
 }
 
@@ -144,7 +148,12 @@ const checkIfFirstTime = () => {
         localStorage.setItem("lastHungerAmount", 50); //lowHealth
         localStorage.setItem("lastHungerTimeCheck", Date.now()); //remove later//
         
-        localStorage.setItem("foodInventory", JSON.stringify([{foodClass : 3, foodQuantity : 1}]));
+        localStorage.setItem("foodInventory", JSON.stringify([
+          {foodClass: 1, foodQuantity: 0},
+          {foodClass:2, foodQuantity: 0},
+          {foodClass : 3, foodQuantity : 1},
+          {foodClass: 4, foodQuantity : 0}
+          ]));
         foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
         
         firstTimeScreen.style.display = "flex";
@@ -331,7 +340,8 @@ const openSelectionMain =(activeScreen)=>{
   
   switch(activeScreen){
     case itemsFoodMain:
-      if (foodInventory.length > 0){
+      foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
+      if (foodInventory.some(item => item.foodQuantity > 0)){
         foodEmptyScreen.style.display = "none";
         foodInStockScreen.style.display = 'flex';
         displayFoodStock();
