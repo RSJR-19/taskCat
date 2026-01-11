@@ -311,6 +311,7 @@ body {
 .food-item{
   height: 30%;
   max-height: 200px;
+  flex-shrink: 0;
   width: 100%;
   margin: 10px 0 10px 0;
   background-color: white ;
@@ -341,13 +342,13 @@ body {
 .food-item-feed{
   height:100%;
   flex: 0.5;
-  background-color: yellow;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .food-item-feed-btn{
-  padding: 10px;
+  padding: 30px;
 }
 .empty-screen{
   justify-content: center;
@@ -362,13 +363,13 @@ body {
     position: absolute;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
    
 }
 
 #tutorialPopUp {
-    aspect-ratio: 1.5/1;
-    width: 20%;
+    height: 20%;
+    width: 40%;
     background-color: white;
     border-radius: 10px;
     border: 2px black solid;
@@ -389,3 +390,4 @@ body {
     position: absolute;
     color: gray;
 }
+
