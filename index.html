@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -145,9 +146,36 @@
                     <button id="exitPopUpBtn" onclick="exitPopUp(tasksPopUpWrapper)">X</button>
                   </div>
                 </div>
-                <div id="tasksMainScreen"></div>
+                <div id="tasksMainScreen">
+                  <div id="tasksSetBoard">
+                    <div class="task-setboard-title">
+                      <span class="task-title-span"> TASK TITLE: </span>
+                      <div class="task-title-input-wrapper">
+                        <input type='text' id='taskTitleInput' maxlength="30" />
+                        <span id='taskTitleInputSpan'>Please Enter Task Title</span>
+                      </div>
+                    </div>
+                     <div class='task-set-time-wrapper'>
+                       <span class='set-time-span'>SET TIME:</span>
+                       <div class = 'set-time-choice-wrapper'>
+                         <div class='time-choice'>
+                           <div class='time-choice-item'></div>
+                         </div>
+                         <div class='time-choice'>
+                           <div class='time-choice-item'></div>
+                         </div>
+                         <div class='time-choice'>
+                           <div class='time-choice-item'></div>
+                         </div>
+                         <div class='time-choice'>
+                           <div class='time-choice-item'></div>
+                         </div>
+                       </div>
+                     </div>
+                  </div>
+                </div>
                 <div class="bottom-popup">
-                    <h1> TASKS </h1>
+                    <h1> TASK </h1>
                 </div>
             </div>
         </div>
