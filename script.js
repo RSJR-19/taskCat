@@ -51,6 +51,9 @@ const storeDesignBtn = document.getElementById('storeDesignBtn');
 let foodInStockScreen = document.getElementById('foodInStock');
 const foodEmptyScreen = document.getElementById('foodEmpty');
 
+const taskTitleInput = document.getElementById('taskTitleInput');
+const taskTitleInputSpan = document.getElementById('taskTitleInputSpan');
+
 let addedHunger = 0;
 
 let tutorialMode;
@@ -64,13 +67,13 @@ let createFoodTitle;
 let createFoodDescript;
 let createFoodStock;
 
-
-
 let currentTutorialText = 0;
 let foodInventory = JSON.parse(localStorage.getItem("foodInventory"))||[];
 let foodTitle;
 let foodDescription;
 let selectedFood;
+
+let taskTitle;
 
 const STATES = {
     LOADING: "loadingScreen",
@@ -224,19 +227,19 @@ const displayTutorial = () => {
             currentTutorialText = 2;
             tapToContinue.style.opacity = 0;
             bottomAccessBar.style.display = "flex";
-            disablePointerEvents([tutorialPopUp, storeBtn, tasksBtn, itemsDesignBtn, itemsToysBtn, storeToysMain, storeDesignMain, exitPopUpBtn]);
+            disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper,storeBtn, itemsDesignBtn, itemsToysBtn, storeToysMain, storeDesignMain, exitPopUpBtn]); // add tasks button later//
             break;
 
         case 2:
+           message = "Tap the feed button";
             tutorialPopUpWrapper.style.alignItems = 'center';
             tutorialPopUpWrapper.style.pointerEvents = 'none';
-            message = "Tap the feed button";
             currentTutorialText = 3;
             break;
         
         case 3:
-          tutorialPopUpWrapper.style.alignItems = 'flex-start';
           message = "Tap the food";
+          tutorialPopUpWrapper.style.alignItems = 'flex-start';
           currentTutorialText = 4;
           break;
         
@@ -244,13 +247,13 @@ const displayTutorial = () => {
           message = "The cat seems still hungry...";
           tapToContinue.style.opacity = 1;
           currentTutorialText = 5;
-          enablePointerEvents([tutorialPopUp]);
+          enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
           break;
           
         case 5:
+          message = "Since we don't no longer have food, we have to buy";
           foodSprite.style.display = 'none';
           bottomAccessBar.style.display = 'flex';
-          message = "Since we don't no longer have food, we have to buy";
           itemsPopUpWrapper.style.display = 'flex';
           openSelectionMain(itemsFoodMain);
           currentTutorialText = 6;
@@ -258,8 +261,9 @@ const displayTutorial = () => {
         
         case 6:
           message = "tap the exit button to close the items";
+          tutorialPopUpWrapper.style.alignItems = 'center';
           tapToContinue.style.opacity = 0;
-          disablePointerEvents([itemsBtn, tutorialPopUp]);
+          disablePointerEvents([itemsBtn, tutorialPopUp, tutorialPopUpWrapper]);
           enablePointerEvents([exitPopUpBtn]);
           currentTutorialText = 7;
           break;
@@ -269,8 +273,58 @@ const displayTutorial = () => {
           enablePointerEvents([storeBtn]);
           disablePointerEvents([exitPopUpBtn]);
           currentTutorialText = 8;
-          break
+          break;
+          
+        case 8:
+         message = "Here in store, we can buy food and other things";
+         tutorialPopUpWrapper.style.pointerEvents = 'auto';
+         tutorialPopUpWrapper.style.alignItems = 'flex-start';
+         disablePointerEvents([exitPopUpBtn, storeFoodBtn, storeToysBtn, storeDesignBtn]);
+         enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
+         tapToContinue.style.opacity = 1;
+         currentTutorialText = 9;
+         break;
+         
+      case 9:
+        message = "To buy, you need coins, currently you don't have enough coins to afford any food";
+        currentTutorialText = 10;
+        break;
+        
+      case 10:
+        message = 'To earn coins, you must set up a task ';
+        tutorialPopUpWrapper.style.alignItems = 'center';
+        currentTutorialText = 11;
+        break;
+      
+      case 11:
+        message = 'tap the exit button to close the store';
+        tapToContinue.style.opacity = 0;
+        enablePointerEvents([exitPopUpBtn]);
+        disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
+        currentTutorialText = 12;
+        break;
+        
+      case 12:
+        message = 'tap the task button';
+        disablePointerEvents([itemsBtn, storeBtn]);
+        enablePointerEvents([tasksBtn]);
+        currentTutorialText = 13;
+        break;
+      
+      case 13:
+        message = 'Here, we set up timer for tasks we need to accomplish in REAL LIFE';
+        tapToContinue.style.opacity = 1;
+        tutorialPopUpWrapper.style.alignItems = 'flex-start';
+        disablePointerEvents([exitPopUpBtn]);
+        enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
+        currentTutorialText = 14;
+        break;
+        
+      case 14:
+        message = 'Directions sa tasks';
+        break;
     }
+    
     tutorialText.innerHTML = message;
 };
 
@@ -454,14 +508,62 @@ itemsBtn.addEventListener("click", () => {
     displayTutorial();
     }
 });
+
 storeBtn.addEventListener("click", () => {
     storePopUpWrapper.style.display = "flex";
     openSelectionMain(storeFoodMain);
     
+    if(tutorialMode){
+      displayTutorial();
+    }
+    
 });
+
 tasksBtn.addEventListener("click", () => {
     tasksPopUpWrapper.style.display = "flex";
+    if (tutorialMode){
+      displayTutorial();
+    }
 });
+
+taskTitleInput.addEventListener('input', ()=>{
+  if(taskTitleInput.value.length > 30){
+    taskTitleInput.value = (taskTitleInput.value).slice(0, 30);
+  }
+  taskTitleInputSpan.innerHTML = taskTitleInput.value;
+})
+
+taskTitleInput.addEventListener('blur', ()=>{
+  if(taskTitleInput.value.length > 0){
+    taskTitle = taskTitleInput.value;
+  }
+  else{
+    taskTitle = "";
+    taskTitleInputSpan.innerHTML = 'Please Enter Task Title';
+  }
+  
+  taskTitleInput.style.border = "2px black solid";
+})
+
+taskTitleInput.addEventListener('focus', ()=>{
+  if(taskTitleInput.value.length === 0){
+  taskTitleInputSpan.innerHTML = '';
+  taskTitleInput.style.border = "4px black solid";
+  }
+})
+
+taskTitleInput.addEventListener('keydown', (event)=>{
+  if(event.key === "Enter"){
+    if(taskTitleInput.value.length > 0){
+      taskTitle = taskTitleInput.value;
+    }
+    else{
+      taskTitle = "";
+    }
+    taskTitleInput.blur();
+  }
+})
+
 tutorialPopUp.addEventListener("click", () => {
     displayTutorial();
 });
