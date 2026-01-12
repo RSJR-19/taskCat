@@ -255,6 +255,21 @@ const displayTutorial = () => {
           openSelectionMain(itemsFoodMain);
           currentTutorialText = 6;
           break;
+        
+        case 6:
+          message = "tap the exit button to close the items";
+          tapToContinue.style.opacity = 0;
+          disablePointerEvents([itemsBtn, tutorialPopUp]);
+          enablePointerEvents([exitPopUpBtn]);
+          currentTutorialText = 7;
+          break;
+          
+        case 7:
+          message = 'Now, tap the store button';
+          enablePointerEvents([storeBtn]);
+          disablePointerEvents([exitPopUpBtn]);
+          currentTutorialText = 8;
+          break
     }
     tutorialText.innerHTML = message;
 };
@@ -403,6 +418,18 @@ renameInput.addEventListener("keydown", (event) => {
     }
 });
 
+renameInput.addEventListener('blur', ()=>{
+  if(renameInput.value.length === 0){
+    renameName.innerHTML = catName;
+  }
+})
+
+renameInput.addEventListener('keydown', (event) => {
+  if (event.key === "Backspace" && renameInput.value.length === 0){
+    renameName.innerHTML = "";
+  }
+})
+
 renameConfirmBtn.addEventListener("click", () => {
     if (!renameInput.value) {
         localStorage.setItem("catSavedName", JSON.stringify(catName));
@@ -442,6 +469,9 @@ tutorialPopUp.addEventListener("click", () => {
 //onclick events//
 const exitPopUp =(popup)=>{
   popup.style.display = "none";
+  if (tutorialMode){
+    displayTutorial();
+  }
 }
 
 const openSelectionMain =(activeScreen)=>{
