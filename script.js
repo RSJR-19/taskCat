@@ -54,6 +54,18 @@ const foodEmptyScreen = document.getElementById('foodEmpty');
 const taskTitleInput = document.getElementById('taskTitleInput');
 const taskTitleInputSpan = document.getElementById('taskTitleInputSpan');
 
+const timeChoice10 = document.getElementById('timeChoice10');
+const timeChoice25 = document.getElementById('timeChoice25');
+const timeChoice50 = document.getElementById('timeChoice50');
+const timeChoiceCustom = document.getElementById('timeChoiceCustom');
+const timeCustomH1 = document.getElementById('timeCustomH1');
+const timeCustomInput = document.getElementById('timeCustomInput');
+const startTaskBtn = document.getElementById('startTaskBtn');
+
+let chosenTime;
+let customTime;
+let taskTitle;
+
 let addedHunger = 0;
 
 let tutorialMode;
@@ -73,7 +85,7 @@ let foodTitle;
 let foodDescription;
 let selectedFood;
 
-let taskTitle;
+let focused = false;
 
 const STATES = {
     LOADING: "loadingScreen",
@@ -424,6 +436,99 @@ function displayHunger() {
     hungerBarPoints.innerHTML = `${hungerAmount}/100`;
 }
 
+function selectedTime(time){
+  [timeChoiceCustom, timeChoice50, timeChoice25, timeChoice10].forEach(choice => {
+    choice.style.border = "2px black solid";
+    choice.style.backgroundColor = 'white';
+  })
+  switch (time){
+    case 1:
+      chosenTime = 10;
+      timeChoice10.style.backgroundColor = 'orange';
+      break;
+    case 2:
+      chosenTime = 25;
+      timeChoice25.style.backgroundColor = 'orange';
+      break;
+    case 3:
+      chosenTime = 50;
+      timeChoice50.style.backgroundColor = 'orange';
+      break;
+    case 4:
+      chosenTime = 0;
+      if (customTime > 0){
+      timeChoiceCustom.style.backgroundColor = 'orange';
+      chosenTime = customTime;
+      }
+      break;
+  }
+  checkTitleAndTime();
+}
+
+timeCustomInput.addEventListener('input', ()=>{
+  focused = true;
+  if (timeCustomInput.value.trim().length > 2){
+    timeCustomInput.value = timeCustomInput.value.slice(0,2);
+    timeCustomInput.blur();
+  }
+  timeCustomH1.innerHTML = timeCustomInput.value.trim().padStart(2, '0');
+})
+
+timeCustomInput.addEventListener('keypress', (event)=>{
+  if (event.key === 'Enter'){
+    timeCustomInput.blur();
+  }
+})
+
+timeCustomInput.addEventListener('blur', ()=>{
+  if(focused){
+    let value = timeCustomInput.value;
+    if (value === "" || !Number.isInteger(Number(value)) || Number(value) < 5 || Number(value) > 90){
+      timeCustomInput.style.border = '2px red solid';
+      timeCustomInput.value = "";
+      timeCustomH1.innerHTML = 00;
+      chosenTime = "";
+      alert('Custom time must be between 5 and 90 minutes');
+      timeChoiceCustom.style.backgroundColor = "white";
+    checkTitleAndTime();
+    }
+    else{
+      if (Number(value) === 10){
+        selectedTime(1);
+        timeCustomInput.value = "";
+      timeCustomH1.innerHTML = 00;
+      } 
+      else if(Number(value) === 25){
+        selectedTime(2);
+        timeCustomInput.value = "";
+      timeCustomH1.innerHTML = 00;
+      }
+      else if(Number(value)=== 50){
+        selectedTime(3);
+        timeCustomInput.value = "";
+      timeCustomH1.innerHTML = 00;
+      }
+      else{
+        customTime = Number(value);
+        selectedTime(4);
+      }
+    }
+  }
+  focused = false;
+}
+)
+
+function checkTitleAndTime(){
+  if(taskTitle.trim().length > 0 && chosenTime > 0){
+    enablePointerEvents([startTaskBtn]);
+    startTaskBtn.style.backgroundColor = 'yellow';
+  }
+  else{
+    disablePointerEvents([startTaskBtn]);
+    startTaskBtn.style.backgroundColor = 'white';
+  }
+}
+
 window.addEventListener("load", () => {
   localStorage.clear();
     checkIfFirstTime();
@@ -438,12 +543,6 @@ window.addEventListener("load", () => {
     foodSprite.style.display = 'none';
     clearWrappers();
 
-    //for testing and reset//
-
-    //localStorage.setItem('lastHungerAmount', 100);
-    //localStorage.setItem('lastHungerTimeCheck',Date.now());
-
-    //remove later://
 });
 
 box.addEventListener("click", () => {
@@ -472,6 +571,7 @@ renameInput.addEventListener("keydown", (event) => {
         renameName.innerHTML = catName;
       }
         renameInput.blur();
+        
     }
 });
 
@@ -530,8 +630,9 @@ tasksBtn.addEventListener("click", () => {
 });
 
 taskTitleInput.addEventListener('input', ()=>{
-  if(taskTitleInput.value.length > 30){
+  if(taskTitleInput.value.length > 35){
     taskTitleInput.value = (taskTitleInput.value).slice(0, 30);
+    taskTitleInput.blur();
   }
   taskTitleInputSpan.innerHTML = taskTitleInput.value;
 })
@@ -545,8 +646,9 @@ taskTitleInput.addEventListener('blur', ()=>{
     taskTitleInputSpan.innerHTML = 'Please Enter Task Title';
     taskTitleInputSpan.style.color = 'red';
   }
-  
   taskTitleInput.style.border = "2px black solid";
+  timeCustomInput.blur();
+  checkTitleAndTime();
 })
 
 taskTitleInput.addEventListener('focus', ()=>{
@@ -557,8 +659,8 @@ taskTitleInput.addEventListener('focus', ()=>{
   }
 })
 
-taskTitleInput.addEventListener('keydown', (event)=>{
-  if(event.key === "Enter"){
+taskTitleInput.addEventListener('keydown', (e)=>{
+  if(e.key === "Enter"){
     if(taskTitleInput.value.trim().length > 0){
       taskTitle = taskTitleInput.value;
     }
