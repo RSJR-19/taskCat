@@ -468,6 +468,9 @@ renameInput.addEventListener("input", () => {
 
 renameInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
+      if(renameInput.value.trim().length === 0){
+        renameName.innerHTML = catName;
+      }
         renameInput.blur();
     }
 });
@@ -485,7 +488,7 @@ renameInput.addEventListener('keydown', (event) => {
 })
 
 renameConfirmBtn.addEventListener("click", () => {
-    if (!renameInput.value) {
+    if (renameInput.value.trim().length === 0) {
         localStorage.setItem("catSavedName", JSON.stringify(catName));
     } else {
         catName = renameInput.value;
@@ -534,18 +537,20 @@ taskTitleInput.addEventListener('input', ()=>{
 })
 
 taskTitleInput.addEventListener('blur', ()=>{
-  if(taskTitleInput.value.length > 0){
+  if(taskTitleInput.value.trim().length > 0){
     taskTitle = taskTitleInput.value;
   }
   else{
     taskTitle = "";
     taskTitleInputSpan.innerHTML = 'Please Enter Task Title';
+    taskTitleInputSpan.style.color = 'red';
   }
   
   taskTitleInput.style.border = "2px black solid";
 })
 
 taskTitleInput.addEventListener('focus', ()=>{
+  taskTitleInputSpan.style.color = 'black';
   if(taskTitleInput.value.length === 0){
   taskTitleInputSpan.innerHTML = '';
   taskTitleInput.style.border = "4px black solid";
@@ -554,7 +559,7 @@ taskTitleInput.addEventListener('focus', ()=>{
 
 taskTitleInput.addEventListener('keydown', (event)=>{
   if(event.key === "Enter"){
-    if(taskTitleInput.value.length > 0){
+    if(taskTitleInput.value.trim().length > 0){
       taskTitle = taskTitleInput.value;
     }
     else{
