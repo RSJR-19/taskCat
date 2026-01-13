@@ -389,6 +389,7 @@ flex-shrink: 0;
   justify-content: center;
   align-items: center;
   white-space: nowrap;
+  position: relative;
 }
 .time-selection h1{
   font-size: max(8cqw, 8cqh);
@@ -409,8 +410,15 @@ flex-shrink: 0;
   align-items: center;
 }
 
+#timeCustomInput{
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  opacity: 0;
+}
 .confirm-btn-wrapper button{
   padding: 1.5%;
+  pointer-events: none;
 }
  
 #itemsFoodMain, #itemsToysMain, #itemsDesignMain, #storeFoodMain, #storeToysMain, #storeDesignMain{
@@ -522,6 +530,7 @@ flex-shrink: 0;
     position: absolute;
     color: gray;
 }
+
 
 
 @media(orientation: landscape){
