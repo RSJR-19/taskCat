@@ -57,16 +57,21 @@ const taskTitleWrapper = document.getElementById('taskTitleWrapper');
 const timeSetWrapper = document.getElementById('timeSetWrapper');
 const taskTitleText = document.getElementById('taskTitleText');
 const timeChoiceWrapper = document.getElementById('timeChoiceWrapper');
+const timeChoice10 = document.getElementById('timeChoice10');
+const timeChoice25 = document.getElementById('timeChoice25');
+const timeChoice50 = document.getElementById('timeChoice50');
+const timeChoiceCustom = document.getElementById('timeChoiceCustom');
+const timeCustomInput = document.getElementById('timeCustomInput');
+const timeCustomH1 = document.getElementById('customTimeH1');
+
+let taskTitle;
+let customTime;
 
 const windowHeight = window.innerHeight;
 const windowWidth = window.innerWidth;
 
 timeChoiceWrapper.style.height = `${windowHeight > windowWidth ? 50 : 60}%`;
 
-
-
-
-let taskTitle;
 
 let addedHunger = 0;
 
@@ -472,17 +477,112 @@ taskTitleInput.addEventListener('blur', ()=>{
   }
 })
 
-
 nextTaskTitleBtn.addEventListener('click', ()=>{
   taskTitleInput.blur();
   taskTitleWrapper.classList.add('hide');
   timeSetWrapper.classList.add('show');
   taskTitleText.innerHTML = taskTitle;
 })
+
 taskTitleText.addEventListener('click', ()=>{
   taskTitleWrapper.classList.remove('hide');
   timeSetWrapper.classList.remove('show');
   taskTitleInput.focus();
+})
+
+function selectedTime(time){
+  [timeChoice10, timeChoice25, timeChoice50, timeChoiceCustom].forEach(choice =>{
+    choice.style.backgroundColor = 'transparent';
+  })
+  switch(time){
+    case 1:
+      timeChoice10.style.backgroundColor = 'orange';
+      customTime = 10;
+      break;
+    case 2:
+      timeChoice25.style.backgroundColor = 'orange';
+      customTime = 25;
+      break;
+    case 3:
+      timeChoice50.style.backgroundColor = 'orange';
+      customTime = 50;
+      break;
+    case 4:
+      if(customTime > 0 && timeCustomInput.value > 0){
+        timeChoiceCustom.style.backgroundColor = 'orange';
+        customTime = Number(timeCustomInput.value.slice(0,2));
+      }
+      else{
+        customTime = "";
+      }
+      break;
+  }
+}
+
+timeCustomInput.addEventListener('input', ()=>{
+  if(Number(timeCustomInput) === NaN){
+    timeCustomInput.value = "";
+    timeCustomInput.blur();
+    alert('enter valid numbers only // change to tutorial popup laterr')
+  }
+  if(timeCustomInput.value.length > 2){
+    timeCustomInput.value = timeCustomInput.value.slice(0,2);
+    timeCustomInput.blur();
+  }
+  if(Number(timeCustomInput.value) >= 5 && Number(timeCustomInput.value) <= 90 ){
+    timeChoiceCustom.style.backgroundColor = 'orange';
+    customTime = Number(timeCustomInput.value); 
+  }
+  else{
+    timeChoiceCustom.style.backgroundColor = 'transparent';
+  }
+  timeCustomH1.innerHTML = timeCustomInput.value.padStart(2, "0");
+});
+
+timeCustomInput.addEventListener('blur', ()=>{
+  if (Number(timeCustomInput.value) < 5){
+    alert('time cannot be less than 5 // upgrade to tu popup later')
+    timeCustomInput.value = "";
+    timeCustomH1.innerHTML = "00";
+    customTime = "";
+  }
+  if (Number(timeCustomInput.value) > 90){
+    alert('time cannot be more than 90 // upgrade to popup later');
+    timeCustomInput.value = "";
+    timeCustomH1.innerHTML = "00";
+    customTime = "";
+}
+  switch (Number(timeCustomInput.value)){
+    case 10:
+      selectedTime(1);
+      timeCustomInput.value = "";
+      customTimeH1.innerHTML = "00";
+      customTime = 10;
+      timeChoiceCustom.style.backgroundColor = 'transparent';
+      break
+    case 25:
+      selectedTime(2);
+      timeCustomInput.value = "";
+      customTimeH1.innerHTML = "00";
+      customTime = 25;
+      timeChoiceCustom.style.backgroundColor = 'transparent';
+      break
+    case 50:
+      selectedTime(3);
+      timeCustomInput.value = "";
+      customTimeH1.innerHTML = "00";
+      customTime = 50;
+      timeChoiceCustom.style.backgroundColor = 'transparent';
+      break
+    default:
+      customTime = timeCustomInput.value.slice(0,2);
+  }
+})
+
+timeCustomInput.addEventListener('keydown', (event)=>{
+  if(event.key === 'Enter'){
+    timeCustomInput.blur();
+  }
 })
 
 
