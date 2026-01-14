@@ -155,17 +155,34 @@
                   <div id='timeSetWrapper'>
                     <p id='taskTitleText'>task title</p>
                     <div class='time-choice-wrapper' id='timeChoiceWrapper'>
-                      <div class='time-item' class='first'>
-                        <div class='choice'></div>
+                      <div class='time-item'>
+                        <div class='choice' id='timeChoice10' onclick='selectedTime(1)'>
+                          <p>WARM UP</p>
+                          <h1>10</h1>
+                          <p>MINUTES</p>
+                        </div>
                       </div>
                       <div class='time-item'>
-                        <div class='choice'></div>
+                        <div class='choice'  id='timeChoice25' onclick='selectedTime(2)'>
+                          <p>SHORT TASK</p>
+                          <h1>25</h1>
+                          <p>MINUTES</p>
+                        </div>
+                      </div>
+                      <div class='time-item' >
+                        <div class='choice' id="timeChoice50" onclick='selectedTime(3)'>
+                          <p>DEEP FOCUS</p>
+                          <h1>50</h1>
+                          <p>MINUTES</p>
+                        </div>
                       </div>
                       <div class='time-item'>
-                        <div class='choice'></div>
-                      </div>
-                      <div class='time-item'>
-                        <div class='choice' class='last'></div>
+                        <div class='choice' id='timeChoiceCustom' onclick="selectedTime(4)">
+                          <p>CUSTOM</p>
+                          <h1 id='customTimeH1'>00</h1>
+                          <p>MINUTES</p>
+                          <input type='number' min='1' step='1'  id='timeCustomInput' />
+                        </div>
                       </div>
                     </div>
                     <button class='start-task'>START TASK</button>
