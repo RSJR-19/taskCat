@@ -52,18 +52,20 @@ let foodInStockScreen = document.getElementById('foodInStock');
 const foodEmptyScreen = document.getElementById('foodEmpty');
 
 const taskTitleInput = document.getElementById('taskTitleInput');
-const taskTitleInputSpan = document.getElementById('taskTitleInputSpan');
+const nextTaskTitleBtn = document.getElementById('nextTaskTitleBtn');
+const taskTitleWrapper = document.getElementById('taskTitleWrapper');
+const timeSetWrapper = document.getElementById('timeSetWrapper');
+const taskTitleText = document.getElementById('taskTitleText');
+const timeChoiceWrapper = document.getElementById('timeChoiceWrapper');
 
-const timeChoice10 = document.getElementById('timeChoice10');
-const timeChoice25 = document.getElementById('timeChoice25');
-const timeChoice50 = document.getElementById('timeChoice50');
-const timeChoiceCustom = document.getElementById('timeChoiceCustom');
-const timeCustomH1 = document.getElementById('timeCustomH1');
-const timeCustomInput = document.getElementById('timeCustomInput');
-const startTaskBtn = document.getElementById('startTaskBtn');
+const windowHeight = window.innerHeight;
+const windowWidth = window.innerWidth;
 
-let chosenTime;
-let customTime;
+timeChoiceWrapper.style.height = `${windowHeight > windowWidth ? 50 : 60}%`;
+
+
+
+
 let taskTitle;
 
 let addedHunger = 0;
@@ -436,98 +438,53 @@ function displayHunger() {
     hungerBarPoints.innerHTML = `${hungerAmount}/100`;
 }
 
-function selectedTime(time){
-  [timeChoiceCustom, timeChoice50, timeChoice25, timeChoice10].forEach(choice => {
-    choice.style.border = "2px black solid";
-    choice.style.backgroundColor = 'white';
-  })
-  switch (time){
-    case 1:
-      chosenTime = 10;
-      timeChoice10.style.backgroundColor = 'orange';
-      break;
-    case 2:
-      chosenTime = 25;
-      timeChoice25.style.backgroundColor = 'orange';
-      break;
-    case 3:
-      chosenTime = 50;
-      timeChoice50.style.backgroundColor = 'orange';
-      break;
-    case 4:
-      chosenTime = 0;
-      if (customTime > 0){
-      timeChoiceCustom.style.backgroundColor = 'orange';
-      chosenTime = customTime;
-      }
-      break;
+taskTitleInput.addEventListener('input', ()=>{
+  if (taskTitleInput.value.length > 35){
+    taskTitleInput.blur()
+    taskTitleInput.value = taskTitleInput.value.trim(0, 35);
   }
-  checkTitleAndTime();
-}
-
-timeCustomInput.addEventListener('input', ()=>{
-  focused = true;
-  if (timeCustomInput.value.trim().length > 2){
-    timeCustomInput.value = timeCustomInput.value.slice(0,2);
-    timeCustomInput.blur();
-  }
-  timeCustomH1.innerHTML = timeCustomInput.value.trim().padStart(2, '0');
-})
-
-timeCustomInput.addEventListener('keypress', (event)=>{
-  if (event.key === 'Enter'){
-    timeCustomInput.blur();
-  }
-})
-
-timeCustomInput.addEventListener('blur', ()=>{
-  if(focused){
-    let value = timeCustomInput.value;
-    if (value === "" || !Number.isInteger(Number(value)) || Number(value) < 5 || Number(value) > 90){
-      timeCustomInput.style.border = '2px red solid';
-      timeCustomInput.value = "";
-      timeCustomH1.innerHTML = 00;
-      chosenTime = "";
-      alert('Custom time must be between 5 and 90 minutes');
-      timeChoiceCustom.style.backgroundColor = "white";
-    checkTitleAndTime();
-    }
-    else{
-      if (Number(value) === 10){
-        selectedTime(1);
-        timeCustomInput.value = "";
-      timeCustomH1.innerHTML = 00;
-      } 
-      else if(Number(value) === 25){
-        selectedTime(2);
-        timeCustomInput.value = "";
-      timeCustomH1.innerHTML = 00;
-      }
-      else if(Number(value)=== 50){
-        selectedTime(3);
-        timeCustomInput.value = "";
-      timeCustomH1.innerHTML = 00;
-      }
-      else{
-        customTime = Number(value);
-        selectedTime(4);
-      }
-    }
-  }
-  focused = false;
-}
-)
-
-function checkTitleAndTime(){
-  if(taskTitle.trim().length > 0 && chosenTime > 0){
-    enablePointerEvents([startTaskBtn]);
-    startTaskBtn.style.backgroundColor = 'yellow';
+  if (taskTitleInput.value.length <= 0){
+    nextTaskTitleBtn.style.backgroundColor = 'white';
+    nextTaskTitleBtn.style.pointerEvents = 'none';
   }
   else{
-    disablePointerEvents([startTaskBtn]);
-    startTaskBtn.style.backgroundColor = 'white';
+    nextTaskTitleBtn.style.backgroundColor = 'yellow';
+    nextTaskTitleBtn.style.pointerEvents = 'auto';
+    taskTitle = taskTitleInput.value;
   }
-}
+})
+
+taskTitleInput.addEventListener('keydown', (event)=>{
+  if (event.key === 'Enter'){
+    taskTitleInput.blur();
+  }
+})
+
+taskTitleInput.addEventListener('blur', ()=>{
+  if(taskTitleInput.value.length > 0){
+     taskTitle = taskTitleInput.value;
+     nextTaskTitleBtn.style.pointerEvents = 'auto';
+     nextTaskTitleBtn.style.backgroundColor = 'yellow';
+  }
+  else{
+    nextTaskTitleBtn.style.pointerEvents = 'none';
+    nextTaskTitleBtn.style.backgroundColor = 'white';
+  }
+})
+
+
+nextTaskTitleBtn.addEventListener('click', ()=>{
+  taskTitleInput.blur();
+  taskTitleWrapper.classList.add('hide');
+  timeSetWrapper.classList.add('show');
+  taskTitleText.innerHTML = taskTitle;
+})
+taskTitleText.addEventListener('click', ()=>{
+  taskTitleWrapper.classList.remove('hide');
+  timeSetWrapper.classList.remove('show');
+  taskTitleInput.focus();
+})
+
 
 window.addEventListener("load", () => {
   localStorage.clear();
@@ -629,47 +586,7 @@ tasksBtn.addEventListener("click", () => {
     }
 });
 
-taskTitleInput.addEventListener('input', ()=>{
-  if(taskTitleInput.value.length > 35){
-    taskTitleInput.value = (taskTitleInput.value).slice(0, 30);
-    taskTitleInput.blur();
-  }
-  taskTitleInputSpan.innerHTML = taskTitleInput.value;
-})
 
-taskTitleInput.addEventListener('blur', ()=>{
-  if(taskTitleInput.value.trim().length > 0){
-    taskTitle = taskTitleInput.value;
-  }
-  else{
-    taskTitle = "";
-    taskTitleInputSpan.innerHTML = 'Please Enter Task Title';
-    taskTitleInputSpan.style.color = 'red';
-  }
-  taskTitleInput.style.border = "2px black solid";
-  timeCustomInput.blur();
-  checkTitleAndTime();
-})
-
-taskTitleInput.addEventListener('focus', ()=>{
-  taskTitleInputSpan.style.color = 'black';
-  if(taskTitleInput.value.length === 0){
-  taskTitleInputSpan.innerHTML = '';
-  taskTitleInput.style.border = "4px black solid";
-  }
-})
-
-taskTitleInput.addEventListener('keydown', (e)=>{
-  if(e.key === "Enter"){
-    if(taskTitleInput.value.trim().length > 0){
-      taskTitle = taskTitleInput.value;
-    }
-    else{
-      taskTitle = "";
-    }
-    taskTitleInput.blur();
-  }
-})
 
 tutorialPopUp.addEventListener("click", () => {
     displayTutorial();
