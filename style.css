@@ -354,7 +354,7 @@ transition: height 0.67s ease-in; /* SIX SEVEEEEN??? */
   background-color: white;
   flex-shrink: 0;
   position: absolute;
-  top: 0%; /* set to 100 later */
+  top: 100%; 
   display: flex;
   justify-content: center;
   align-items: center;
