@@ -63,6 +63,7 @@ const timeChoice50 = document.getElementById('timeChoice50');
 const timeChoiceCustom = document.getElementById('timeChoiceCustom');
 const timeCustomInput = document.getElementById('timeCustomInput');
 const timeCustomH1 = document.getElementById('customTimeH1');
+const startTaskBtn = document.getElementById('startTaskBtn');
 
 let taskTitle;
 let customTime;
@@ -70,7 +71,7 @@ let customTime;
 const windowHeight = window.innerHeight;
 const windowWidth = window.innerWidth;
 
-timeChoiceWrapper.style.height = `${windowHeight > windowWidth ? 50 : 60}%`;
+timeChoiceWrapper.style.height = `${windowHeight > windowWidth ? 80 : 60}%`;
 
 
 let addedHunger = 0;
@@ -488,6 +489,7 @@ taskTitleText.addEventListener('click', ()=>{
   taskTitleWrapper.classList.remove('hide');
   timeSetWrapper.classList.remove('show');
   taskTitleInput.focus();
+  selectedTime(5);
 })
 
 function selectedTime(time){
@@ -516,6 +518,23 @@ function selectedTime(time){
         customTime = "";
       }
       break;
+    case 5:
+      customTime = "";
+      timeCustomInput.value = "";
+      customTimeH1.innerHTML = '00';
+      break;
+  }
+  checkCustomTime();
+}
+
+function checkCustomTime(){
+  if(customTime >= 5 && customTime <= 90 ){
+    startTaskBtn.style.backgroundColor = 'yellow';
+    enablePointerEvents([startTaskBtn]);
+  }
+  else{
+    startTaskBtn.style.backgroundColor = 'transparent';
+    disablePointerEvents([startTaskBtn]);
   }
 }
 
@@ -535,12 +554,15 @@ timeCustomInput.addEventListener('input', ()=>{
   }
   else{
     timeChoiceCustom.style.backgroundColor = 'transparent';
+    customTime = Number(timeCustomInput.value);
+    checkCustomTime();
   }
   timeCustomH1.innerHTML = timeCustomInput.value.padStart(2, "0");
+  checkCustomTime();
 });
 
 timeCustomInput.addEventListener('blur', ()=>{
-  if (Number(timeCustomInput.value) < 5){
+  if (Number(timeCustomInput.value) < 5 && Number(timeCustomInput.value) !== 0 ){
     alert('time cannot be less than 5 // upgrade to tu popup later')
     timeCustomInput.value = "";
     timeCustomH1.innerHTML = "00";
@@ -577,11 +599,18 @@ timeCustomInput.addEventListener('blur', ()=>{
     default:
       customTime = timeCustomInput.value.slice(0,2);
   }
-})
+  checkCustomTime()
+});
 
 timeCustomInput.addEventListener('keydown', (event)=>{
   if(event.key === 'Enter'){
     timeCustomInput.blur();
+  }
+})
+
+startTaskBtn.addEventListener('click', ()=>{
+  if(customTime > 0 && taskTitle !== null){
+  alert('pressed');
   }
 })
 
