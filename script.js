@@ -73,7 +73,6 @@ const windowWidth = window.innerWidth;
 
 timeChoiceWrapper.style.height = `${windowHeight > windowWidth ? 80 : 60}%`;
 
-
 let addedHunger = 0;
 
 let tutorialMode;
