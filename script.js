@@ -1,47 +1,59 @@
+
+//user related screens
 const loadingScreen = document.getElementById("loading");
 const MainScreen = document.getElementById("main-stage");
-const renamePopUpScreen = document.getElementById("renamePopUpScreen");
-const statusBox = document.getElementById("statusBox");
 const oldUserScreen = document.getElementById("oldUserScreen");
 const firstTimeScreen = document.getElementById("firstTimeScreen");
-const youReceivedText = document.getElementById("youReceivedText");
-const catTypeText = document.getElementById("catTypeText");
-const box = document.getElementById("box");
-const cat = document.getElementById("cat");
-const renameName = document.getElementById("renameName");
-let catName;
-const renameInput = document.getElementById("renameInput");
-const renameConfirmBtn = document.getElementById("renameConfirmBtn");
+
+//A. UI Components:
+//STATUS BOX//
+const statusBox = document.getElementById("statusBox");
 const statusBoxNameH1 = document.getElementById("statusBoxNameH1");
 const hungerBarContent = document.getElementById("hungerBarContent");
-const happinessBarContent = document.getElementById("happinessBarContent");
 const hungerBarPoints = document.getElementById("hungerBarPoints");
 
-const foodSprite = document.getElementById('foodSprite');
-
+//BOTTOM ACCESS BAR//
 const bottomAccessBar = document.getElementById("bottomAccessBar");
-
 const itemsBtn = document.getElementById("items");
 const storeBtn = document.getElementById("store");
 const tasksBtn = document.getElementById("tasks");
 
+
+// END -- UI COMPONENTS /
+
+//characters/ objects //
+const box = document.getElementById("box");
+const cat = document.getElementById("cat");
+const foodSprite = document.getElementById('foodSprite');
+
+
+//Rename PopUp screen related//
+const renamePopUpScreen = document.getElementById("renamePopUpScreen");
+const youReceivedText = document.getElementById("youReceivedText");
+const catTypeText = document.getElementById("catTypeText");
+const renameName = document.getElementById("renameName");
+const renameInput = document.getElementById("renameInput");
+const renameConfirmBtn = document.getElementById("renameConfirmBtn");
+
+let catName;
+
+//Screen Related Wrapper//
 const itemsPopUpWrapper = document.getElementById("itemsPopUpWrapper");
 const storePopUpWrapper = document.getElementById("storePopUpWrapper");
 const tasksPopUpWrapper = document.getElementById("tasksPopUpWrapper");
 
-const tutorialPopUpWrapper = document.getElementById("tutorialPopUpWrapper");
-const tutorialPopUp = document.getElementById("tutorialPopUp");
-const tutorialText = document.getElementById("tutorialText");
-const tapToContinue = document.getElementById("tapToContinue");
+const exitPopUpBtn = document.getElementById('exitPopUpBtn');
 
+//Main Screen inside wrapper//
+//Items Screen//
 const itemsFoodMain = document.getElementById('itemsFoodMain');
 const itemsToysMain = document.getElementById('itemsToysMain');
 const itemsDesignMain = document.getElementById('itemsDesignMain');
 const itemsFoodBtn = document.getElementById('itemsFoodBtn');
 const itemsToysBtn = document.getElementById('itemsToysBtn');
 const itemsDesignBtn = document.getElementById('itemsDesignBtn');
-const exitPopUpBtn = document.getElementById('exitPopUpBtn');
 
+//Store Screen//
 const storeFoodMain = document.getElementById('storeFoodMain');
 const storeToysMain = document.getElementById('storeToysMain');
 const storeDesignMain = document.getElementById('storeDesignMain');
@@ -51,6 +63,7 @@ const storeDesignBtn = document.getElementById('storeDesignBtn');
 let foodInStockScreen = document.getElementById('foodInStock');
 const foodEmptyScreen = document.getElementById('foodEmpty');
 
+//Task Screen//
 const taskTitleInput = document.getElementById('taskTitleInput');
 const nextTaskTitleBtn = document.getElementById('nextTaskTitleBtn');
 const taskTitleWrapper = document.getElementById('taskTitleWrapper');
@@ -73,15 +86,36 @@ const taskTimerP = document.getElementById('taskTimerP');
 let taskTitle;
 let customTime;
 
+//Tutorial Related//
+const tutorialPopUpWrapper = document.getElementById("tutorialPopUpWrapper");
+const tutorialPopUp = document.getElementById("tutorialPopUp");
+const tutorialText = document.getElementById("tutorialText");
+const tapToContinue = document.getElementById("tapToContinue");
+
+let tutorialMode;
+let currentTutorialText = 0;
+
+//Responsive Attempts//
 const windowHeight = window.innerHeight;
 const windowWidth = window.innerWidth;
 
 timeChoiceWrapper.style.height = `${windowHeight > windowWidth ? 80 : 60}%`;
 
+//State or measurement related values //
 let addedHunger = 0;
+let foodTitle;
+let foodDescription;
+let selectedFood;
+let miliseconds;
+let currentTimer;
+let initialTop;
+let timerContinuation;
 
-let tutorialMode;
+//Interval values//
+let counterInterval;
 
+
+//createElement In Items//
 let createFoodItem;
 let createFoodItemPic;
 let createFoodItemDetails;
@@ -91,39 +125,195 @@ let createFoodTitle;
 let createFoodDescript;
 let createFoodStock;
 
-let currentTutorialText = 0;
+//LOCAL STORAGE ACCESS//
 let foodInventory = JSON.parse(localStorage.getItem("foodInventory"))||[];
-let foodTitle;
-let foodDescription;
-let selectedFood;
 
 
+//HAPPENS UPON DURING WEBSITE RELOAD//
+window.addEventListener("load", () => {
+  //localStorage.clear()
+    checkIfFirstTime();
+    //remove later: //
+    cat.style.display = "none";
+    renamePopUpScreen.style.display = "none";
+    statusBox.style.display = "none";
+    bottomAccessBar.style.display = "none";
+    tutorialPopUpWrapper.style.display = "none";
+    foodInStockScreen.style.display = "none";
+    foodEmptyScreen.style.display = 'none';
+    foodSprite.style.display = 'none';
+    ongoingTaskScreen.style.display = 'none'; 
+    //ongoingTaskTimerWrapper.style.display = 'none';
+    //countDownP.style.display = 'none';
+    clearWrappers();
 
-const STATES = {
-    LOADING: "loadingScreen",
-    MAIN: "MainScreen",
+});
+
+function checkIfFirstTime (){
+
+    if (localStorage.getItem("firstTimeUsing") === null) {
+      tutorialMode = true;
+        localStorage.setItem("lastHungerAmount", 50); //lowHealth
+        localStorage.setItem("lastHungerTimeCheck", Date.now()); //remove later//
+        
+        localStorage.setItem("foodInventory", JSON.stringify([
+          {foodClass: 1, foodQuantity: 0},
+          {foodClass:2, foodQuantity: 0},
+          {foodClass : 3, foodQuantity : 1},
+          {foodClass: 4, foodQuantity : 0}
+          ]));
+        foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
+        
+        firstTimeScreen.style.display = "flex";
+        oldUserScreen.style.display = "none";
+
+        if(localStorage.getItem('taskTimerDuration') !== null){
+          taskTimerDuration = Number(localStorage.getItem('taskTimerDuration'));
+          miliseconds = Math.max(taskTimerDuration - Date.now(), 0);
+          timerContinuation = true;
+          ongoingTaskTimerWrapper.style.display = 'flex';
+          countDownTimer();
+          setInterval(()=>{countDownTimer()}, 1000);
+          
+        }
+    }
+    else {
+        oldUserScreen.style.display = "flex";
+        firstTimeScreen.style.display = "none";
+    }
 };
 
-const checkFoodType = (foodClassType) =>{
-  switch(foodClassType){
-    case 1:
-      foodTitle = "Cheap Food";
-      foodDescription = "Cheap food low price";
-      break
-    case 2:
-      foodTitle = "Normal Food";
-      foodDescription = "Normal food normal price";
-      break
-    case 3:
-      foodTitle = "Good Food";
-      foodDescription = "Good food mild price";
-      break
-    case 4:
-      foodTitle = "Feast";
-      foodDescription = "feast high price";
-      break
-}}
+//STATE SPECIFIC//
+//RENAMING CAT AND RANDOMIZER//
+function randomizeCatType (){
+    const catTypes = ["wawu", "mimi", "mekus", "kuchi", "nano"];
+    const catRandomizer = catTypes[Math.floor(Math.random() * catTypes.length)];
 
+    youReceivedText.innerHTML = `You Received, <br/> ${catRandomizer}!`;
+    catTypeText.innerHTML = catRandomizer;
+    renameName.innerHTML = catRandomizer;
+    catName = catRandomizer;
+};
+
+//Feeding Cat: FOOD SELECTION//
+const feedFood =(food)=>{
+  if(tutorialMode){
+    tutorialPopUpWrapper.style.display = 'none';
+    displayTutorial();
+  }
+  switch (food){
+    case 1:
+    foodSprite.style.backgroundColor = 'red';
+    addedHunger = 10;
+    selectedFood = 0;
+      break;
+    case 2:
+    foodSprite.style.backgroundColor = 'green';
+    addedHunger = 15;
+    selectedFood = 1;
+      break;
+    case 3:
+   foodSprite.style.backgroundColor = 'orange';
+   addedHunger = 30;
+   selectedFood = 2;
+      break;
+    case 4:
+   foodSprite.style.backgroundColor = 'blue';
+   addedHunger = 1000;
+   selectedFood = 3;
+      break;
+  }
+  itemsPopUpWrapper.style.display = 'none';
+  bottomAccessBar.style.display = 'none';
+  foodSprite.style.display = 'flex';
+}
+
+//FEEDING CAT FOOD ANIMATION//
+function feedFoodAnimation(){
+  foodSprite.style.top = `${initialTop}%`;
+  
+  if (initialTop === 50){
+    foodSprite.classList.add('shrink');
+    return
+  }
+  
+  initialTop -= 1;
+  requestAnimationFrame(feedFoodAnimation);
+}
+
+
+//Setting up selected Time//
+function selectedTime(time){
+  [timeChoice10, timeChoice25, timeChoice50, timeChoiceCustom].forEach(choice =>{
+    choice.style.backgroundColor = 'transparent';
+  })
+  switch(time){
+    case 1:
+      timeChoice10.style.backgroundColor = 'orange';
+      customTime = 10;
+      break;
+    case 2:
+      timeChoice25.style.backgroundColor = 'orange';
+      customTime = 25;
+      break;
+    case 3:
+      timeChoice50.style.backgroundColor = 'orange';
+      customTime = 50;
+      break;
+    case 4:
+      if(customTime > 0 && timeCustomInput.value > 0){
+        timeChoiceCustom.style.backgroundColor = 'orange';
+        customTime = Number(timeCustomInput.value.slice(0,2));
+      }
+      else{
+        customTime = "";
+      }
+      break;
+    case 5:
+      customTime = "";
+      timeCustomInput.value = "";
+      customTimeH1.innerHTML = '00';
+      break;
+  }
+  checkCustomTime();
+}
+
+//Short Countdown Screen //
+function countDownTimer(){
+  let countdown = 2;
+  if(timerContinuation){
+    startTimerCountdown();
+    return
+  }
+  counterInterval = setInterval(()=>{
+    if(countdown === 0){
+      countDownP.innerHTML = 'START'
+      setTimeout(()=>{
+        countDownP.style.display = 'none';
+        ongoingTaskTimerWrapper.style.display = 'flex';
+        taskTitleOngoing.innerHTML = taskTitle;
+        miliseconds = customTime * 60 * 1000;
+        localStorage.setItem('taskTimerDuration', JSON.stringify(Date.now() + miliseconds));
+        startTimerCountdown();
+        setInterval(()=>{startTimerCountdown()} , 1000)
+      },750);
+      clearInterval(counterInterval);
+      return
+    }
+    countDownP.innerHTML = countdown;
+    countdown--
+  }, 750);
+}
+
+function startTimerCountdown(){
+  let minutes = Math.floor(miliseconds / 1000 / 60);
+  let seconds = Math.floor((miliseconds / 1000) % 60);
+  currentTimer = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2, '0')}`;
+  displayTimerCountdown();
+}
+
+
+//DIsplay Food stock//
 const displayFoodStock =()=>{
   foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
   foodInStockScreen.remove();
@@ -174,70 +364,10 @@ const displayFoodStock =()=>{
     }
     
   })
-  
-  
 }
 
-const checkIfFirstTime = () => {
-    if (localStorage.getItem("firstTimeUsing") === null) {
-      tutorialMode = true;
-        localStorage.setItem("lastHungerAmount", 50); //lowHealth
-        localStorage.setItem("lastHungerTimeCheck", Date.now()); //remove later//
-        
-        localStorage.setItem("foodInventory", JSON.stringify([
-          {foodClass: 1, foodQuantity: 0},
-          {foodClass:2, foodQuantity: 0},
-          {foodClass : 3, foodQuantity : 1},
-          {foodClass: 4, foodQuantity : 0}
-          ]));
-        foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
-        
-        firstTimeScreen.style.display = "flex";
-        oldUserScreen.style.display = "none";
-    }
-    else {
-        oldUserScreen.style.display = "flex";
-        firstTimeScreen.style.display = "none";
-    }
-};
-
-const clearWrappers = () => {
-    [itemsPopUpWrapper, storePopUpWrapper, tasksPopUpWrapper, itemsDesignMain, itemsToysMain, itemsFoodMain, storeToysMain, storeDesignMain, storeFoodMain].forEach(
-        (wrapper) => (wrapper.style.display = "none")
-    );
-};
-
-const disablePointerEvents = (toDisable) => {
-    toDisable.forEach((element) => (element.style.pointerEvents = "none"));
-};
-
-const enablePointerEvents = (toEnable) =>{
-  toEnable.forEach((element)=> (element.style.pointerEvents = 'auto'));
-}
-
-const randomizeCatType = () => {
-    const catTypes = ["wawu", "mimi", "mekus", "kuchi", "nano"];
-    const catRandomizer = catTypes[Math.floor(Math.random() * catTypes.length)];
-
-    youReceivedText.innerHTML = `You Received, <br/> ${catRandomizer}!`;
-    catTypeText.innerHTML = catRandomizer;
-    renameName.innerHTML = catRandomizer;
-    catName = catRandomizer;
-};
-
-const displayRenamePopUp = () => {
-    renamePopUpScreen.style.display = "flex";
-    youReceivedText.style.display = "none";
-};
-
-const displayStatusBox = () => {
-    statusBox.style.display = "flex";
-    const catSavedName = JSON.parse(localStorage.getItem("catSavedName"));
-    displayHunger();
-    statusBoxNameH1.innerHTML = catSavedName;
-};
-
-const displayTutorial = () => {
+//TUTORIAL//
+function displayTutorial (){
     tutorialPopUpWrapper.style.display = "flex";
     let message;
     switch (currentTutorialText) {
@@ -352,78 +482,57 @@ const displayTutorial = () => {
     tutorialText.innerHTML = message;
 };
 
-let initialTop;
 
-function feedFoodAnimation(){
-  foodSprite.style.top = `${initialTop}%`;
-  
-  if (initialTop === 50){
-    foodSprite.classList.add('shrink');
-    return
-  }
-  
-  initialTop -= 1;
-  requestAnimationFrame(feedFoodAnimation);
+//TOOLS / CONTROL //
+function clearWrappers(){
+    [itemsPopUpWrapper, storePopUpWrapper, tasksPopUpWrapper, itemsDesignMain, itemsToysMain, itemsFoodMain, storeToysMain, storeDesignMain, storeFoodMain].forEach(
+        (wrapper) => (wrapper.style.display = "none")
+    );
 }
 
-foodSprite.addEventListener('transitionend', ()=>{
-  let hungerAmount = Number(localStorage.getItem('lastHungerAmount'));
-  foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
-  
-  foodInventory[selectedFood].foodQuantity =- 1;
-  localStorage.setItem('foodInventory', JSON.stringify(foodInventory));
-  
-  hungerAmount += addedHunger;
-  localStorage.setItem('lastHungerAmount', hungerAmount);
-  displayHunger();
-  
-  if (tutorialMode){
-    displayTutorial();
-  }
-})
-
-const feedFood =(food)=>{
-  if(tutorialMode){
-    tutorialPopUpWrapper.style.display = 'none';
-    displayTutorial();
-  }
-  switch (food){
-    case 1:
-    foodSprite.style.backgroundColor = 'red';
-    addedHunger = 10;
-    selectedFood = 0;
-      break;
-    case 2:
-    foodSprite.style.backgroundColor = 'green';
-    addedHunger = 15;
-    selectedFood = 1;
-      break;
-    case 3:
-   foodSprite.style.backgroundColor = 'orange';
-   addedHunger = 30;
-   selectedFood = 2;
-      break;
-    case 4:
-   foodSprite.style.backgroundColor = 'blue';
-   addedHunger = 1000;
-   selectedFood = 3;
-      break;
-  }
-  itemsPopUpWrapper.style.display = 'none';
-  bottomAccessBar.style.display = 'none';
-  foodSprite.style.display = 'flex';
+function enablePointerEvents (toEnable){
+  toEnable.forEach((element)=> (element.style.pointerEvents = 'auto'));
 }
 
-foodSprite.addEventListener('click', ()=>{
-  initialTop = 80; //to be changed soon
-  requestAnimationFrame(feedFoodAnimation);
-  
-  if(tutorialMode){
-    tutorialPopUpWrapper.style.display = 'none';
-  }
-})
+function disablePointerEvents(toDisable){
+    toDisable.forEach((element) => (element.style.pointerEvents = "none"));
+}
 
-const computeHunger = () => {
+function displayRenamePopUp (){
+    renamePopUpScreen.style.display = "flex";
+    youReceivedText.style.display = "none";
+};
+
+function displayStatusBox (){
+    statusBox.style.display = "flex";
+    const catSavedName = JSON.parse(localStorage.getItem("catSavedName"));
+    displayHunger();
+    statusBoxNameH1.innerHTML = catSavedName;
+};
+
+function checkCustomTime(){
+  if(customTime >= 5 && customTime <= 90 ){
+    startTaskBtn.style.backgroundColor = 'yellow';
+    enablePointerEvents([startTaskBtn]);
+  }
+  else{
+    startTaskBtn.style.backgroundColor = 'transparent';
+    disablePointerEvents([startTaskBtn]);
+  }
+}
+
+function displayTimerCountdown(){
+  taskTimerP.innerHTML = currentTimer;
+  miliseconds -= 1000;
+}
+
+function displayHunger() {
+    let hungerAmount = Number(localStorage.getItem("lastHungerAmount"));
+    hungerBarContent.style.width = `${hungerAmount}%`;
+    hungerBarPoints.innerHTML = `${hungerAmount}/100`;
+}
+
+function computeHunger(){
     let hungerAmount = Number(localStorage.getItem("lastHungerAmount"));
     let lastHungerTimeCheck = Number(localStorage.getItem("lastHungerTimeCheck"));
 
@@ -442,12 +551,136 @@ const computeHunger = () => {
     displayHunger();
 };
 
-function displayHunger() {
-    let hungerAmount = Number(localStorage.getItem("lastHungerAmount"));
-    hungerBarContent.style.width = `${hungerAmount}%`;
-    hungerBarPoints.innerHTML = `${hungerAmount}/100`;
-}
+function checkFoodType (foodClassType){
+  switch(foodClassType){
+    case 1:
+      foodTitle = "Cheap Food";
+      foodDescription = "Cheap food low price";
+      break
+    case 2:
+      foodTitle = "Normal Food";
+      foodDescription = "Normal food normal price";
+      break
+    case 3:
+      foodTitle = "Good Food";
+      foodDescription = "Good food mild price";
+      break
+    case 4:
+      foodTitle = "Feast";
+      foodDescription = "feast high price";
+      break
+}}
 
+
+//EVENT LISTENERS//
+//A. BOX//
+box.addEventListener("click", () => {
+    randomizeCatType();
+    setTimeout(() => displayRenamePopUp(), 100); //remove later for testing only//
+    youReceivedText.style.opacity = 1;
+    box.style.display = "none";
+    cat.style.display = "flex";
+});
+
+//B. CAT//
+
+//C. RENAME INPUT//
+renameInput.addEventListener("input", () => {
+    renameName.innerHTML = renameInput.value;
+    
+    if (renameInput.value.length <= 0){
+      renameName.innerHTML = catName;
+    }
+
+    if (renameInput.value.length > 10) {
+        renameName.innerHTML = renameInput.value.slice(0, 10);
+    }
+});
+
+renameInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      if(renameInput.value.trim().length === 0){
+        renameName.innerHTML = catName;
+      }
+        renameInput.blur();
+        
+    }
+});
+
+renameInput.addEventListener('keydown', (event) => {
+  if (event.key === "Backspace" && renameInput.value.length === 0){
+    renameName.innerHTML = "";
+  }
+})
+
+renameInput.addEventListener('blur', ()=>{
+  if(renameInput.value.length === 0){
+    renameName.innerHTML = catName;
+  }
+})
+
+//D. RENAME CONFIRM BUTTON//
+renameConfirmBtn.addEventListener("click", () => {
+    if (renameInput.value.trim().length === 0) {
+        localStorage.setItem("catSavedName", JSON.stringify(catName));
+    } else {
+        catName = renameInput.value;
+        localStorage.setItem("catSavedName", JSON.stringify(catName));
+    }
+
+    renamePopUpScreen.style.display = "none";
+    catTypeText.innerHTML = catName;
+    displayStatusBox();
+
+    displayTutorial(currentTutorialText);
+});
+
+//E. ITEMS BUTTON//
+itemsBtn.addEventListener("click", () => {
+    itemsPopUpWrapper.style.display = "flex";
+    openSelectionMain(itemsFoodMain);
+    
+    if (tutorialMode){
+    tutorialPopUpWrapper.style.zIndex = 99;
+    displayTutorial();
+    }
+});
+
+//F. STORE BUTTON //
+storeBtn.addEventListener("click", () => {
+    storePopUpWrapper.style.display = "flex";
+    openSelectionMain(storeFoodMain);
+    
+    if(tutorialMode){
+      displayTutorial();
+    }
+    
+});
+
+//F. TASKS BUTTON//
+tasksBtn.addEventListener("click", () => {
+    tasksPopUpWrapper.style.display = "flex";
+    if (tutorialMode){
+      displayTutorial();
+    }
+});
+
+//G. TUTORIAL POPUP//
+tutorialPopUp.addEventListener("click", () => {
+    displayTutorial();
+});
+
+//H. FOOD SPRITE//
+foodSprite.addEventListener('click', ()=>{
+  initialTop = 80; //to be changed soon
+  requestAnimationFrame(feedFoodAnimation);
+  
+  if(tutorialMode){
+    tutorialPopUpWrapper.style.display = 'none';
+  }
+})
+
+//I. Task Title Input//
 taskTitleInput.addEventListener('input', ()=>{
   if (taskTitleInput.value.length > 35){
     taskTitleInput.blur()
@@ -468,7 +701,7 @@ taskTitleInput.addEventListener('keydown', (event)=>{
   if (event.key === 'Enter'){
     taskTitleInput.blur();
   }
-})
+});
 
 taskTitleInput.addEventListener('blur', ()=>{
   if(taskTitleInput.value.length > 0){
@@ -482,13 +715,7 @@ taskTitleInput.addEventListener('blur', ()=>{
   }
 })
 
-nextTaskTitleBtn.addEventListener('click', ()=>{
-  taskTitleInput.blur();
-  taskTitleWrapper.classList.add('hide');
-  timeSetWrapper.classList.add('show');
-  taskTitleText.innerHTML = taskTitle;
-})
-
+//J. Task Title Text//
 taskTitleText.addEventListener('click', ()=>{
   taskTitleWrapper.classList.remove('hide');
   timeSetWrapper.classList.remove('show');
@@ -496,52 +723,15 @@ taskTitleText.addEventListener('click', ()=>{
   selectedTime(5);
 })
 
-function selectedTime(time){
-  [timeChoice10, timeChoice25, timeChoice50, timeChoiceCustom].forEach(choice =>{
-    choice.style.backgroundColor = 'transparent';
-  })
-  switch(time){
-    case 1:
-      timeChoice10.style.backgroundColor = 'orange';
-      customTime = 10;
-      break;
-    case 2:
-      timeChoice25.style.backgroundColor = 'orange';
-      customTime = 25;
-      break;
-    case 3:
-      timeChoice50.style.backgroundColor = 'orange';
-      customTime = 50;
-      break;
-    case 4:
-      if(customTime > 0 && timeCustomInput.value > 0){
-        timeChoiceCustom.style.backgroundColor = 'orange';
-        customTime = Number(timeCustomInput.value.slice(0,2));
-      }
-      else{
-        customTime = "";
-      }
-      break;
-    case 5:
-      customTime = "";
-      timeCustomInput.value = "";
-      customTimeH1.innerHTML = '00';
-      break;
-  }
-  checkCustomTime();
-}
+//K. Next Part Task Button //
+nextTaskTitleBtn.addEventListener('click', ()=>{
+  taskTitleInput.blur();
+  taskTitleWrapper.classList.add('hide');
+  timeSetWrapper.classList.add('show');
+  taskTitleText.innerHTML = taskTitle;
+})
 
-function checkCustomTime(){
-  if(customTime >= 5 && customTime <= 90 ){
-    startTaskBtn.style.backgroundColor = 'yellow';
-    enablePointerEvents([startTaskBtn]);
-  }
-  else{
-    startTaskBtn.style.backgroundColor = 'transparent';
-    disablePointerEvents([startTaskBtn]);
-  }
-}
-
+//L. Time Custom Input//
 timeCustomInput.addEventListener('input', ()=>{
   if(Number(timeCustomInput) === NaN){
     timeCustomInput.value = "";
@@ -563,6 +753,12 @@ timeCustomInput.addEventListener('input', ()=>{
   }
   timeCustomH1.innerHTML = timeCustomInput.value.padStart(2, "0");
   checkCustomTime();
+});
+
+timeCustomInput.addEventListener('keydown', (event)=>{
+  if(event.key === 'Enter'){
+    timeCustomInput.blur();
+  }
 });
 
 timeCustomInput.addEventListener('blur', ()=>{
@@ -606,14 +802,7 @@ timeCustomInput.addEventListener('blur', ()=>{
   checkCustomTime()
 });
 
-timeCustomInput.addEventListener('keydown', (event)=>{
-  if(event.key === 'Enter'){
-    timeCustomInput.blur();
-  }
-})
-
-let counterInterval;
-
+//M. Start Task Button//
 startTaskBtn.addEventListener('click', ()=>{
   if(customTime > 0 && taskTitle !== null){
     exitPopUp(tasksPopUpWrapper);
@@ -622,162 +811,33 @@ startTaskBtn.addEventListener('click', ()=>{
   }
 })
 
-let miliseconds;
-
-function countDownTimer(){
-  let countdown = 2;
+//N. FOOD SPRITE//
+foodSprite.addEventListener('transitionend', ()=>{
+  let hungerAmount = Number(localStorage.getItem('lastHungerAmount'));
+  foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
   
-  counterInterval = setInterval(()=>{
-    if(countdown === 0){
-      countDownP.innerHTML = 'START'
-      setTimeout(()=>{
-        countDownP.style.display = 'none';
-        ongoingTaskTimerWrapper.style.display = 'flex';
-        taskTitleOngoing.innerHTML = taskTitle;
-        miliseconds = customTime * 60 * 1000;
-        startTimerCountdown();
-        setInterval(()=>{startTimerCountdown()} , 1000)
-      },750);
-      clearInterval(counterInterval);
-      return
-    }
-    countDownP.innerHTML = countdown;
-    countdown--
-  }, 750);
-}
-
-let currentTimer;
-
-function startTimerCountdown(){
-  let minutes = Math.floor(miliseconds / 1000 / 60);
-  let seconds = Math.floor((miliseconds / 1000) % 60);
-  currentTimer = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2, '0')}`;
-  displayTimerCountdown();
-}
-
-function displayTimerCountdown(){
-  taskTimerP.innerHTML = currentTimer;
-  miliseconds -= 1000;
-}
-
-window.addEventListener("load", () => {
-  localStorage.clear();
-    checkIfFirstTime();
-    //remove later: //
-    cat.style.display = "none";
-    renamePopUpScreen.style.display = "none";
-    statusBox.style.display = "none";
-    bottomAccessBar.style.display = "none";
-    tutorialPopUpWrapper.style.display = "none";
-    foodInStockScreen.style.display = "none";
-    foodEmptyScreen.style.display = 'none';
-    foodSprite.style.display = 'none';
-    ongoingTaskScreen.style.display = 'none'; 
-    ongoingTaskTimerWrapper.style.display = 'none';
-    //countDownP.style.display = 'none';
-    clearWrappers();
-
-});
-
-box.addEventListener("click", () => {
-    randomizeCatType();
-    setTimeout(() => displayRenamePopUp(), 100); //remove later for testing only//
-    youReceivedText.style.opacity = 1;
-    box.style.display = "none";
-    cat.style.display = "flex";
-});
-
-renameInput.addEventListener("input", () => {
-    renameName.innerHTML = renameInput.value;
-    
-    if (renameInput.value.length <= 0){
-      renameName.innerHTML = catName;
-    }
-
-    if (renameInput.value.length > 10) {
-        renameName.innerHTML = renameInput.value.slice(0, 10);
-    }
-});
-
-renameInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      if(renameInput.value.trim().length === 0){
-        renameName.innerHTML = catName;
-      }
-        renameInput.blur();
-        
-    }
-});
-
-renameInput.addEventListener('blur', ()=>{
-  if(renameInput.value.length === 0){
-    renameName.innerHTML = catName;
+  foodInventory[selectedFood].foodQuantity =- 1;
+  localStorage.setItem('foodInventory', JSON.stringify(foodInventory));
+  
+  hungerAmount += addedHunger;
+  localStorage.setItem('lastHungerAmount', hungerAmount);
+  displayHunger();
+  
+  if (tutorialMode){
+    displayTutorial();
   }
 })
 
-renameInput.addEventListener('keydown', (event) => {
-  if (event.key === "Backspace" && renameInput.value.length === 0){
-    renameName.innerHTML = "";
-  }
-})
 
-renameConfirmBtn.addEventListener("click", () => {
-    if (renameInput.value.trim().length === 0) {
-        localStorage.setItem("catSavedName", JSON.stringify(catName));
-    } else {
-        catName = renameInput.value;
-        localStorage.setItem("catSavedName", JSON.stringify(catName));
-    }
-
-    renamePopUpScreen.style.display = "none";
-    catTypeText.innerHTML = catName;
-    displayStatusBox();
-
-    displayTutorial(currentTutorialText);
-});
-
-itemsBtn.addEventListener("click", () => {
-    itemsPopUpWrapper.style.display = "flex";
-    openSelectionMain(itemsFoodMain);
-    
-    if (tutorialMode){
-    tutorialPopUpWrapper.style.zIndex = 99;
-    displayTutorial();
-    }
-});
-
-storeBtn.addEventListener("click", () => {
-    storePopUpWrapper.style.display = "flex";
-    openSelectionMain(storeFoodMain);
-    
-    if(tutorialMode){
-      displayTutorial();
-    }
-    
-});
-
-tasksBtn.addEventListener("click", () => {
-    tasksPopUpWrapper.style.display = "flex";
-    if (tutorialMode){
-      displayTutorial();
-    }
-});
-
-
-
-tutorialPopUp.addEventListener("click", () => {
-    displayTutorial();
-});
-
-//onclick events//
-const exitPopUp =(popup)=>{
+//ONCLICK EVENTS//
+function exitPopUp(popup){
   popup.style.display = "none";
   if (tutorialMode){
     displayTutorial();
   }
 }
 
-const openSelectionMain =(activeScreen)=>{
+function openSelectionMain(activeScreen){
   [itemsFoodMain, itemsToysMain, itemsDesignMain, storeFoodMain, storeDesignMain, storeToysMain].forEach(screen => screen.style.display = 'none');
   activeScreen.style.display = "flex";
   
@@ -799,4 +859,52 @@ const openSelectionMain =(activeScreen)=>{
       break
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

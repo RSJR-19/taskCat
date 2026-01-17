@@ -506,10 +506,12 @@ container-type: size;
 #ongoingTaskTimerWrapper{
   height: 100%;
   width: 100%;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  background-color: orange;
 }
 
 #tutorialPopUpWrapper {
