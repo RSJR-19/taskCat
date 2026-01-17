@@ -82,6 +82,12 @@ const countDownP = document.getElementById('countDownP');
 const taskTitleOngoing = document.getElementById('taskTitleOngoing');
 const ongoingTaskTimerWrapper = document.getElementById('ongoingTaskTimerWrapper');
 const taskTimerP = document.getElementById('taskTimerP');
+const taskDoneBtn = document.getElementById('taskDoneBtn');
+const finishedTaskPopUpWrapper = document.getElementById('finishedTaskPopUpWrapper');
+const durationP = document.getElementById('durationP');
+const multiplierP = document.getElementById('multiplierP');
+const finishedTotal = document.getElementById('finishedTotal');
+
 
 let taskTitle;
 let customTime;
@@ -283,6 +289,7 @@ function countDownTimer(){
         ongoingTaskTimerWrapper.style.display = 'flex';
         taskTitleOngoing.innerHTML = taskTitle;
         miliseconds = customTime * 60 * 1000;
+        localStorage.setItem('taskDuration', JSON.stringify(customTime));
         localStorage.setItem('savedTaskTitle', JSON.stringify(taskTitle));
         localStorage.setItem('taskTimerDuration', JSON.stringify(Date.now() + miliseconds));
         startTimerCountdown();
@@ -297,9 +304,10 @@ function countDownTimer(){
 }
 
 function startTimerCountdown(){
-  if(miliseconds <= 0){
+  if(miliseconds < 0){
     currentTimer = '00:00';
     clearInterval(countDownTimerInterval);
+    taskDoneBtn.style.display = 'flex';
     return
   }
   let minutes = Math.floor(miliseconds / 1000 / 60);
@@ -519,7 +527,7 @@ function checkCustomTime(){
 
 function displayTimerCountdown(){
   taskTimerP.innerHTML = currentTimer;
-  miliseconds -= 1000;
+  miliseconds -= 1000; // CHNAGE TO 1000 LATER
 }
 
 function displayHunger() {
@@ -822,6 +830,16 @@ foodSprite.addEventListener('transitionend', ()=>{
   if (tutorialMode){
     displayTutorial();
   }
+})
+
+//I. Task Done Button//
+taskDoneBtn.addEventListener('click', ()=>{
+  let taskDuration = Number(localStorage.getItem('taskDuration'));
+  finishedTaskPopUpWrapper.style.display = 'flex';
+  durationP.innerHTML = `Task Duration: ${taskDuration} mins`;
+  finishedTotal.innerHTML = `Total Coins Earned: ${taskDuration}`;
+  
+
 })
 
 

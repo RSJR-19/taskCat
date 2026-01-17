@@ -514,6 +514,53 @@ container-type: size;
   background-color: orange;
 }
 
+#taskDoneBtn{
+  display: none;
+  margin: 0; 
+  font-size: max(3cqw, 3cqh);
+  background-color: yellow;
+  padding: 0.5em 1em;
+}
+
+#finishedTaskPopUpWrapper{
+  height: max(25cqw, 25cqh);
+  width: max(40cqw, 40cqh);
+  display: none;
+  position: absolute;
+  border: 2px black solid;
+  border-radius: 10px;
+  background-color: white;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  
+}
+
+.task-done{
+  font-size: max(3cqw, 3cqh);
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+
+}
+#durationP, #multiplierP{
+  font-size: max(2cqw, 2cqh);
+  padding-left: 2px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+
+}
+#finishedTotal{
+  font-size: max(3cqw, 3cqh);
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+
+}
+
 #tutorialPopUpWrapper {
     height: 100%;
     width: 100%;
