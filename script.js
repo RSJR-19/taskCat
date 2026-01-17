@@ -64,6 +64,11 @@ const timeChoiceCustom = document.getElementById('timeChoiceCustom');
 const timeCustomInput = document.getElementById('timeCustomInput');
 const timeCustomH1 = document.getElementById('customTimeH1');
 const startTaskBtn = document.getElementById('startTaskBtn');
+const ongoingTaskScreen = document.getElementById('ongoingTaskScreen');
+const countDownP = document.getElementById('countDownP');
+const taskTitleOngoing = document.getElementById('taskTitleOngoing');
+const ongoingTaskTimerWrapper = document.getElementById('ongoingTaskTimerWrapper');
+const taskTimerP = document.getElementById('taskTimerP');
 
 let taskTitle;
 let customTime;
@@ -92,7 +97,7 @@ let foodTitle;
 let foodDescription;
 let selectedFood;
 
-let focused = false;
+
 
 const STATES = {
     LOADING: "loadingScreen",
@@ -607,12 +612,53 @@ timeCustomInput.addEventListener('keydown', (event)=>{
   }
 })
 
+let counterInterval;
+
 startTaskBtn.addEventListener('click', ()=>{
   if(customTime > 0 && taskTitle !== null){
-  alert('pressed');
+    exitPopUp(tasksPopUpWrapper);
+    ongoingTaskScreen.style.display = 'flex';
+    countDownTimer();
   }
 })
 
+let miliseconds;
+
+function countDownTimer(){
+  let countdown = 2;
+  
+  counterInterval = setInterval(()=>{
+    if(countdown === 0){
+      countDownP.innerHTML = 'START'
+      setTimeout(()=>{
+        countDownP.style.display = 'none';
+        ongoingTaskTimerWrapper.style.display = 'flex';
+        taskTitleOngoing.innerHTML = taskTitle;
+        miliseconds = customTime * 60 * 1000;
+        startTimerCountdown();
+        setInterval(()=>{startTimerCountdown()} , 1000)
+      },750);
+      clearInterval(counterInterval);
+      return
+    }
+    countDownP.innerHTML = countdown;
+    countdown--
+  }, 750);
+}
+
+let currentTimer;
+
+function startTimerCountdown(){
+  let minutes = Math.floor(miliseconds / 1000 / 60);
+  let seconds = Math.floor((miliseconds / 1000) % 60);
+  currentTimer = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2, '0')}`;
+  displayTimerCountdown();
+}
+
+function displayTimerCountdown(){
+  taskTimerP.innerHTML = currentTimer;
+  miliseconds -= 1000;
+}
 
 window.addEventListener("load", () => {
   localStorage.clear();
@@ -626,6 +672,9 @@ window.addEventListener("load", () => {
     foodInStockScreen.style.display = "none";
     foodEmptyScreen.style.display = 'none';
     foodSprite.style.display = 'none';
+    ongoingTaskScreen.style.display = 'none'; 
+    ongoingTaskTimerWrapper.style.display = 'none';
+    //countDownP.style.display = 'none';
     clearWrappers();
 
 });
@@ -750,4 +799,3 @@ const openSelectionMain =(activeScreen)=>{
       break
   }
 }
-
