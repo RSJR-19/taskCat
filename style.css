@@ -1,801 +1,571 @@
-const loadingScreen = document.getElementById("loading");
-const MainScreen = document.getElementById("main-stage");
-const renamePopUpScreen = document.getElementById("renamePopUpScreen");
-const statusBox = document.getElementById("statusBox");
-const oldUserScreen = document.getElementById("oldUserScreen");
-const firstTimeScreen = document.getElementById("firstTimeScreen");
-const youReceivedText = document.getElementById("youReceivedText");
-const catTypeText = document.getElementById("catTypeText");
-const box = document.getElementById("box");
-const cat = document.getElementById("cat");
-const renameName = document.getElementById("renameName");
-let catName;
-const renameInput = document.getElementById("renameInput");
-const renameConfirmBtn = document.getElementById("renameConfirmBtn");
-const statusBoxNameH1 = document.getElementById("statusBoxNameH1");
-const hungerBarContent = document.getElementById("hungerBarContent");
-const happinessBarContent = document.getElementById("happinessBarContent");
-const hungerBarPoints = document.getElementById("hungerBarPoints");
+* {
+    box-sizing: border-box;
+    font-family: Arial;
+}
+html,
+body {
+    height: 100dvh;
+    width: 100%;
+    margin: 0;
+}
 
-const foodSprite = document.getElementById('foodSprite');
+body {
+    height: 100dvh;
+    padding: 0;
+    margin: 0;
+}
+.main-screen {
+    background-color: whitesmoke;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#loading {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+#main-stage {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 128, 0, 0.481);
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+#firstTimeScreen,
+#oldUserScreen {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
 
-const bottomAccessBar = document.getElementById("bottomAccessBar");
+/*FIRST TIME SCREEN */
+#box {
+    height: 25%;
+    aspect-ratio: 1/1;
+    background-color: purple;
+    position: absolute;
+}
+#cat {
+    height: 30%;
+    aspect-ratio: 1/1;
+    background-color: yellow;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#youReceivedText {
+    position: absolute;
+    top: 65%;
+    text-align: center;
+    opacity: 0;
+}
 
-const itemsBtn = document.getElementById("items");
-const storeBtn = document.getElementById("store");
-const tasksBtn = document.getElementById("tasks");
+#renamePopUpScreen {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+#renamePopUp {
+    width: 70%;
+    height: 50%;
+    background-color: blue;
+    display: flex;
+    flex-direction: column;
+}
+.rename-title {
+    height: 10%;
+    width: 100%;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rename-photo-name-wrapper {
+    height: 50%;
+    width: 100%;
+    background-color: whitesmoke;
+    display: flex;
+}
 
-const itemsPopUpWrapper = document.getElementById("itemsPopUpWrapper");
-const storePopUpWrapper = document.getElementById("storePopUpWrapper");
-const tasksPopUpWrapper = document.getElementById("tasksPopUpWrapper");
+.rename-photo {
+    height: 100%;
+    width: 40%;
+    background-color: yellow;
+}
+.rename-name {
+    height: 100%;
+    width: 60%;
+    background-color: orange;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.rename-name h1 {
+    margin: 0;
+    padding: 0;
+}
+#renameInput {
+    position: absolute;
+    height: 50%;
+    width: 100%;
+    opacity: 0;
+}
+.rename-button-wrapper {
+    height: 40%;
+    width: 100%;
+    background-color: pink;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#renameConfirmBtn {
+    padding: 20px;
+}
+#statusBox {
+   aspect-ratio: 1.5/1;
+    width: 20%;
+    background-color: red;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+}
+#statusBoxName,
+#statusBoxHunger {
+    height: 50%;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+#statusBoxNameH1 {
+    margin: 0;
+}
+#hungerBar,
+#happinessBar {
+    height: 50%;
+    width: 95%;
+    border: 2px black solid;
+    overflow: hidden;
+    margin-left: 1.5%;
+    display: flex;
+    position: relative;
+}
+#hungerBarContent {
+    height: 100%;
+    width: 100%;
+    background-color: green;
+}
 
-const tutorialPopUpWrapper = document.getElementById("tutorialPopUpWrapper");
-const tutorialPopUp = document.getElementById("tutorialPopUp");
-const tutorialText = document.getElementById("tutorialText");
-const tapToContinue = document.getElementById("tapToContinue");
+.food-sprite{
+  position: absolute;
+  height: 20%;
+  aspect-ratio: 1/1;
+  background-color: yellow;
+  top: 80%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+transition: height 0.67s ease-in; /* SIX SEVEEEEN??? */
+}
+.food-sprite.shrink{
+  height: 0;
+}
 
-const itemsFoodMain = document.getElementById('itemsFoodMain');
-const itemsToysMain = document.getElementById('itemsToysMain');
-const itemsDesignMain = document.getElementById('itemsDesignMain');
-const itemsFoodBtn = document.getElementById('itemsFoodBtn');
-const itemsToysBtn = document.getElementById('itemsToysBtn');
-const itemsDesignBtn = document.getElementById('itemsDesignBtn');
-const exitPopUpBtn = document.getElementById('exitPopUpBtn');
+#hungerBarPoints {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+}
+#bottomAccessBar {
+    width: 100%;
+    height: 10dvh;
+    background-color: yellow;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-const storeFoodMain = document.getElementById('storeFoodMain');
-const storeToysMain = document.getElementById('storeToysMain');
-const storeDesignMain = document.getElementById('storeDesignMain');
-const storeFoodBtn = document.getElementById('storeFoodBtn');
-const storeToysBtn = document.getElementById('storeToysBtn');
-const storeDesignBtn = document.getElementById('storeDesignBtn');
-let foodInStockScreen = document.getElementById('foodInStock');
-const foodEmptyScreen = document.getElementById('foodEmpty');
+#items,
+#store,
+#tasks {
+    flex: 1;
+    margin: 10px;
+    height: 70%;
+}
 
-const taskTitleInput = document.getElementById('taskTitleInput');
-const nextTaskTitleBtn = document.getElementById('nextTaskTitleBtn');
-const taskTitleWrapper = document.getElementById('taskTitleWrapper');
-const timeSetWrapper = document.getElementById('timeSetWrapper');
-const taskTitleText = document.getElementById('taskTitleText');
-const timeChoiceWrapper = document.getElementById('timeChoiceWrapper');
-const timeChoice10 = document.getElementById('timeChoice10');
-const timeChoice25 = document.getElementById('timeChoice25');
-const timeChoice50 = document.getElementById('timeChoice50');
-const timeChoiceCustom = document.getElementById('timeChoiceCustom');
-const timeCustomInput = document.getElementById('timeCustomInput');
-const timeCustomH1 = document.getElementById('customTimeH1');
-const startTaskBtn = document.getElementById('startTaskBtn');
-const ongoingTaskScreen = document.getElementById('ongoingTaskScreen');
-const countDownP = document.getElementById('countDownP');
-const taskTitleOngoing = document.getElementById('taskTitleOngoing');
-const ongoingTaskTimerWrapper = document.getElementById('ongoingTaskTimerWrapper');
-const taskTimerP = document.getElementById('taskTimerP');
+#itemsPopUpWrapper,
+#storePopUpWrapper,
+#tasksPopUpWrapper {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 255, 0.213);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-let taskTitle;
-let customTime;
+#itemsPopUp,
+#storePopUp,
+#tasksPopUp {
+    height: 90%;
+    width: 90%;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px black solid;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
 
-const windowHeight = window.innerHeight;
-const windowWidth = window.innerWidth;
-
-timeChoiceWrapper.style.height = `${windowHeight > windowWidth ? 80 : 60}%`;
-
-let addedHunger = 0;
-
-let tutorialMode;
-
-let createFoodItem;
-let createFoodItemPic;
-let createFoodItemDetails;
-let createFoodItemFeed;
-let createFoodItemFeedBtn;
-let createFoodTitle;
-let createFoodDescript;
-let createFoodStock;
-
-let currentTutorialText = 0;
-let foodInventory = JSON.parse(localStorage.getItem("foodInventory"))||[];
-let foodTitle;
-let foodDescription;
-let selectedFood;
+.top-popup,
+.bottom-popup {
+    height: 10%;
+    width: 100%;
+    background-color: yellow;
+    display: flex;
+}
 
 
+#exitPopUpBtn{
+  padding: 10px;
+}
 
-const STATES = {
-    LOADING: "loadingScreen",
-    MAIN: "MainScreen",
-};
+.top-buttons-wrapper{
+  height: 100%;
+  width: 90%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.main-btn{
+  flex: 1;
+  padding: 10px;
+  margin: 10px;
+}
+.top-return-button-wrapper{
+  height: 100%;
+  width: 10%;
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-const checkFoodType = (foodClassType) =>{
-  switch(foodClassType){
-    case 1:
-      foodTitle = "Cheap Food";
-      foodDescription = "Cheap food low price";
-      break
-    case 2:
-      foodTitle = "Normal Food";
-      foodDescription = "Normal food normal price";
-      break
-    case 3:
-      foodTitle = "Good Food";
-      foodDescription = "Good food mild price";
-      break
-    case 4:
-      foodTitle = "Feast";
-      foodDescription = "feast high price";
-      break
-}}
+.bottom-popup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#itemsMainScreen,
+#storeMainScreen,
+#tasksMainScreen {
+    height: 80%;
+    width: 100%;
+    background-color: white;
+    overflow: hidden;
+}
 
-const displayFoodStock =()=>{
-  foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
-  foodInStockScreen.remove();
-  let createInStockScreen = document.createElement('div');
-  createInStockScreen.id = 'foodInStockScreen';
-  createInStockScreen.className = 'stock-screen';
-  itemsFoodMain.appendChild(createInStockScreen);
-  foodInventory.forEach(availableItem =>{
-    foodInStockScreen = document.getElementById('foodInStockScreen');
-    if (availableItem.foodQuantity > 0){
-      console.log('show')
-      createFoodItem = document.createElement("div");
-      createFoodItem.className = "food-item";
-      foodInStockScreen.appendChild(createFoodItem);
-      
-      createFoodItemPic = document.createElement('div');
-      createFoodItemPic.className = 'food-item-pic';
-      createFoodItem.appendChild(createFoodItemPic);
-      
-      createFoodItemDetails = document.createElement('div');
-      createFoodItemDetails.className = 'food-item-details';
-      createFoodItem.appendChild(createFoodItemDetails);
-      
-      createFoodItemFeed = document.createElement('div');
-      createFoodItemFeed.className = 'food-item-feed';
-      createFoodItem.appendChild(createFoodItemFeed);
-      
-      createFoodItemFeedBtn = document.createElement('button');
-      createFoodItemFeedBtn.className = 'food-item-feed-btn';
-      createFoodItemFeedBtn.textContent = 'Feed';
-      createFoodItemFeedBtn.addEventListener('click', ()=> feedFood(availableItem.foodClass));
-      createFoodItemFeed.appendChild(createFoodItemFeedBtn);
-      
-      createFoodTitle = document.createElement('h1');
-      createFoodDescript = document.createElement('p');
-      createFoodTitle.className = 'food-title';
-      createFoodDescript.className = 'food-descript';
-      checkFoodType(availableItem.foodClass);
-      createFoodTitle.textContent = foodTitle;
-      createFoodDescript.textContent = foodDescription;
-      createFoodItemDetails.appendChild(createFoodTitle);
-      createFoodItemDetails.appendChild(createFoodDescript);
-      
-      createFoodStock = document.createElement('p');
-      createFoodStock.className = 'food-stock';
-      createFoodStock.textContent = `Stock left: ${availableItem.foodQuantity}`;
-      createFoodItemDetails.appendChild(createFoodStock);
-    }
-    
-  })
+#tasksMainScreen{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
   
+}
+#taskTitleWrapper{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  justify-content: center;
+  align-items: center;
+   container-type: inline-size;
+   background-color: white;
+   gap: 20px;
+   flex-shrink: 0;
+   position: absolute;
+  bottom : 0; 
+   transition: bottom 0.3s ease-in;
+}
+
+#taskTitleWrapper.hide{
+  bottom: 100%;
+}
+
+ #taskTitleWrapper > *{
+   padding: 0;
+   margin: 0;
+ }
+ #taskTitleInput{
+   height: max(5cqh, 5cqw);
+   width: 85%;
+  text-align: center;
+   border-radius: 10px;
+ }
+ 
+ #nextTaskTitleBtn{
+   font-size: max(2cqw, 2cqh);
+   padding: 1.5% 2.5% 1.5% 2.5%;
+   pointer-events: none;
+ }
+ .start-task{
+   font-size: 3cqmin;
+   padding: 1.5% 2.5% 1.5% 2.5%;
+   margin-top: 1.5%;
+ }
+
+#timeSetWrapper{
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  flex-shrink: 0;
+  position: absolute;
+  top: 100%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+    transition: top 0.3s ease-in;
+container-type: size;
+}
+
+#taskTitleText, #taskTitleOngoing{
+  padding: 0;
+  font-weight: bold;
+  font-size: max(2.5cqw, 2.5cqh);
+  text-align: center;
+}
+#timeSetWrapper.show{
+  top: 0;
+}
+.time-choice-wrapper{
+  width: 100%;
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+ 
+}
+.time-item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+.choice{
+  border: 3px black solid;
+  border-radius: 10px;
+  height: 90%;
+  width: 90%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  container-type:inline-size ;
+}
+  
+.choice > *{
+  margin: 0;
+  padding: 0;
+}
+
+.choice h1{
+  font-size: min(12vw, 12vh);
+  flex-shrink: 0;
+}
+
+.choice p{
+  font-size: min(3vw, 3vh);
+  font-weight: bold;
+}
+#timeChoiceCustom{
+  position: relative;
+}
+
+#timeCustomInput{
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  opacity: 0;
+}
+ 
+#itemsFoodMain, #itemsToysMain, #itemsDesignMain, #storeFoodMain, #storeToysMain, #storeDesignMain{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   
 }
-
-const checkIfFirstTime = () => {
-    if (localStorage.getItem("firstTimeUsing") === null) {
-      tutorialMode = true;
-        localStorage.setItem("lastHungerAmount", 50); //lowHealth
-        localStorage.setItem("lastHungerTimeCheck", Date.now()); //remove later//
-        
-        localStorage.setItem("foodInventory", JSON.stringify([
-          {foodClass: 1, foodQuantity: 0},
-          {foodClass:2, foodQuantity: 0},
-          {foodClass : 3, foodQuantity : 1},
-          {foodClass: 4, foodQuantity : 0}
-          ]));
-        foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
-        
-        firstTimeScreen.style.display = "flex";
-        oldUserScreen.style.display = "none";
-    }
-    else {
-        oldUserScreen.style.display = "flex";
-        firstTimeScreen.style.display = "none";
-    }
-};
-
-const clearWrappers = () => {
-    [itemsPopUpWrapper, storePopUpWrapper, tasksPopUpWrapper, itemsDesignMain, itemsToysMain, itemsFoodMain, storeToysMain, storeDesignMain, storeFoodMain].forEach(
-        (wrapper) => (wrapper.style.display = "none")
-    );
-};
-
-const disablePointerEvents = (toDisable) => {
-    toDisable.forEach((element) => (element.style.pointerEvents = "none"));
-};
-
-const enablePointerEvents = (toEnable) =>{
-  toEnable.forEach((element)=> (element.style.pointerEvents = 'auto'));
+.stock-screen, .empty-screen{
+  height: 100%;
+  width: 100%;
+  display: flex;
 }
-
-const randomizeCatType = () => {
-    const catTypes = ["wawu", "mimi", "mekus", "kuchi", "nano"];
-    const catRandomizer = catTypes[Math.floor(Math.random() * catTypes.length)];
-
-    youReceivedText.innerHTML = `You Received, <br/> ${catRandomizer}!`;
-    catTypeText.innerHTML = catRandomizer;
-    renameName.innerHTML = catRandomizer;
-    catName = catRandomizer;
-};
-
-const displayRenamePopUp = () => {
-    renamePopUpScreen.style.display = "flex";
-    youReceivedText.style.display = "none";
-};
-
-const displayStatusBox = () => {
-    statusBox.style.display = "flex";
-    const catSavedName = JSON.parse(localStorage.getItem("catSavedName"));
-    displayHunger();
-    statusBoxNameH1.innerHTML = catSavedName;
-};
-
-const displayTutorial = () => {
-    tutorialPopUpWrapper.style.display = "flex";
-    let message;
-    switch (currentTutorialText) {
-        case 0:
-            message = "Your cat seems hungry";
-            currentTutorialText = 1;
-            break;
-
-        case 1:
-            message = "Tap the items button";
-            currentTutorialText = 2;
-            tapToContinue.style.opacity = 0;
-            bottomAccessBar.style.display = "flex";
-            disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper,storeBtn, itemsDesignBtn, itemsToysBtn, storeToysMain, storeDesignMain, exitPopUpBtn]); // add tasks button later//
-            break;
-
-        case 2:
-           message = "Tap the feed button";
-            tutorialPopUpWrapper.style.alignItems = 'center';
-            tutorialPopUpWrapper.style.pointerEvents = 'none';
-            currentTutorialText = 3;
-            break;
-        
-        case 3:
-          message = "Tap the food";
-          tutorialPopUpWrapper.style.alignItems = 'flex-start';
-          currentTutorialText = 4;
-          break;
-        
-        case 4:
-          message = "The cat seems still hungry...";
-          tapToContinue.style.opacity = 1;
-          currentTutorialText = 5;
-          enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
-          break;
-          
-        case 5:
-          message = "Since we don't no longer have food, we have to buy";
-          foodSprite.style.display = 'none';
-          bottomAccessBar.style.display = 'flex';
-          itemsPopUpWrapper.style.display = 'flex';
-          openSelectionMain(itemsFoodMain);
-          currentTutorialText = 6;
-          break;
-        
-        case 6:
-          message = "tap the exit button to close the items";
-          tutorialPopUpWrapper.style.alignItems = 'center';
-          tapToContinue.style.opacity = 0;
-          disablePointerEvents([itemsBtn, tutorialPopUp, tutorialPopUpWrapper]);
-          enablePointerEvents([exitPopUpBtn]);
-          currentTutorialText = 7;
-          break;
-          
-        case 7:
-          message = 'Now, tap the store button';
-          enablePointerEvents([storeBtn]);
-          disablePointerEvents([exitPopUpBtn]);
-          currentTutorialText = 8;
-          break;
-          
-        case 8:
-         message = "Here in store, we can buy food and other things";
-         tutorialPopUpWrapper.style.pointerEvents = 'auto';
-         tutorialPopUpWrapper.style.alignItems = 'flex-start';
-         disablePointerEvents([exitPopUpBtn, storeFoodBtn, storeToysBtn, storeDesignBtn]);
-         enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
-         tapToContinue.style.opacity = 1;
-         currentTutorialText = 9;
-         break;
-         
-      case 9:
-        message = "To buy, you need coins, currently you don't have enough coins to afford any food";
-        currentTutorialText = 10;
-        break;
-        
-      case 10:
-        message = 'To earn coins, you must set up a task ';
-        tutorialPopUpWrapper.style.alignItems = 'center';
-        currentTutorialText = 11;
-        break;
-      
-      case 11:
-        message = 'tap the exit button to close the store';
-        tapToContinue.style.opacity = 0;
-        enablePointerEvents([exitPopUpBtn]);
-        disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
-        currentTutorialText = 12;
-        break;
-        
-      case 12:
-        message = 'tap the task button';
-        disablePointerEvents([itemsBtn, storeBtn]);
-        enablePointerEvents([tasksBtn]);
-        currentTutorialText = 13;
-        break;
-      
-      case 13:
-        message = 'Here, we set up timer for tasks we need to accomplish in REAL LIFE';
-        tapToContinue.style.opacity = 1;
-        tutorialPopUpWrapper.style.alignItems = 'flex-start';
-        disablePointerEvents([exitPopUpBtn]);
-        enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
-        currentTutorialText = 14;
-        break;
-        
-      case 14:
-        message = 'Directions sa tasks';
-        break;
-    }
-    
-    tutorialText.innerHTML = message;
-};
-
-let initialTop;
-
-function feedFoodAnimation(){
-  foodSprite.style.top = `${initialTop}%`;
+.stock-screen{
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: whitesmoke;
+  padding: 10px 20px 10px 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.food-item{
+  height: 30%;
+  max-height: 200px;
+  flex-shrink: 0;
+  width: 100%;
+  margin: 10px 0 10px 0;
+  background-color: white ;
+  overflow: hidden;
+  border: 2px black solid;
+  border-radius: 10px;
+  display:flex;
+}
+.food-item-pic{
+  height:100%;
+  flex: 0.5;
+  background-color: yellow;
+}
+.food-item-details{
+  height:100%;
+  flex: 2.5;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+  padding: 10px;
+}
+.food-title, .food-descript, .food-stock{
+  margin: 0;
+  padding : 0;
   
-  if (initialTop === 50){
-    foodSprite.classList.add('shrink');
-    return
-  }
-  
-  initialTop -= 1;
-  requestAnimationFrame(feedFoodAnimation);
+}
+.food-item-feed{
+  height:100%;
+  flex: 0.5;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.food-item-feed-btn{
+  padding: 30px;
+}
+.empty-screen{
+  justify-content: center;
+  align-items: center;
+  background-color: pink;
 }
 
-foodSprite.addEventListener('transitionend', ()=>{
-  let hungerAmount = Number(localStorage.getItem('lastHungerAmount'));
-  foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
-  
-  foodInventory[selectedFood].foodQuantity =- 1;
-  localStorage.setItem('foodInventory', JSON.stringify(foodInventory));
-  
-  hungerAmount += addedHunger;
-  localStorage.setItem('lastHungerAmount', hungerAmount);
-  displayHunger();
-  
-  if (tutorialMode){
-    displayTutorial();
-  }
-})
-
-const feedFood =(food)=>{
-  if(tutorialMode){
-    tutorialPopUpWrapper.style.display = 'none';
-    displayTutorial();
-  }
-  switch (food){
-    case 1:
-    foodSprite.style.backgroundColor = 'red';
-    addedHunger = 10;
-    selectedFood = 0;
-      break;
-    case 2:
-    foodSprite.style.backgroundColor = 'green';
-    addedHunger = 15;
-    selectedFood = 1;
-      break;
-    case 3:
-   foodSprite.style.backgroundColor = 'orange';
-   addedHunger = 30;
-   selectedFood = 2;
-      break;
-    case 4:
-   foodSprite.style.backgroundColor = 'blue';
-   addedHunger = 1000;
-   selectedFood = 3;
-      break;
-  }
-  itemsPopUpWrapper.style.display = 'none';
-  bottomAccessBar.style.display = 'none';
-  foodSprite.style.display = 'flex';
+#ongoingTaskScreen{
+  height: 100%;
+  width: 100%;
+  background-color: orange;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-foodSprite.addEventListener('click', ()=>{
-  initialTop = 80; //to be changed soon
-  requestAnimationFrame(feedFoodAnimation);
-  
-  if(tutorialMode){
-    tutorialPopUpWrapper.style.display = 'none';
-  }
-})
-
-const computeHunger = () => {
-    let hungerAmount = Number(localStorage.getItem("lastHungerAmount"));
-    let lastHungerTimeCheck = Number(localStorage.getItem("lastHungerTimeCheck"));
-
-    let elapsedTime = Date.now() - lastHungerTimeCheck;
-    let hungerLoss = Math.floor(elapsedTime / 300000);
-
-    if (hungerLoss > 0) {
-        hungerAmount = Math.max(0, hungerAmount - hungerLoss);
-
-        lastHungerTimeCheck += hungerLoss * 300000;
-
-        localStorage.setItem("lastHungerAmount", hungerAmount);
-        localStorage.setItem("lastHungerTimeCheck", lastHungerTimeCheck);
-    }
-
-    displayHunger();
-};
-
-function displayHunger() {
-    let hungerAmount = Number(localStorage.getItem("lastHungerAmount"));
-    hungerBarContent.style.width = `${hungerAmount}%`;
-    hungerBarPoints.innerHTML = `${hungerAmount}/100`;
+#ongoingTaskTimerWrapper{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-taskTitleInput.addEventListener('input', ()=>{
-  if (taskTitleInput.value.length > 35){
-    taskTitleInput.blur()
-    taskTitleInput.value = taskTitleInput.value.trim(0, 35);
-  }
-  if (taskTitleInput.value.length <= 0){
-    nextTaskTitleBtn.style.backgroundColor = 'white';
-    nextTaskTitleBtn.style.pointerEvents = 'none';
-  }
-  else{
-    nextTaskTitleBtn.style.backgroundColor = 'yellow';
-    nextTaskTitleBtn.style.pointerEvents = 'auto';
-    taskTitle = taskTitleInput.value;
-  }
-})
-
-taskTitleInput.addEventListener('keydown', (event)=>{
-  if (event.key === 'Enter'){
-    taskTitleInput.blur();
-  }
-})
-
-taskTitleInput.addEventListener('blur', ()=>{
-  if(taskTitleInput.value.length > 0){
-     taskTitle = taskTitleInput.value;
-     nextTaskTitleBtn.style.pointerEvents = 'auto';
-     nextTaskTitleBtn.style.backgroundColor = 'yellow';
-  }
-  else{
-    nextTaskTitleBtn.style.pointerEvents = 'none';
-    nextTaskTitleBtn.style.backgroundColor = 'white';
-  }
-})
-
-nextTaskTitleBtn.addEventListener('click', ()=>{
-  taskTitleInput.blur();
-  taskTitleWrapper.classList.add('hide');
-  timeSetWrapper.classList.add('show');
-  taskTitleText.innerHTML = taskTitle;
-})
-
-taskTitleText.addEventListener('click', ()=>{
-  taskTitleWrapper.classList.remove('hide');
-  timeSetWrapper.classList.remove('show');
-  taskTitleInput.focus();
-  selectedTime(5);
-})
-
-function selectedTime(time){
-  [timeChoice10, timeChoice25, timeChoice50, timeChoiceCustom].forEach(choice =>{
-    choice.style.backgroundColor = 'transparent';
-  })
-  switch(time){
-    case 1:
-      timeChoice10.style.backgroundColor = 'orange';
-      customTime = 10;
-      break;
-    case 2:
-      timeChoice25.style.backgroundColor = 'orange';
-      customTime = 25;
-      break;
-    case 3:
-      timeChoice50.style.backgroundColor = 'orange';
-      customTime = 50;
-      break;
-    case 4:
-      if(customTime > 0 && timeCustomInput.value > 0){
-        timeChoiceCustom.style.backgroundColor = 'orange';
-        customTime = Number(timeCustomInput.value.slice(0,2));
-      }
-      else{
-        customTime = "";
-      }
-      break;
-    case 5:
-      customTime = "";
-      timeCustomInput.value = "";
-      customTimeH1.innerHTML = '00';
-      break;
-  }
-  checkCustomTime();
+#tutorialPopUpWrapper {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(222, 217, 217, 0.23);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+   z-index: 99;
+   
+   opacity: 0.2;/*remove later*/
 }
 
-function checkCustomTime(){
-  if(customTime >= 5 && customTime <= 90 ){
-    startTaskBtn.style.backgroundColor = 'yellow';
-    enablePointerEvents([startTaskBtn]);
-  }
-  else{
-    startTaskBtn.style.backgroundColor = 'transparent';
-    disablePointerEvents([startTaskBtn]);
-  }
+#tutorialPopUp {
+    height: 20%;
+    width: 40%;
+    padding: 10px;
+    word-break: auto;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px black solid;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
-timeCustomInput.addEventListener('input', ()=>{
-  if(Number(timeCustomInput) === NaN){
-    timeCustomInput.value = "";
-    timeCustomInput.blur();
-    alert('enter valid numbers only // change to tutorial popup laterr')
-  }
-  if(timeCustomInput.value.length > 2){
-    timeCustomInput.value = timeCustomInput.value.slice(0,2);
-    timeCustomInput.blur();
-  }
-  if(Number(timeCustomInput.value) >= 5 && Number(timeCustomInput.value) <= 90 ){
-    timeChoiceCustom.style.backgroundColor = 'orange';
-    customTime = Number(timeCustomInput.value); 
-  }
-  else{
-    timeChoiceCustom.style.backgroundColor = 'transparent';
-    customTime = Number(timeCustomInput.value);
-    checkCustomTime();
-  }
-  timeCustomH1.innerHTML = timeCustomInput.value.padStart(2, "0");
-  checkCustomTime();
-});
-
-timeCustomInput.addEventListener('blur', ()=>{
-  if (Number(timeCustomInput.value) < 5 && Number(timeCustomInput.value) !== 0 ){
-    alert('time cannot be less than 5 // upgrade to tu popup later')
-    timeCustomInput.value = "";
-    timeCustomH1.innerHTML = "00";
-    customTime = "";
-  }
-  if (Number(timeCustomInput.value) > 90){
-    alert('time cannot be more than 90 // upgrade to popup later');
-    timeCustomInput.value = "";
-    timeCustomH1.innerHTML = "00";
-    customTime = "";
+#tutorialText {
+    margin: 0;
+    padding: 5px;
+    user-select: none;
+    text-align: center;
 }
-  switch (Number(timeCustomInput.value)){
-    case 10:
-      selectedTime(1);
-      timeCustomInput.value = "";
-      customTimeH1.innerHTML = "00";
-      customTime = 10;
-      timeChoiceCustom.style.backgroundColor = 'transparent';
-      break
-    case 25:
-      selectedTime(2);
-      timeCustomInput.value = "";
-      customTimeH1.innerHTML = "00";
-      customTime = 25;
-      timeChoiceCustom.style.backgroundColor = 'transparent';
-      break
-    case 50:
-      selectedTime(3);
-      timeCustomInput.value = "";
-      customTimeH1.innerHTML = "00";
-      customTime = 50;
-      timeChoiceCustom.style.backgroundColor = 'transparent';
-      break
-    default:
-      customTime = timeCustomInput.value.slice(0,2);
-  }
-  checkCustomTime()
-});
-
-timeCustomInput.addEventListener('keydown', (event)=>{
-  if(event.key === 'Enter'){
-    timeCustomInput.blur();
-  }
-})
-
-let counterInterval;
-
-startTaskBtn.addEventListener('click', ()=>{
-  if(customTime > 0 && taskTitle !== null){
-    exitPopUp(tasksPopUpWrapper);
-    ongoingTaskScreen.style.display = 'flex';
-    countDownTimer();
-  }
-})
-
-let miliseconds;
-
-function countDownTimer(){
-  let countdown = 2;
-  
-  counterInterval = setInterval(()=>{
-    if(countdown === 0){
-      countDownP.innerHTML = 'START'
-      setTimeout(()=>{
-        countDownP.style.display = 'none';
-        ongoingTaskTimerWrapper.style.display = 'flex';
-        taskTitleOngoing.innerHTML = taskTitle;
-        miliseconds = customTime * 60 * 1000;
-        startTimerCountdown();
-        setInterval(()=>{startTimerCountdown()} , 1000)
-      },750);
-      clearInterval(counterInterval);
-      return
-    }
-    countDownP.innerHTML = countdown;
-    countdown--
-  }, 750);
+.tap-to-continue {
+    top: 80%;
+    position: absolute;
+    color: gray;
 }
 
-let currentTimer;
-
-function startTimerCountdown(){
-  let minutes = Math.floor(miliseconds / 1000 / 60);
-  let seconds = Math.floor((miliseconds / 1000) % 60);
-  currentTimer = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2, '0')}`;
-  displayTimerCountdown();
+#countDownP, #taskTimerP{
+  font-size: max(15cqw, 15cqh);
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
 }
 
-function displayTimerCountdown(){
-  taskTimerP.innerHTML = currentTimer;
-  miliseconds -= 1000;
+#taskTitleOngoing{
+  margin: 0;
+  padding: 0;
 }
 
-window.addEventListener("load", () => {
-  localStorage.clear();
-    checkIfFirstTime();
-    //remove later: //
-    cat.style.display = "none";
-    renamePopUpScreen.style.display = "none";
-    statusBox.style.display = "none";
-    bottomAccessBar.style.display = "none";
-    tutorialPopUpWrapper.style.display = "none";
-    foodInStockScreen.style.display = "none";
-    foodEmptyScreen.style.display = 'none';
-    foodSprite.style.display = 'none';
-    ongoingTaskScreen.style.display = 'none'; 
-    ongoingTaskTimerWrapper.style.display = 'none';
-    //countDownP.style.display = 'none';
-    clearWrappers();
-
-});
-
-box.addEventListener("click", () => {
-    randomizeCatType();
-    setTimeout(() => displayRenamePopUp(), 100); //remove later for testing only//
-    youReceivedText.style.opacity = 1;
-    box.style.display = "none";
-    cat.style.display = "flex";
-});
-
-renameInput.addEventListener("input", () => {
-    renameName.innerHTML = renameInput.value;
-    
-    if (renameInput.value.length <= 0){
-      renameName.innerHTML = catName;
-    }
-
-    if (renameInput.value.length > 10) {
-        renameName.innerHTML = renameInput.value.slice(0, 10);
-    }
-});
-
-renameInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      if(renameInput.value.trim().length === 0){
-        renameName.innerHTML = catName;
-      }
-        renameInput.blur();
-        
-    }
-});
-
-renameInput.addEventListener('blur', ()=>{
-  if(renameInput.value.length === 0){
-    renameName.innerHTML = catName;
-  }
-})
-
-renameInput.addEventListener('keydown', (event) => {
-  if (event.key === "Backspace" && renameInput.value.length === 0){
-    renameName.innerHTML = "";
-  }
-})
-
-renameConfirmBtn.addEventListener("click", () => {
-    if (renameInput.value.trim().length === 0) {
-        localStorage.setItem("catSavedName", JSON.stringify(catName));
-    } else {
-        catName = renameInput.value;
-        localStorage.setItem("catSavedName", JSON.stringify(catName));
-    }
-
-    renamePopUpScreen.style.display = "none";
-    catTypeText.innerHTML = catName;
-    displayStatusBox();
-
-    displayTutorial(currentTutorialText);
-});
-
-itemsBtn.addEventListener("click", () => {
-    itemsPopUpWrapper.style.display = "flex";
-    openSelectionMain(itemsFoodMain);
-    
-    if (tutorialMode){
-    tutorialPopUpWrapper.style.zIndex = 99;
-    displayTutorial();
-    }
-});
-
-storeBtn.addEventListener("click", () => {
-    storePopUpWrapper.style.display = "flex";
-    openSelectionMain(storeFoodMain);
-    
-    if(tutorialMode){
-      displayTutorial();
-    }
-    
-});
-
-tasksBtn.addEventListener("click", () => {
-    tasksPopUpWrapper.style.display = "flex";
-    if (tutorialMode){
-      displayTutorial();
-    }
-});
-
-
-
-tutorialPopUp.addEventListener("click", () => {
-    displayTutorial();
-});
-
-//onclick events//
-const exitPopUp =(popup)=>{
-  popup.style.display = "none";
-  if (tutorialMode){
-    displayTutorial();
-  }
-}
-
-const openSelectionMain =(activeScreen)=>{
-  [itemsFoodMain, itemsToysMain, itemsDesignMain, storeFoodMain, storeDesignMain, storeToysMain].forEach(screen => screen.style.display = 'none');
-  activeScreen.style.display = "flex";
-  
-  switch(activeScreen){
-    case itemsFoodMain:
-      foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
-      if (foodInventory.some(item => item.foodQuantity > 0)){
-        foodEmptyScreen.style.display = "none";
-        foodInStockScreen.style.display = 'flex';
-        displayFoodStock();
-        
-        
-      }
-      else{
-        foodEmptyScreen.style.display = "flex";
-        foodInStockScreen.style.display = 'none';
-        
-      }
-      break
+@media(orientation: landscape){
+  .time-choice-wrapper{
+    grid-template-columns: repeat(4, 1fr);
   }
 }
