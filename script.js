@@ -113,7 +113,7 @@ let timerContinuation;
 
 //Interval values//
 let counterInterval;
-
+let countDownTimerInterval;
 
 //createElement In Items//
 let createFoodItem;
@@ -133,18 +133,6 @@ let foodInventory = JSON.parse(localStorage.getItem("foodInventory"))||[];
 window.addEventListener("load", () => {
   //localStorage.clear()
     checkIfFirstTime();
-    //remove later: //
-    cat.style.display = "none";
-    renamePopUpScreen.style.display = "none";
-    statusBox.style.display = "none";
-    bottomAccessBar.style.display = "none";
-    tutorialPopUpWrapper.style.display = "none";
-    foodInStockScreen.style.display = "none";
-    foodEmptyScreen.style.display = 'none';
-    foodSprite.style.display = 'none';
-    ongoingTaskScreen.style.display = 'none'; 
-    //ongoingTaskTimerWrapper.style.display = 'none';
-    //countDownP.style.display = 'none';
     clearWrappers();
 
 });
@@ -169,11 +157,13 @@ function checkIfFirstTime (){
 
         if(localStorage.getItem('taskTimerDuration') !== null){
           taskTimerDuration = Number(localStorage.getItem('taskTimerDuration'));
+          taskTitle = JSON.parse(localStorage.getItem('savedTaskTitle'));
           miliseconds = Math.max(taskTimerDuration - Date.now(), 0);
           timerContinuation = true;
+          taskTitleOngoing.innerHTML = taskTitle;
           ongoingTaskTimerWrapper.style.display = 'flex';
           countDownTimer();
-          setInterval(()=>{countDownTimer()}, 1000);
+          countDownTimerInterval = setInterval(()=>{countDownTimer()}, 1000);
           
         }
     }
@@ -293,9 +283,10 @@ function countDownTimer(){
         ongoingTaskTimerWrapper.style.display = 'flex';
         taskTitleOngoing.innerHTML = taskTitle;
         miliseconds = customTime * 60 * 1000;
+        localStorage.setItem('savedTaskTitle', JSON.stringify(taskTitle));
         localStorage.setItem('taskTimerDuration', JSON.stringify(Date.now() + miliseconds));
         startTimerCountdown();
-        setInterval(()=>{startTimerCountdown()} , 1000)
+        countDownTimerInterval = setInterval(()=>{startTimerCountdown()} , 1000)
       },750);
       clearInterval(counterInterval);
       return
@@ -306,6 +297,11 @@ function countDownTimer(){
 }
 
 function startTimerCountdown(){
+  if(miliseconds <= 0){
+    currentTimer = '00:00';
+    clearInterval(countDownTimerInterval);
+    return
+  }
   let minutes = Math.floor(miliseconds / 1000 / 60);
   let seconds = Math.floor((miliseconds / 1000) % 60);
   currentTimer = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2, '0')}`;

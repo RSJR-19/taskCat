@@ -63,7 +63,7 @@ body {
     aspect-ratio: 1/1;
     background-color: yellow;
     position: absolute;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 }
@@ -80,7 +80,7 @@ body {
     position: absolute;
     top: 0;
     justify-content: center;
-    display: flex;
+    display: none;
     align-items: center;
 }
 #renamePopUp {
@@ -148,7 +148,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    display: flex;
+    display: none;
     flex-direction: column;
 }
 #statusBoxName,
@@ -185,7 +185,7 @@ body {
   background-color: yellow;
   top: 80%;
   border-radius: 50%;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 transition: height 0.67s ease-in; /* SIX SEVEEEEN??? */
@@ -207,7 +207,7 @@ transition: height 0.67s ease-in; /* SIX SEVEEEEN??? */
     background-color: yellow;
     position: absolute;
     bottom: 0;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 }
@@ -434,7 +434,7 @@ container-type: size;
 .stock-screen, .empty-screen{
   height: 100%;
   width: 100%;
-  display: flex;
+  display: none;
 }
 .stock-screen{
   flex-direction: column;
@@ -498,7 +498,7 @@ container-type: size;
   width: 100%;
   background-color: orange;
   position: absolute;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 }
@@ -519,7 +519,7 @@ container-type: size;
     width: 100%;
     background-color: rgba(222, 217, 217, 0.23);
     position: absolute;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: flex-start;
    z-index: 99;
