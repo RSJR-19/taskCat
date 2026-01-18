@@ -466,7 +466,7 @@ container-type: size;
 .food-details-wrapper{
   flex: 1;
   height: 100%;
-  background-color: red;
+
   display: flex;
   flex-direction: column;
   align-items: center;

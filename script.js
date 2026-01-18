@@ -139,7 +139,7 @@ let taskTimerDuration;
 
 //HAPPENS UPON DURING WEBSITE RELOAD//
 window.addEventListener("load", () => {
-  //localStorage.clear()
+  localStorage.clear() //delete later
     checkIfFirstTime();
     clearWrappers();
 
