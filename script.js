@@ -88,7 +88,6 @@ const durationP = document.getElementById('durationP');
 const multiplierP = document.getElementById('multiplierP');
 const finishedTotal = document.getElementById('finishedTotal');
 
-
 let taskTitle;
 let customTime;
 
@@ -116,6 +115,7 @@ let miliseconds;
 let currentTimer;
 let initialTop;
 let timerContinuation;
+let taskDuration;
 
 //Interval values//
 let counterInterval;
@@ -834,7 +834,7 @@ foodSprite.addEventListener('transitionend', ()=>{
 
 //I. Task Done Button//
 taskDoneBtn.addEventListener('click', ()=>{
-  let taskDuration = Number(localStorage.getItem('taskDuration'));
+  taskDuration = JSON.parse(localStorage.getItem('taskDuration'));
   finishedTaskPopUpWrapper.style.display = 'flex';
   durationP.innerHTML = `Task Duration: ${taskDuration} mins`;
   finishedTotal.innerHTML = `Total Coins Earned: ${taskDuration}`;
@@ -873,52 +873,3 @@ function openSelectionMain(activeScreen){
       break
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
