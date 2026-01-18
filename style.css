@@ -522,10 +522,21 @@ container-type: size;
 }
 
 #finishedTaskPopUpWrapper{
-  height: max(25cqw, 25cqh);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(255, 0, 0, 0.253);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5%;
+}
+
+#finishedTaskPopUp{
+  height: max(30cqw, 30cqh);
   width: max(40cqw, 40cqh);
   display: none;
-  position: absolute;
   border: 2px black solid;
   border-radius: 10px;
   background-color: white;
@@ -533,6 +544,15 @@ container-type: size;
   align-items: center;
   flex-direction: column;
   
+
+}
+
+#finishedText{
+  padding: 0;
+  font-weight: bold;
+  font-size: max(2.5cqw, 2.5cqh);
+  text-align: center;
+  display: none;
 }
 
 .task-done{

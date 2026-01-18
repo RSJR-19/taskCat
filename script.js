@@ -84,6 +84,8 @@ const ongoingTaskTimerWrapper = document.getElementById('ongoingTaskTimerWrapper
 const taskTimerP = document.getElementById('taskTimerP');
 const taskDoneBtn = document.getElementById('taskDoneBtn');
 const finishedTaskPopUpWrapper = document.getElementById('finishedTaskPopUpWrapper');
+const finishedTaskPopUp = document.getElementById('finishedTaskPopUp');
+const finishedText = document.getElementById('finishedText');
 const durationP = document.getElementById('durationP');
 const multiplierP = document.getElementById('multiplierP');
 const finishedTotal = document.getElementById('finishedTotal');
@@ -133,6 +135,7 @@ let createFoodStock;
 
 //LOCAL STORAGE ACCESS//
 let foodInventory = JSON.parse(localStorage.getItem("foodInventory"))||[];
+let taskTimerDuration;
 
 
 //HAPPENS UPON DURING WEBSITE RELOAD//
@@ -307,7 +310,8 @@ function startTimerCountdown(){
   if(miliseconds < 0){
     currentTimer = '00:00';
     clearInterval(countDownTimerInterval);
-    taskDoneBtn.style.display = 'flex';
+    finishedTaskPopUpWrapper.style.display = 'flex';
+    finishedText.style.display = 'flex';
     return
   }
   let minutes = Math.floor(miliseconds / 1000 / 60);
@@ -322,11 +326,11 @@ const displayFoodStock =()=>{
   foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
   foodInStockScreen.remove();
   let createInStockScreen = document.createElement('div');
-  createInStockScreen.id = 'foodInStockScreen';
+  createInStockScreen.id = 'foodInStock';
   createInStockScreen.className = 'stock-screen';
   itemsFoodMain.appendChild(createInStockScreen);
   foodInventory.forEach(availableItem =>{
-    foodInStockScreen = document.getElementById('foodInStockScreen');
+    foodInStockScreen = document.getElementById('foodInStock');
     if (availableItem.foodQuantity > 0){
       console.log('show')
       createFoodItem = document.createElement("div");
@@ -527,7 +531,7 @@ function checkCustomTime(){
 
 function displayTimerCountdown(){
   taskTimerP.innerHTML = currentTimer;
-  miliseconds -= 1000; // CHNAGE TO 1000 LATER
+  miliseconds -= 100000; // CHNAGE TO 1000 LATER
 }
 
 function displayHunger() {
@@ -574,6 +578,20 @@ function checkFoodType (foodClassType){
       foodDescription = "feast high price";
       break
 }}
+
+//HIDE FINISHED SCREEN//
+function hideFinishedTaskScreen(){
+  finishedTaskPopUpWrapper.style.display = 'none';
+  finishedTaskPopUp.style.display = 'none';
+  ongoingTaskTimerWrapper.style.display = 'none';
+  ongoingTaskScreen.style.display = 'none';
+  taskTitle = '';
+  customTime = '';
+  localStorage.removeItem('customTime');
+  localStorage.removeItem('taskTitle');
+  localStorage.removeItem('taskTimerDuration');
+
+}
 
 
 //EVENT LISTENERS//
@@ -820,7 +838,7 @@ foodSprite.addEventListener('transitionend', ()=>{
   let hungerAmount = Number(localStorage.getItem('lastHungerAmount'));
   foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
   
-  foodInventory[selectedFood].foodQuantity =- 1;
+  foodInventory[selectedFood].foodQuantity -=  1;
   localStorage.setItem('foodInventory', JSON.stringify(foodInventory));
   
   hungerAmount += addedHunger;
@@ -834,12 +852,16 @@ foodSprite.addEventListener('transitionend', ()=>{
 
 //I. Task Done Button//
 taskDoneBtn.addEventListener('click', ()=>{
-  taskDuration = JSON.parse(localStorage.getItem('taskDuration'));
+  let taskDuration = Number(localStorage.getItem('taskDuration'));
   finishedTaskPopUpWrapper.style.display = 'flex';
   durationP.innerHTML = `Task Duration: ${taskDuration} mins`;
   finishedTotal.innerHTML = `Total Coins Earned: ${taskDuration}`;
-  
 
+})
+
+//P. Task Done Button//
+taskDoneBtn.addEventListener('click', ()=>{
+  hideFinishedTaskScreen();
 })
 
 
@@ -848,6 +870,7 @@ function exitPopUp(popup){
   popup.style.display = "none";
   if (tutorialMode){
     displayTutorial();
+    return
   }
 }
 
@@ -873,3 +896,52 @@ function openSelectionMain(activeScreen){
       break
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
