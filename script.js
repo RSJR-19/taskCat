@@ -53,6 +53,15 @@ const itemsFoodBtn = document.getElementById('itemsFoodBtn');
 const itemsToysBtn = document.getElementById('itemsToysBtn');
 const itemsDesignBtn = document.getElementById('itemsDesignBtn');
 
+//ITEMS -- FOOD //
+const cheapFoodWrapper = document.getElementById('cheapFoodWrapper');
+const normalFoodWrapper = document.getElementById('normalFoodWrapper');
+const goodFoodWrapper = document.getElementById('goodFoodWrapper');
+const feastFoodWrapper = document.getElementById('feastFoodWrapper');
+const stockCheap = document.getElementById('stockCheap');
+const stockNormal = document.getElementById('stockNormal');
+const stockGood = document.getElementById('stockGood');
+const stockFeast = document.getElementById('stockFeast');
 //Store Screen//
 const storeFoodMain = document.getElementById('storeFoodMain');
 const storeToysMain = document.getElementById('storeToysMain');
@@ -123,16 +132,6 @@ let taskDuration;
 let counterInterval;
 let countDownTimerInterval;
 
-//createElement In Items//
-let createFoodItem;
-let createFoodItemPic;
-let createFoodItemDetails;
-let createFoodItemFeed;
-let createFoodItemFeedBtn;
-let createFoodTitle;
-let createFoodDescript;
-let createFoodStock;
-
 //LOCAL STORAGE ACCESS//
 let foodInventory = JSON.parse(localStorage.getItem("foodInventory"))||[];
 let taskTimerDuration;
@@ -195,7 +194,7 @@ function randomizeCatType (){
 };
 
 //Feeding Cat: FOOD SELECTION//
-const feedFood =(food)=>{
+function feedFood (food){
   if(tutorialMode){
     tutorialPopUpWrapper.style.display = 'none';
     displayTutorial();
@@ -322,57 +321,39 @@ function startTimerCountdown(){
 
 
 //DIsplay Food stock//
-const displayFoodStock =()=>{
+function displayFoodStock (){
+  [cheapFoodWrapper, normalFoodWrapper, goodFoodWrapper, feastFoodWrapper].forEach(wrapper => wrapper.style.display = 'none');
   foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
-  foodInStockScreen.remove();
-  let createInStockScreen = document.createElement('div');
-  createInStockScreen.id = 'foodInStock';
-  createInStockScreen.className = 'stock-screen';
-  itemsFoodMain.appendChild(createInStockScreen);
-  foodInventory.forEach(availableItem =>{
-    foodInStockScreen = document.getElementById('foodInStock');
-    if (availableItem.foodQuantity > 0){
-      console.log('show')
-      createFoodItem = document.createElement("div");
-      createFoodItem.className = "food-item";
-      foodInStockScreen.appendChild(createFoodItem);
-      
-      createFoodItemPic = document.createElement('div');
-      createFoodItemPic.className = 'food-item-pic';
-      createFoodItem.appendChild(createFoodItemPic);
-      
-      createFoodItemDetails = document.createElement('div');
-      createFoodItemDetails.className = 'food-item-details';
-      createFoodItem.appendChild(createFoodItemDetails);
-      
-      createFoodItemFeed = document.createElement('div');
-      createFoodItemFeed.className = 'food-item-feed';
-      createFoodItem.appendChild(createFoodItemFeed);
-      
-      createFoodItemFeedBtn = document.createElement('button');
-      createFoodItemFeedBtn.className = 'food-item-feed-btn';
-      createFoodItemFeedBtn.textContent = 'Feed';
-      createFoodItemFeedBtn.addEventListener('click', ()=> feedFood(availableItem.foodClass));
-      createFoodItemFeed.appendChild(createFoodItemFeedBtn);
-      
-      createFoodTitle = document.createElement('h1');
-      createFoodDescript = document.createElement('p');
-      createFoodTitle.className = 'food-title';
-      createFoodDescript.className = 'food-descript';
-      checkFoodType(availableItem.foodClass);
-      createFoodTitle.textContent = foodTitle;
-      createFoodDescript.textContent = foodDescription;
-      createFoodItemDetails.appendChild(createFoodTitle);
-      createFoodItemDetails.appendChild(createFoodDescript);
-      
-      createFoodStock = document.createElement('p');
-      createFoodStock.className = 'food-stock';
-      createFoodStock.textContent = `Stock left: ${availableItem.foodQuantity}`;
-      createFoodItemDetails.appendChild(createFoodStock);
+
+  for(let x = 0; x <= (foodInventory.length) -1; x++){
+    if (foodInventory[x].foodQuantity > 0){
+      displayFoodWrapper(x, foodInventory[x].foodQuantity)
     }
-    
-  })
+
+  }};
+
+function displayFoodWrapper(num, stock){
+  switch(num){
+    case 0:
+      cheapFoodWrapper.style.display = 'flex';
+      stockCheap.innerHTML = `Stock: ${stock}`;
+      break
+    case 1:
+      normalFoodWrapper.style.display = 'flex';
+      stockNormal.innerHTML = `Stock: ${stock}`;
+      break
+    case 2:
+      goodFoodWrapper.style.display = 'flex';
+      stockGood.innerHTML = `Stock: ${stock}`;
+      break
+    case 3:
+      feastFoodWrapper.style.display = 'flex';
+      stockFeast.innerHTML = `Stock: ${stock}`;
+      break
+
+  }
 }
+
 
 //TUTORIAL//
 function displayTutorial (){
