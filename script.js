@@ -194,37 +194,7 @@ function randomizeCatType (){
 };
 
 //Feeding Cat: FOOD SELECTION//
-function feedFood (food){
-  if(tutorialMode){
-    tutorialPopUpWrapper.style.display = 'none';
-    displayTutorial();
-  }
-  switch (food){
-    case 1:
-    foodSprite.style.backgroundColor = 'red';
-    addedHunger = 10;
-    selectedFood = 0;
-      break;
-    case 2:
-    foodSprite.style.backgroundColor = 'green';
-    addedHunger = 15;
-    selectedFood = 1;
-      break;
-    case 3:
-   foodSprite.style.backgroundColor = 'orange';
-   addedHunger = 30;
-   selectedFood = 2;
-      break;
-    case 4:
-   foodSprite.style.backgroundColor = 'blue';
-   addedHunger = 1000;
-   selectedFood = 3;
-      break;
-  }
-  itemsPopUpWrapper.style.display = 'none';
-  bottomAccessBar.style.display = 'none';
-  foodSprite.style.display = 'flex';
-}
+
 
 //FEEDING CAT FOOD ANIMATION//
 function feedFoodAnimation(){
@@ -831,20 +801,21 @@ foodSprite.addEventListener('transitionend', ()=>{
   }
 })
 
-//I. Task Done Button//
-taskDoneBtn.addEventListener('click', ()=>{
-  let taskDuration = Number(localStorage.getItem('taskDuration'));
-  finishedTaskPopUpWrapper.style.display = 'flex';
-  durationP.innerHTML = `Task Duration: ${taskDuration} mins`;
-  finishedTotal.innerHTML = `Total Coins Earned: ${taskDuration}`;
-
-})
 
 //P. Task Done Button//
 taskDoneBtn.addEventListener('click', ()=>{
   hideFinishedTaskScreen();
 })
 
+//J. FINISHED POPUp TASK//
+finishedTaskPopUpWrapper.addEventListener('click',()=>{
+  taskDuration = JSON.parse(localStorage.getItem('taskDuration'));
+  alert(taskDuration)
+  finishedTaskPopUp.style.display = 'flex';
+  taskDoneBtn.style.display = 'flex';
+  durationP.innerHTML = `Task Duration: ${Number(taskDuration)} mins`;
+  finishedTotal.innerHTML = `Total Coins Earned: ${Number(taskDuration)}`;
+})
 
 //ONCLICK EVENTS//
 function exitPopUp(popup){
@@ -876,6 +847,38 @@ function openSelectionMain(activeScreen){
       }
       break
   }
+}
+
+function feedFood (food){
+  if(tutorialMode){
+    tutorialPopUpWrapper.style.display = 'none';
+    displayTutorial();
+  }
+  switch (food){
+    case 1:
+    foodSprite.style.backgroundColor = 'red';
+    addedHunger = 10;
+    selectedFood = 0;
+      break;
+    case 2:
+    foodSprite.style.backgroundColor = 'green';
+    addedHunger = 15;
+    selectedFood = 1;
+      break;
+    case 3:
+   foodSprite.style.backgroundColor = 'orange';
+   addedHunger = 30;
+   selectedFood = 2;
+      break;
+    case 4:
+   foodSprite.style.backgroundColor = 'blue';
+   addedHunger = 1000;
+   selectedFood = 3;
+      break;
+  }
+  itemsPopUpWrapper.style.display = 'none';
+  bottomAccessBar.style.display = 'none';
+  foodSprite.style.display = 'flex';
 }
 
 
