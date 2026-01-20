@@ -84,7 +84,7 @@ const timeChoice25 = document.getElementById('timeChoice25');
 const timeChoice50 = document.getElementById('timeChoice50');
 const timeChoiceCustom = document.getElementById('timeChoiceCustom');
 const timeCustomInput = document.getElementById('timeCustomInput');
-const timeCustomH1 = document.getElementById('customTimeH1');
+const customTimeH1 = document.getElementById('customTimeH1');
 const startTaskBtn = document.getElementById('startTaskBtn');
 const ongoingTaskScreen = document.getElementById('ongoingTaskScreen');
 const countDownP = document.getElementById('countDownP');
@@ -125,8 +125,9 @@ let selectedFood;
 let miliseconds;
 let currentTimer;
 let initialTop;
-let timerContinuation;
+let timerContinuation = false;
 let taskDuration;
+let countdown;
 
 //Interval values//
 let counterInterval;
@@ -248,11 +249,13 @@ function selectedTime(time){
 
 //Short Countdown Screen //
 function countDownTimer(){
-  let countdown = 2;
+  countdown = 2;
   if(timerContinuation){
     startTimerCountdown();
     return
   }
+  countDownP.style.display = 'flex';
+  countDownP.innerHTML = '3'
   counterInterval = setInterval(()=>{
     if(countdown === 0){
       countDownP.innerHTML = 'START'
@@ -536,11 +539,13 @@ function hideFinishedTaskScreen(){
   finishedTaskPopUp.style.display = 'none';
   ongoingTaskTimerWrapper.style.display = 'none';
   ongoingTaskScreen.style.display = 'none';
-  taskTitle = '';
-  customTime = '';
+  finishedText.style.display = 'none';
+  timerContinuation = false;
+  countdown = 2;
   localStorage.removeItem('customTime');
   localStorage.removeItem('taskTitle');
   localStorage.removeItem('taskTimerDuration');
+  exitPopUp(tasksPopUpWrapper)
 
 }
 
@@ -724,7 +729,7 @@ timeCustomInput.addEventListener('input', ()=>{
     customTime = Number(timeCustomInput.value);
     checkCustomTime();
   }
-  timeCustomH1.innerHTML = timeCustomInput.value.padStart(2, "0");
+  customTimeH1.innerHTML = timeCustomInput.value.padStart(2, "0");
   checkCustomTime();
 });
 
@@ -738,13 +743,13 @@ timeCustomInput.addEventListener('blur', ()=>{
   if (Number(timeCustomInput.value) < 5 && Number(timeCustomInput.value) !== 0 ){
     alert('time cannot be less than 5 // upgrade to tu popup later')
     timeCustomInput.value = "";
-    timeCustomH1.innerHTML = "00";
+    customTimeH1.innerHTML = "00";
     customTime = "";
   }
   if (Number(timeCustomInput.value) > 90){
     alert('time cannot be more than 90 // upgrade to popup later');
     timeCustomInput.value = "";
-    timeCustomH1.innerHTML = "00";
+    customTimeH1.innerHTML = "00";
     customTime = "";
 }
   switch (Number(timeCustomInput.value)){
@@ -778,7 +783,6 @@ timeCustomInput.addEventListener('blur', ()=>{
 //M. Start Task Button//
 startTaskBtn.addEventListener('click', ()=>{
   if(customTime > 0 && taskTitle !== null){
-    exitPopUp(tasksPopUpWrapper);
     ongoingTaskScreen.style.display = 'flex';
     countDownTimer();
   }
@@ -822,8 +826,27 @@ function exitPopUp(popup){
   popup.style.display = "none";
   if (tutorialMode){
     displayTutorial();
-    return
+    
   }
+  switch(popup){
+    case tasksPopUpWrapper:
+      taskTitle = "";
+      customTime = "";
+      taskTitleInput.value = "";
+      timeCustomInput.value = "";
+      taskTitleText.innerHTML = "";
+      customTimeH1.innerHTML = "00";
+      [timeChoice10, timeChoice25, timeChoice50, timeChoiceCustom].forEach(choice =>{
+    choice.style.backgroundColor = 'transparent';
+  })
+  nextTaskTitleBtn.style.backgroundColor = 'transparent';
+  startTaskBtn.style.backgroundColor = 'transparent';
+    taskTitleWrapper.classList.remove('hide');
+    timeSetWrapper.classList.remove('show');
+  break;
+
+  }
+  
 }
 
 function openSelectionMain(activeScreen){
