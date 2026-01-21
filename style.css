@@ -179,6 +179,33 @@ body {
     background-color: green;
 }
 
+#coinBox{
+  position: absolute;
+  height: max(5cqw, 5cqh);
+  width: max(15cqw, 15cqh);
+  border: 2px black solid;
+  background-color: white;
+  top: 2.5%;
+  right: 2.5%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#coinAmountP{
+  font-size: max(2.5cqw, 2.5cqh);
+  
+}
+
+.coin-logo{
+  height: 90%;
+  aspect-ratio: 1/1;
+  background-color: yellow;
+  border-radius: 100%;
+  border: 2px black solid;
+  margin: 2%;
+}
+
 .food-sprite{
   position: absolute;
   height: 20%;

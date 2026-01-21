@@ -12,6 +12,12 @@ const statusBoxNameH1 = document.getElementById("statusBoxNameH1");
 const hungerBarContent = document.getElementById("hungerBarContent");
 const hungerBarPoints = document.getElementById("hungerBarPoints");
 
+//COIN BOX//
+const coinBox = document.getElementById('coinBox');
+const coinAmountP = document.getElementById('coinAmountP');
+
+let coinAmount;
+
 //BOTTOM ACCESS BAR//
 const bottomAccessBar = document.getElementById("bottomAccessBar");
 const itemsBtn = document.getElementById("items");
@@ -151,6 +157,7 @@ function checkIfFirstTime (){
 
     if (localStorage.getItem("firstTimeUsing") === null) {
       tutorialMode = true;
+        localStorage.setItem("coinAmount", 4) // 4 may be changed later
         localStorage.setItem("lastHungerAmount", 50); //lowHealth
         localStorage.setItem("lastHungerTimeCheck", Date.now()); //remove later//
         
@@ -354,7 +361,7 @@ function displayTutorial (){
             currentTutorialText = 2;
             tapToContinue.style.opacity = 0;
             bottomAccessBar.style.display = "flex";
-            disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper,storeBtn, itemsDesignBtn, itemsToysBtn, storeToysMain, storeDesignMain,tasksBtn, exitPopUpBtn]); 
+            disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper, itemsDesignBtn, itemsToysBtn, storeToysMain, storeDesignMain,tasksBtn, exitPopUpBtn]); //add storeBtn later
             break;
 
         case 2:
@@ -534,6 +541,14 @@ function displayStatusBox (){
     statusBoxNameH1.innerHTML = catSavedName;
 };
 
+function displayCoinBox(){
+  coinBox.style.display = 'flex';
+  coinAmount = Number(localStorage.getItem('coinAmount'))
+  coinAmountP.innerHTML = coinAmount;
+  
+
+}
+
 function checkCustomTime(){
   if(customTime >= 5 && customTime <= 90 ){
     startTaskBtn.style.backgroundColor = 'yellow';
@@ -607,7 +622,9 @@ function hideFinishedTaskScreen(){
   localStorage.removeItem('customTime');
   localStorage.removeItem('taskTitle');
   localStorage.removeItem('taskTimerDuration');
-  exitPopUp(tasksPopUpWrapper)
+  exitPopUp(tasksPopUpWrapper);
+  displayHunger();
+  displayCoinBox();
 
 }
 
@@ -671,6 +688,7 @@ renameConfirmBtn.addEventListener("click", () => {
     renamePopUpScreen.style.display = "none";
     catTypeText.innerHTML = catName;
     displayStatusBox();
+    displayCoinBox();
 
     displayTutorial(currentTutorialText);
 });
@@ -880,6 +898,9 @@ foodSprite.addEventListener('transitionend', ()=>{
 
 //P. Task Done Button//
 taskDoneBtn.addEventListener('click', ()=>{
+  if(tutorialMode){
+    localStorage.setItem('coinAmount', 5);
+  }
   hideFinishedTaskScreen();
 })
 
