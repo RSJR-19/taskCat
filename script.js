@@ -162,10 +162,10 @@ function checkIfFirstTime (){
         localStorage.setItem("lastHungerTimeCheck", Date.now()); //remove later//
         
         localStorage.setItem("foodInventory", JSON.stringify([
-          {foodClass: 1, foodQuantity: 0},
-          {foodClass:2, foodQuantity: 0},
+          {foodClass: 1, foodQuantity: 1},
+          {foodClass:2, foodQuantity: 1},
           {foodClass : 3, foodQuantity : 1},
-          {foodClass: 4, foodQuantity : 0}
+          {foodClass: 4, foodQuantity : 1}
           ]));
         foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
         

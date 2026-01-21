@@ -459,6 +459,13 @@ container-type: size;
   align-items: center;
   
 }
+
+#storeFoodMain{
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+
 .stock-screen, .empty-screen{
   height: 100%;
   width: 100%;
@@ -466,8 +473,9 @@ container-type: size;
 }
 .stock-screen{
   flex-direction: column;
+  display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   background-color: whitesmoke;
   padding: 10px 20px 10px 20px;
   overflow-x: hidden;
