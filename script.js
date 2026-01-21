@@ -107,6 +107,7 @@ const tutorialPopUpWrapper = document.getElementById("tutorialPopUpWrapper");
 const tutorialPopUp = document.getElementById("tutorialPopUp");
 const tutorialText = document.getElementById("tutorialText");
 const tapToContinue = document.getElementById("tapToContinue");
+const tutorialCustomP = document.getElementById('tutorialCustomP');
 
 let tutorialMode;
 let currentTutorialText = 0;
@@ -263,7 +264,7 @@ function countDownTimer(){
         countDownP.style.display = 'none';
         ongoingTaskTimerWrapper.style.display = 'flex';
         taskTitleOngoing.innerHTML = taskTitle;
-        miliseconds = customTime * 60 * 1000;
+        miliseconds = !tutorialMode ? customTime * 60 * 1000 : 10000;
         localStorage.setItem('taskDuration', JSON.stringify(customTime));
         localStorage.setItem('savedTaskTitle', JSON.stringify(taskTitle));
         localStorage.setItem('taskTimerDuration', JSON.stringify(Date.now() + miliseconds));
@@ -282,14 +283,24 @@ function startTimerCountdown(){
   if(miliseconds < 0){
     currentTimer = '00:00';
     clearInterval(countDownTimerInterval);
-    finishedTaskPopUpWrapper.style.display = 'flex';
-    finishedText.style.display = 'flex';
+    displayFinishedTaskPopUp();
+
     return
   }
   let minutes = Math.floor(miliseconds / 1000 / 60);
   let seconds = Math.floor((miliseconds / 1000) % 60);
   currentTimer = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2, '0')}`;
   displayTimerCountdown();
+}
+
+function displayFinishedTaskPopUp(){
+    finishedTaskPopUpWrapper.style.display = 'flex';
+    finishedText.style.display = 'flex';
+
+  if(tutorialMode){
+    displayTutorial();
+  }
+
 }
 
 
@@ -343,7 +354,7 @@ function displayTutorial (){
             currentTutorialText = 2;
             tapToContinue.style.opacity = 0;
             bottomAccessBar.style.display = "flex";
-            disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper,storeBtn, itemsDesignBtn, itemsToysBtn, storeToysMain, storeDesignMain, exitPopUpBtn]); // add tasks button later//
+            disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper,storeBtn, itemsDesignBtn, itemsToysBtn, storeToysMain, storeDesignMain,tasksBtn, exitPopUpBtn]); 
             break;
 
         case 2:
@@ -431,14 +442,65 @@ function displayTutorial (){
         message = 'Here, we set up timer for tasks we need to accomplish in REAL LIFE';
         tapToContinue.style.opacity = 1;
         tutorialPopUpWrapper.style.alignItems = 'flex-start';
-        disablePointerEvents([exitPopUpBtn]);
+        disablePointerEvents([exitPopUpBtn, taskTitleInput, nextTaskTitleBtn]);
         enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
+        nextTaskTitleBtn.style.backgroundColor = 'yellow';
         currentTutorialText = 14;
         break;
         
       case 14:
-        message = 'Directions sa tasks';
+        message = 'The task title for this tutorial phase is already set for you, click the next button';
+        tapToContinue.style.opacity = 0;
+        disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
+        enablePointerEvents([nextTaskTitleBtn]);
+        taskTitle = taskTitleInput.value;
+        currentTutorialText = 15;
         break;
+
+      case 15:
+        message = 'For this tutorial, a sample task would be just 10 seconds long, but later on tasks needs to be 5 minutes in minimum.';
+        tapToContinue.style.opacity = 1;
+        enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
+        disablePointerEvents([timeChoice10, timeChoice25, timeChoice50, timeChoiceCustom,timeCustomInput, startTaskBtn, exitPopUpBtn]);
+        tutorialCustomP.innerHTML = 'SECONDS';
+        customTime = 10;
+        currentTutorialText = 16;
+      break;
+
+      case 16:
+        message = 'Since time and task title are all set, you can now click start task';
+        tapToContinue.style.opacity = 0;
+        startTaskBtn.style.backgroundColor = 'yellow';
+        disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
+        enablePointerEvents([startTaskBtn])
+        currentTutorialText = 17;
+
+      break
+
+      case 17:
+        message = 'Wait until the task are finished'
+        enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
+        currentTutorialText = 18;
+
+      break;
+
+      case 18:
+        message = 'Now, time to collect coin rewards!'
+        disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
+        currentTutorialText = 19;
+        break;
+
+      case 19:
+        message = 'We now have enough coins to buy food, click home'
+        enablePointerEvents([taskDoneBtn]);
+        currentTutorialText = 20;
+        break;
+
+      case 20:
+        message = 'Open store again';
+        enablePointerEvents([storeBtn]);
+        break;
+
     }
     
     tutorialText.innerHTML = message;
@@ -485,7 +547,7 @@ function checkCustomTime(){
 
 function displayTimerCountdown(){
   taskTimerP.innerHTML = currentTimer;
-  miliseconds -= 100000; // CHNAGE TO 1000 LATER
+  miliseconds -= 1000; // CHNAGE TO 1000 LATER
 }
 
 function displayHunger() {
@@ -640,6 +702,8 @@ tasksBtn.addEventListener("click", () => {
     tasksPopUpWrapper.style.display = "flex";
     if (tutorialMode){
       displayTutorial();
+      taskTitleInput.value = "Testing Task Number 1"
+      disablePointerEvents([taskTitleInput])
     }
 });
 
@@ -707,6 +771,11 @@ nextTaskTitleBtn.addEventListener('click', ()=>{
   taskTitleWrapper.classList.add('hide');
   timeSetWrapper.classList.add('show');
   taskTitleText.innerHTML = taskTitle;
+  if(tutorialMode){
+    displayTutorial();
+    customTimeH1.innerHTML = "10";
+    timeChoiceCustom.style.backgroundColor = 'orange';
+  }
 })
 
 //L. Time Custom Input//
@@ -782,6 +851,9 @@ timeCustomInput.addEventListener('blur', ()=>{
 
 //M. Start Task Button//
 startTaskBtn.addEventListener('click', ()=>{
+  if (tutorialMode){
+    displayTutorial();
+  }
   if(customTime > 0 && taskTitle !== null){
     ongoingTaskScreen.style.display = 'flex';
     countDownTimer();
@@ -814,9 +886,14 @@ taskDoneBtn.addEventListener('click', ()=>{
 //J. FINISHED POPUp TASK//
 finishedTaskPopUpWrapper.addEventListener('click',()=>{
   taskDuration = JSON.parse(localStorage.getItem('taskDuration'));
-  alert(taskDuration)
   finishedTaskPopUp.style.display = 'flex';
   taskDoneBtn.style.display = 'flex';
+  if (tutorialMode){
+    displayTutorial();
+    durationP.innerHTML = `Task Duration: 10 secs`;
+  finishedTotal.innerHTML = `Total Coins Earned: 1`;
+    return
+  }
   durationP.innerHTML = `Task Duration: ${Number(taskDuration)} mins`;
   finishedTotal.innerHTML = `Total Coins Earned: ${Number(taskDuration)}`;
 })
