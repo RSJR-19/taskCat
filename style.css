@@ -211,10 +211,10 @@ body {
   position: absolute;
   height: max(5cqw, 5cqh);
   width: max(15cqw, 15cqh);
-  border: 4px black solid;
+  border: 0.15em black solid;
   background-color: white;
   top: -23%;
-  right: 0;
+  right: -1%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -236,7 +236,7 @@ body {
 #buyPopUp{
   height: max(28cqw, 28cqh);
   width: max(36cqw, 36cqh);
-  border: 5px black solid;
+  border: 0.3em black solid;
   border-radius: 10px;
   background-color: white;
   display: flex;

@@ -946,6 +946,14 @@ finishedTaskPopUpWrapper.addEventListener('click',()=>{
   finishedTotal.innerHTML = `Total Coins Earned: ${Number(taskDuration)}`;
 })
 
+let totalCost;
+
+function displayTotalCost(){
+  totalCost = productPrice * productAmount;
+  buyItemTotal.innerHTML = `TOTAL: ${totalCost}`;
+  
+}
+
 //ONCLICK EVENTS//
 function exitPopUp(popup){
   popup.style.display = "none";
@@ -1045,42 +1053,66 @@ let productPrice;
 
 function displayBuyPopUp(number){
   buyPopUpWrapper.style.display = 'flex';
+  productAmount = 1;
   switch(number){
     case 1:
       productName = 'Cheap Food';
       productPrice = 5
+      selectedFood = 0
       break;
 
     case 2:
       productName = 'Normal Food';
       productPrice = 15;
+      selectedFood = 1
       break;
 
     case 3:
       productName = 'Good Food';
       productPrice = 30;
+      selectedFood = 2
       break;
     
     case 4:
       productName = 'Feast Food';
       productPrice = 60;
+      selectedFood = 3;
       break;
 
   }
   buyItemP.innerHTML = `Buy ${productName}?`;
   buyItemPrice.innerHTML = `Price: ${productPrice}`
-  buyItemAmount.innerHTML = `Amount: 1`;
+  buyItemAmount.innerHTML = `Amount: ${productAmount}`;
   displayStoreCoinBox();
+  displayTotalCost();
+}
 
+function controlAmount(control){
+  productAmount = Math.max(1, productAmount += control);
+  displayBuyPopUp();
 }
 
 
+function exitBuy(){
+  buyPopUpWrapper.style.display = 'none';
+  productAmount = 1;
+}
 
+function confirmBuy(){
+  coinAmount = Number(localStorage.getItem('coinAmount'));
+  if(coinAmount >= totalCost){
+    foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
+    foodInventory[selectedFood].foodQuantity += productAmount;
+    localStorage.setItem('foodInventory', JSON.stringify(foodInventory));
+    coinAmount -= totalCost
+    localStorage.setItem('coinAmount', coinAmount);
+    exitBuy();
+  }
+  else{
+    alert('Insufficient coins // TURN TO TUTORIAL DISPLAY LATER')
+  }
 
-
-
-
-
+}
 
 
 

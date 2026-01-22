@@ -219,13 +219,13 @@
             <p id='buyItemPrice'>Price:</p>
             <div id="buyItemAmountWrapper">
               <p id="buyItemAmount">Amount: </p>
-              <span class="material-symbols-outlined" id="addAmount" >add</span>
-              <span class="material-symbols-outlined" id="minusAmount">remove</span>
+              <span  id="addAmount" onclick="controlAmount(1)">+</span>
+              <span id="minusAmount" onclick="controlAmount(-1)">–</span>
             </div>
             <p id="buyItemTotal"> TOTAL:</p>
             <div id="buyButtonWrapper">
-              <button id="buyCancelBtn">CANCEL</button>
-              <button id="buyConfirmBtn">BUY</button>
+              <button id="buyCancelBtn" onclick="exitBuy()">CANCEL</button>
+              <button id="buyConfirmBtn" onclick="confirmBuy()">BUY</button>
             </div>
           </div>
         </div>
