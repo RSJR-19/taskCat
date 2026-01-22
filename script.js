@@ -67,10 +67,15 @@ const cheapFoodWrapper = document.getElementById('cheapFoodWrapper');
 const normalFoodWrapper = document.getElementById('normalFoodWrapper');
 const goodFoodWrapper = document.getElementById('goodFoodWrapper');
 const feastFoodWrapper = document.getElementById('feastFoodWrapper');
+const specialFoodWrapper = document.getElementById('specialFoodWrapper');
 const stockCheap = document.getElementById('stockCheap');
 const stockNormal = document.getElementById('stockNormal');
 const stockGood = document.getElementById('stockGood');
 const stockFeast = document.getElementById('stockFeast');
+const stockSpecial = document.getElementById('stockSpecial');
+let foodInStockScreen = document.getElementById('foodInStock');
+const foodEmptyScreen = document.getElementById('foodEmpty');
+
 //Store Screen//
 const storeFoodMain = document.getElementById('storeFoodMain');
 const storeToysMain = document.getElementById('storeToysMain');
@@ -78,8 +83,17 @@ const storeDesignMain = document.getElementById('storeDesignMain');
 const storeFoodBtn = document.getElementById('storeFoodBtn');
 const storeToysBtn = document.getElementById('storeToysBtn');
 const storeDesignBtn = document.getElementById('storeDesignBtn');
-let foodInStockScreen = document.getElementById('foodInStock');
-const foodEmptyScreen = document.getElementById('foodEmpty');
+
+const buyPopUpWrapper = document.getElementById('buyPopUpWrapper');
+const buyItemP = document.getElementById('buyItemP');
+const buyItemPrice = document.getElementById('buyItemPrice');
+const buyItemAmount = document.getElementById('buyItemAmount');
+const addAmountBtn = document.getElementById('addAmount');
+const minusAmountBtn = document.getElementById('minusAmount');
+const buyItemTotal = document.getElementById('buyItemTotal')
+const buyCancelBtn = document.getElementById('buyCancelBtn');
+const buyConfirmBtn = document.getElementById('buyConfirmBtn');
+
 
 //Task Screen//
 const taskTitleInput = document.getElementById('taskTitleInput');
@@ -165,10 +179,11 @@ function checkIfFirstTime (){
         localStorage.setItem("lastHungerTimeCheck", Date.now()); //remove later//
         
         localStorage.setItem("foodInventory", JSON.stringify([
-          {foodClass: 1, foodQuantity: 1},
-          {foodClass:2, foodQuantity: 1},
-          {foodClass : 3, foodQuantity : 1},
-          {foodClass: 4, foodQuantity : 1}
+          {foodClass: 1, foodQuantity: 0},
+          {foodClass:2, foodQuantity: 0},
+          {foodClass : 3, foodQuantity : 0},
+          {foodClass: 4, foodQuantity : 0},
+          {foodClass: 5, foodQuantity: 1}
           ]));
         foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
         
@@ -996,12 +1011,12 @@ function feedFood (food){
       break;
     case 2:
     foodSprite.style.backgroundColor = 'green';
-    addedHunger = 15;
+    addedHunger = 35;
     selectedFood = 1;
       break;
     case 3:
    foodSprite.style.backgroundColor = 'orange';
-   addedHunger = 30;
+   addedHunger = 55;
    selectedFood = 2;
       break;
     case 4:
@@ -1009,13 +1024,32 @@ function feedFood (food){
    addedHunger = 1000;
    selectedFood = 3;
       break;
+
+    case 5:
+      foodSprite.style.backgroundColor = 'pink';
+      addedHunger = 30;
+      selectedFood = 4;
+      break;
+
   }
   itemsPopUpWrapper.style.display = 'none';
   bottomAccessBar.style.display = 'none';
   foodSprite.style.display = 'flex';
 }
 
+let productName;
+let productPrice;
 
+
+function displayBuyPopUp(number){
+  switch(number){
+    case 1:
+      productName = 'Cheap Food'
+      break;
+
+  }
+
+}
 
 
 
