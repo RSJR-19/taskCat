@@ -735,7 +735,7 @@ storeBtn.addEventListener("click", () => {
     storePopUpWrapper.style.display = "flex";
     coinBox.style.display = 'none';
     openSelectionMain(storeFoodMain);
-    displayStoreCoinBox();
+    
     if(tutorialMode){
       displayTutorial();
     }
@@ -1070,6 +1070,7 @@ function displayBuyPopUp(number){
   buyItemP.innerHTML = `Buy ${productName}?`;
   buyItemPrice.innerHTML = `Price: ${productPrice}`
   buyItemAmount.innerHTML = `Amount: 1`;
+  displayStoreCoinBox();
 
 }
 
