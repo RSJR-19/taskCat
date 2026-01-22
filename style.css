@@ -198,7 +198,7 @@ body {
 }
 
 .coin-logo{
-  height: 90%;
+  height: 70%;
   aspect-ratio: 1/1;
   background-color: yellow;
   border-radius: 100%;
@@ -206,6 +206,17 @@ body {
   margin: 2%;
 }
 
+#storeCoinBox{
+  position: absolute;
+  height: max(5cqw, 5cqh);
+  width: max(15cqw, 15cqh);
+  border: 2px black solid;
+  background-color: white;
+  right: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .food-sprite{
   position: absolute;
   height: 20%;
@@ -279,6 +290,7 @@ transition: height 0.67s ease-in; /* SIX SEVEEEEN??? */
     width: 100%;
     background-color: yellow;
     display: flex;
+    position: relative;
 }
 
 
@@ -531,7 +543,7 @@ container-type: size;
   text-align: center;
 }
 
-#feedBtn{
+#feedBtn, #buyBtn{
  font-size: max(1.75cqw, 1.75cqh);
   padding: 0.5em 1em;
   background-color: yellow;

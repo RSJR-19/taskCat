@@ -15,6 +15,9 @@ const hungerBarPoints = document.getElementById("hungerBarPoints");
 //COIN BOX//
 const coinBox = document.getElementById('coinBox');
 const coinAmountP = document.getElementById('coinAmountP');
+const storeCoinBox = document.getElementById('storeCoinBox');
+const storeCoinAmountP = document.getElementById('storeCoinAmountP');
+
 
 let coinAmount;
 
@@ -549,6 +552,12 @@ function displayCoinBox(){
 
 }
 
+function displayStoreCoinBox(){
+  storeCoinBox.style.display = 'flex';
+  coinAmount = Number(localStorage.getItem('coinAmount'));
+  storeCoinAmountP.innerHTML = coinAmount;
+}
+
 function checkCustomTime(){
   if(customTime >= 5 && customTime <= 90 ){
     startTaskBtn.style.backgroundColor = 'yellow';
@@ -707,8 +716,9 @@ itemsBtn.addEventListener("click", () => {
 //F. STORE BUTTON //
 storeBtn.addEventListener("click", () => {
     storePopUpWrapper.style.display = "flex";
+    coinBox.style.display = 'none';
     openSelectionMain(storeFoodMain);
-    
+    displayStoreCoinBox();
     if(tutorialMode){
       displayTutorial();
     }
@@ -935,13 +945,16 @@ function exitPopUp(popup){
       taskTitleText.innerHTML = "";
       customTimeH1.innerHTML = "00";
       [timeChoice10, timeChoice25, timeChoice50, timeChoiceCustom].forEach(choice =>{
-    choice.style.backgroundColor = 'transparent';
-  })
-  nextTaskTitleBtn.style.backgroundColor = 'transparent';
-  startTaskBtn.style.backgroundColor = 'transparent';
+    choice.style.backgroundColor = 'transparent'})
+    nextTaskTitleBtn.style.backgroundColor = 'transparent';
+    startTaskBtn.style.backgroundColor = 'transparent';
     taskTitleWrapper.classList.remove('hide');
     timeSetWrapper.classList.remove('show');
-  break;
+    break;
+
+    case storePopUpWrapper:
+    displayCoinBox();
+    break;
 
   }
   
