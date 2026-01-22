@@ -217,6 +217,100 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+#buyPopUpWrapper{
+  position: absolute;
+  background-color: rgba(255, 255, 0, 0.118);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#buyPopUp{
+  height: max(28cqw, 28cqh);
+  width: max(36cqw, 36cqh);
+  border: 2px black solid;
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
+#buyPopUp > *{
+  margin: 0;
+  padding: 0;
+}
+
+#buyItemP{
+  font-weight: bold;
+  font-size: max(2.5cqw, 2.5cqh);
+  width: 100%;
+  text-align: center;
+
+}
+
+#buyItemPrice, #buyItemTotal{
+  font-size: max(2.5cqw, 2.5cqh);
+  margin-left: 10px;
+}
+
+#buyItemTotal{
+  font-weight: bold;
+}
+
+#buyItemAmountWrapper{
+  width: 100%;
+  height: 15%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+#buyItemAmount{
+  font-size: max(2.5cqw, 2.5cqh);
+  margin-left: 10px;
+}
+
+#itemAmountP{
+  font-size: max(2.5cqw, 2.5cqh);
+  width: 10%;
+  text-align: center;
+}
+
+#addAmount, #minusAmount{
+  position: absolute;
+  font-size: max(3cqw,  3cqh);
+  font-weight: bold;
+}
+
+#addAmount{
+  right: 20%;
+  
+}
+
+#minusAmount{
+  right: 5%;
+}
+
+#buyButtonWrapper{
+  height: 18%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#buyCancelBtn, #buyConfirmBtn{
+  height: 90%;
+  width: 40%;
+  border-radius: 10px;
+  font-size: max(2cqw, 2cqh);
+}
 .food-sprite{
   position: absolute;
   height: 20%;
