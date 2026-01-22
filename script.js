@@ -366,6 +366,7 @@ function displayFoodWrapper(num, stock){
 
 //TUTORIAL//
 function displayTutorial (){
+
     tutorialPopUpWrapper.style.display = "flex";
     let message;
     switch (currentTutorialText) {
@@ -529,6 +530,7 @@ function displayTutorial (){
     }
     
     tutorialText.innerHTML = message;
+    
 };
 
 
@@ -1042,12 +1044,32 @@ let productPrice;
 
 
 function displayBuyPopUp(number){
+  buyPopUpWrapper.style.display = 'flex';
   switch(number){
     case 1:
-      productName = 'Cheap Food'
+      productName = 'Cheap Food';
+      productPrice = 5
+      break;
+
+    case 2:
+      productName = 'Normal Food';
+      productPrice = 15;
+      break;
+
+    case 3:
+      productName = 'Good Food';
+      productPrice = 30;
+      break;
+    
+    case 4:
+      productName = 'Feast Food';
+      productPrice = 60;
       break;
 
   }
+  buyItemP.innerHTML = `Buy ${productName}?`;
+  buyItemPrice.innerHTML = `Price: ${productPrice}`
+  buyItemAmount.innerHTML = `Amount: 1`;
 
 }
 
