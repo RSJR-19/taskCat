@@ -769,6 +769,29 @@ container-type: size;
   padding: 0;
 
 }
+
+.finished-total-wrapper{
+  height: max(5cqw, 5cqh);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.total-coin-wrapper{
+  height: 100%;
+  width: max(35cqw,35cqh);
+
+  border-top: 3px black solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.coin-total{
+  font-size: max(2.5cqw, 2.5cqh);
+  font-weight: bold;
+}
 #finishedTotal{
   font-size: max(3cqw, 3cqh);
   font-weight: bold;

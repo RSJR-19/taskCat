@@ -939,11 +939,11 @@ finishedTaskPopUpWrapper.addEventListener('click',()=>{
   if (tutorialMode){
     displayTutorial();
     durationP.innerHTML = `Task Duration: 10 secs`;
-  finishedTotal.innerHTML = `Total Coins Earned: 1`;
+  finishedTotal.innerHTML = `1`;
     return
   }
   durationP.innerHTML = `Task Duration: ${Number(taskDuration)} mins`;
-  finishedTotal.innerHTML = `Total Coins Earned: ${Number(taskDuration)}`;
+  finishedTotal.innerHTML = `${Number(taskDuration)}`;
 })
 
 let totalCost;
