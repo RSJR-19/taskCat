@@ -665,8 +665,25 @@ container-type: size;
   left: 0;
   margin-left: 5px;
   margin-bottom: 5px;
-
 }
+
+.price-wrapper{
+  position: absolute;
+  height: max(4cqw, 4cqh);
+  width: max(10cqw, 10cqh);
+  bottom: 0;
+  left: 0;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.price-p{
+  font-size: max(2.5cqw, 2.5cqh);
+}
+
 .empty-screen{
   justify-content: center;
   align-items: center;
