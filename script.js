@@ -554,6 +554,24 @@ function displayTutorial (){
         currentTutorialText = 24;
         break;
 
+      case 24:
+        tutorialPopUpWrapper.style.opacity = 0;
+        disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
+        break;
+
+      case 25:
+        message = 'Tutorial Finished! Take good care of your Cat!'
+        tutorialPopUpWrapper.style.alignItems = 'center';
+        tapToContinue.style.opacity = 1;
+        enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
+        currentTutorialText = 26;
+        break;
+
+      case 26:
+        tutorialPopUpWrapper.style.display = 'none';
+        tutorialDone();
+        break;
+
     }
     
     tutorialText.innerHTML = message;
@@ -954,6 +972,11 @@ foodSprite.addEventListener('transitionend', ()=>{
   openSelectionMain(itemsFoodMain);
   
   if (tutorialMode){
+    alert(currentTutorialText)
+    if(currentTutorialText === 24){
+      currentTutorialText = 25;
+    }
+    tutorialPopUpWrapper.style.opacity = 1;
     displayTutorial();
   }
   
@@ -1173,7 +1196,10 @@ function displayBuySuccess(){
 
 
 
-
+function tutorialDone(){
+  tutorialMode = false;
+  
+}
 
 
 
