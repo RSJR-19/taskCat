@@ -643,7 +643,7 @@ container-type: size;
   text-align: center;
 }
 
-#feedBtn, #buyBtn{
+#feedBtn, .buy-button{
  font-size: max(1.75cqw, 1.75cqh);
   padding: 0.5em 1em;
   background-color: yellow;

@@ -88,6 +88,10 @@ const buyPopUpWrapper = document.getElementById('buyPopUpWrapper');
 const buyItemP = document.getElementById('buyItemP');
 const buyItemPrice = document.getElementById('buyItemPrice');
 const buyItemAmount = document.getElementById('buyItemAmount');
+const buyCheapBtn = document.getElementById('buyCheapBtn');
+const buyNormalBtn = document.getElementById('buyNormalBtn');
+const buyGoodBtn = document.getElementById('buyGoodBtn');
+const buyFeastBtn = document.getElementById('buyFeastBtn');
 const addAmountBtn = document.getElementById('addAmount');
 const minusAmountBtn = document.getElementById('minusAmount');
 const buyItemTotal = document.getElementById('buyItemTotal')
@@ -289,7 +293,7 @@ function countDownTimer(){
         countDownP.style.display = 'none';
         ongoingTaskTimerWrapper.style.display = 'flex';
         taskTitleOngoing.innerHTML = taskTitle;
-        miliseconds = !tutorialMode ? customTime * 60 * 1000 : 10000;
+        miliseconds = !tutorialMode ? customTime * 60 * 1000 : 1000; //change to 10000 later #CHANGEME
         localStorage.setItem('taskDuration', JSON.stringify(customTime));
         localStorage.setItem('savedTaskTitle', JSON.stringify(taskTitle));
         localStorage.setItem('taskTimerDuration', JSON.stringify(Date.now() + miliseconds));
@@ -359,6 +363,11 @@ function displayFoodWrapper(num, stock){
       feastFoodWrapper.style.display = 'flex';
       stockFeast.innerHTML = `Stock: ${stock}`;
       break
+    case 4:
+      specialFoodWrapper.style.display = 'flex';
+      stockSpecial.innerHTML = `Stock: ${stock}`;
+      break
+
 
   }
 }
@@ -432,7 +441,7 @@ function displayTutorial (){
          message = "Here in store, we can buy food and other things";
          tutorialPopUpWrapper.style.pointerEvents = 'auto';
          tutorialPopUpWrapper.style.alignItems = 'flex-start';
-         disablePointerEvents([exitPopUpBtn, storeFoodBtn, storeToysBtn, storeDesignBtn]);
+         disablePointerEvents([exitPopUpBtn, storeFoodBtn, storeToysBtn, storeDesignBtn, buyCheapBtn, buyNormalBtn, buyFeastBtn, buyGoodBtn]);
          enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
          tapToContinue.style.opacity = 1;
          currentTutorialText = 9;
@@ -519,17 +528,31 @@ function displayTutorial (){
       case 19:
         message = 'We now have enough coins to buy food, click home'
         enablePointerEvents([taskDoneBtn]);
+        disablePointerEvents([tutorialPopUpWrapper, tutorialPopUp])
         currentTutorialText = 20;
         break;
 
       case 20:
         message = 'Open store again';
         enablePointerEvents([storeBtn]);
+        currentTutorialText = 21;
+        break;
+
+      case 21:
+        message = 'Open store again';
+        disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
+        enablePointerEvents([buyCheapBtn]);
+        currentTutorialText = 22;
+        break;
+
+      case 22:
+        message = 'Buy the Cheap Food';
         break;
 
     }
     
     tutorialText.innerHTML = message;
+
     
 };
 
@@ -927,6 +950,7 @@ foodSprite.addEventListener('transitionend', ()=>{
 taskDoneBtn.addEventListener('click', ()=>{
   if(tutorialMode){
     localStorage.setItem('coinAmount', 5);
+    currentTutorialText = 20
   }
   hideFinishedTaskScreen();
 })
@@ -1005,6 +1029,10 @@ function openSelectionMain(activeScreen){
         
       }
       break
+
+    case storeFoodMain:
+      storeFoodMain.scrollTop = 0;
+      break;
   }
 }
 
@@ -1053,7 +1081,10 @@ let productPrice;
 
 function displayBuyPopUp(number){
   buyPopUpWrapper.style.display = 'flex';
-  productAmount = 1;
+  if(!amountChanged){
+    productAmount = 1;
+  }
+
   switch(number){
     case 1:
       productName = 'Cheap Food';
@@ -1087,14 +1118,19 @@ function displayBuyPopUp(number){
   displayTotalCost();
 }
 
+let amountChanged = false;
+
 function controlAmount(control){
+  alert('clicked')
   productAmount = Math.max(1, productAmount += control);
+  amountChanged = true;
   displayBuyPopUp();
 }
 
 
 function exitBuy(){
   buyPopUpWrapper.style.display = 'none';
+  amountChanged = false
   productAmount = 1;
 }
 
