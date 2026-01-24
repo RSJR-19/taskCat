@@ -415,10 +415,6 @@ function displayTutorial (){
           
         case 5:
           message = "Since we don't no longer have food, we have to buy";
-          foodSprite.style.display = 'none';
-          bottomAccessBar.style.display = 'flex';
-          itemsPopUpWrapper.style.display = 'flex';
-          openSelectionMain(itemsFoodMain);
           currentTutorialText = 6;
           break;
         
@@ -469,7 +465,7 @@ function displayTutorial (){
         
       case 12:
         message = 'tap the task button';
-        disablePointerEvents([itemsBtn, storeBtn]);
+        disablePointerEvents([itemsBtn, storeBtn,tasksPopUpWrapper]);
         enablePointerEvents([tasksBtn]);
         currentTutorialText = 13;
         break;
@@ -478,7 +474,7 @@ function displayTutorial (){
         message = 'Here, we set up timer for tasks we need to accomplish in REAL LIFE';
         tapToContinue.style.opacity = 1;
         tutorialPopUpWrapper.style.alignItems = 'flex-start';
-        disablePointerEvents([exitPopUpBtn, taskTitleInput, nextTaskTitleBtn]);
+        disablePointerEvents([exitPopUpBtn, taskTitleInput, nextTaskTitleBtn, tasksBtn]);
         enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
         nextTaskTitleBtn.style.backgroundColor = 'yellow';
         currentTutorialText = 14;
@@ -547,12 +543,13 @@ function displayTutorial (){
 
       case 22:
         message = 'Buy the Cheap Food';
+        disablePointerEvents([storePopUpWrapper, storeBtn]);
         currentTutorialText = 23;
         break;
 
       case 23:
         message = 'Purchase Success! You can now feed it again to your cat';
-        enablePointerEvents([exitPopUpBtn, itemsBtn])
+        enablePointerEvents([exitPopUpBtn, itemsBtn, storePopUpWrapper])
         disablePointerEvents([tasksBtn, storeBtn])
         currentTutorialText = 24;
         break;
@@ -947,6 +944,14 @@ foodSprite.addEventListener('transitionend', ()=>{
   hungerAmount += addedHunger;
   localStorage.setItem('lastHungerAmount', hungerAmount);
   displayHunger();
+
+  foodSprite.style.display = 'none';
+  foodSprite.classList.remove('shrink');
+  initialTop = 80;
+  foodSprite.style.top = `${initialTop}%`;
+  bottomAccessBar.style.display = 'flex';
+  itemsPopUpWrapper.style.display = 'flex';
+  openSelectionMain(itemsFoodMain);
   
   if (tutorialMode){
     displayTutorial();
@@ -992,7 +997,6 @@ function exitPopUp(popup){
   popup.style.display = "none";
   if (tutorialMode){
     displayTutorial();
-    
   }
   switch(popup){
     case tasksPopUpWrapper:
