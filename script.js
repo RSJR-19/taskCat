@@ -230,6 +230,7 @@ function randomizeCatType (){
 //FEEDING CAT FOOD ANIMATION//
 function feedFoodAnimation(){
   foodSprite.style.top = `${initialTop}%`;
+  foodSprite.style.display = 'flex';
   
   if (initialTop === 50){
     foodSprite.classList.add('shrink');
@@ -335,7 +336,7 @@ function displayFinishedTaskPopUp(){
 
 //DIsplay Food stock//
 function displayFoodStock (){
-  [cheapFoodWrapper, normalFoodWrapper, goodFoodWrapper, feastFoodWrapper].forEach(wrapper => wrapper.style.display = 'none');
+  [cheapFoodWrapper, normalFoodWrapper, goodFoodWrapper, feastFoodWrapper, specialFoodWrapper].forEach(wrapper => wrapper.style.display = 'none');
   foodInventory = JSON.parse(localStorage.getItem('foodInventory'));
 
   for(let x = 0; x <= (foodInventory.length) -1; x++){
@@ -514,7 +515,6 @@ function displayTutorial (){
 
       case 17:
         message = 'Wait until the task are finished'
-        enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
         currentTutorialText = 18;
 
       break;
@@ -528,7 +528,7 @@ function displayTutorial (){
       case 19:
         message = 'We now have enough coins to buy food, click home'
         enablePointerEvents([taskDoneBtn]);
-        disablePointerEvents([tutorialPopUpWrapper, tutorialPopUp])
+        disablePointerEvents([tutorialPopUpWrapper, tutorialPopUp, finishedTaskPopUpWrapper])
         currentTutorialText = 20;
         break;
 
@@ -540,13 +540,21 @@ function displayTutorial (){
 
       case 21:
         message = 'Open store again';
-        disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
+        disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper, exitPopUpBtn])
         enablePointerEvents([buyCheapBtn]);
         currentTutorialText = 22;
         break;
 
       case 22:
         message = 'Buy the Cheap Food';
+        currentTutorialText = 23;
+        break;
+
+      case 23:
+        message = 'Purchase Success! You can now feed it again to your cat';
+        enablePointerEvents([exitPopUpBtn, itemsBtn])
+        disablePointerEvents([tasksBtn, storeBtn])
+        currentTutorialText = 24;
         break;
 
     }
@@ -943,6 +951,7 @@ foodSprite.addEventListener('transitionend', ()=>{
   if (tutorialMode){
     displayTutorial();
   }
+  
 })
 
 
@@ -1121,7 +1130,6 @@ function displayBuyPopUp(number){
 let amountChanged = false;
 
 function controlAmount(control){
-  alert('clicked')
   productAmount = Math.max(1, productAmount += control);
   amountChanged = true;
   displayBuyPopUp();
@@ -1142,6 +1150,7 @@ function confirmBuy(){
     localStorage.setItem('foodInventory', JSON.stringify(foodInventory));
     coinAmount -= totalCost
     localStorage.setItem('coinAmount', coinAmount);
+    displayBuySuccess();
     exitBuy();
   }
   else{
@@ -1151,7 +1160,12 @@ function confirmBuy(){
 }
 
 
-
+function displayBuySuccess(){
+  if(tutorialMode){
+    displayTutorial();
+  }
+  alert('Purchase Successful // TURN TO TUTORIAL DISPLAY LATER')
+}
 
 
 
