@@ -996,8 +996,12 @@ foodSprite.addEventListener('transitionend', ()=>{
 taskDoneBtn.addEventListener('click', ()=>{
   if(tutorialMode){
     localStorage.setItem('coinAmount', 5);
-    currentTutorialText = 20
+    currentTutorialText = 20;
+    return
   }
+  coinAmount = NUmber(document.getElementById('coinAmount'));
+  coinAmount += Number(taskDuration)
+  localStorage.setItem('coinAmount', coinAmount);
   hideFinishedTaskScreen();
 })
 
