@@ -168,7 +168,7 @@ let taskTimerDuration;
 
 //HAPPENS UPON DURING WEBSITE RELOAD//
 window.addEventListener("load", () => {
-  localStorage.clear() //delete later
+  //localStorage.clear() //delete later
     checkIfFirstTime();
     clearWrappers();
 
@@ -176,7 +176,7 @@ window.addEventListener("load", () => {
 
 function checkIfFirstTime (){
 
-    if (localStorage.getItem("firstTimeUsing") === null) {
+    if (localStorage.getItem("tutorialDone") === null) {
       tutorialMode = true;
         localStorage.setItem("coinAmount", 4) // 4 may be changed later
         localStorage.setItem("lastHungerAmount", 50); //lowHealth
@@ -207,6 +207,7 @@ function checkIfFirstTime (){
         }
     }
     else {
+       
         oldUserScreen.style.display = "flex";
         firstTimeScreen.style.display = "none";
     }
@@ -1198,6 +1199,7 @@ function displayBuySuccess(){
 
 function tutorialDone(){
   tutorialMode = false;
+  localStorage.setItem('tutorialDone', JSON.stringify(true));
   
 }
 
