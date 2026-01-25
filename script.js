@@ -147,6 +147,7 @@ timeChoiceWrapper.style.height = `${windowHeight > windowWidth ? 80 : 60}%`;
 
 //State or measurement related values //
 let addedHunger = 0;
+let hungerInterval ;
 let foodTitle;
 let foodDescription;
 let selectedFood;
@@ -180,7 +181,6 @@ function checkIfFirstTime (){
       tutorialMode = true;
         localStorage.setItem("coinAmount", 4) // 4 may be changed later
         localStorage.setItem("lastHungerAmount", 50); //lowHealth
-        localStorage.setItem("lastHungerTimeCheck", Date.now()); //remove later//
         
         localStorage.setItem("foodInventory", JSON.stringify([
           {foodClass: 1, foodQuantity: 0},
@@ -193,6 +193,8 @@ function checkIfFirstTime (){
         
         firstTimeScreen.style.display = "flex";
         oldUserScreen.style.display = "none";
+    }
+    else {
 
         if(localStorage.getItem('taskTimerDuration') !== null){
           taskTimerDuration = Number(localStorage.getItem('taskTimerDuration'));
@@ -205,11 +207,16 @@ function checkIfFirstTime (){
           countDownTimerInterval = setInterval(()=>{countDownTimer()}, 1000);
           
         }
-    }
-    else {
-       
+
         oldUserScreen.style.display = "flex";
         firstTimeScreen.style.display = "none";
+
+        computeHunger()
+        if(!hungerInterval){
+        hungerInterval =setInterval(computeHunger, 10000)
+        }
+        displayStatusBox()
+        bottomAccessBar.style.display = 'flex';
     }
 };
 
@@ -647,6 +654,7 @@ function displayHunger() {
 function computeHunger(){
     let hungerAmount = Number(localStorage.getItem("lastHungerAmount"));
     let lastHungerTimeCheck = Number(localStorage.getItem("lastHungerTimeCheck"));
+    if(!lastHungerTimeCheck) return;
 
     let elapsedTime = Date.now() - lastHungerTimeCheck;
     let hungerLoss = Math.floor(elapsedTime / 300000);
@@ -872,7 +880,7 @@ nextTaskTitleBtn.addEventListener('click', ()=>{
 
 //L. Time Custom Input//
 timeCustomInput.addEventListener('input', ()=>{
-  if(Number(timeCustomInput) === NaN){
+  if(isNaN(Number(timeCustomInput))){
     timeCustomInput.value = "";
     timeCustomInput.blur();
     alert('enter valid numbers only // change to tutorial popup laterr')
@@ -1199,7 +1207,14 @@ function displayBuySuccess(){
 
 function tutorialDone(){
   tutorialMode = false;
+  localStorage.setItem("lastHungerTimeCheck", Date.now()); 
   localStorage.setItem('tutorialDone', JSON.stringify(true));
+  computeHunger()
+  if(!hungerInterval){
+        hungerInterval =setInterval(computeHunger, 10000)
+  }
+  enablePointerEvents([itemsBtn, storeBtn,tasksBtn,itemsFoodBtn, itemsToysBtn, itemsDesignBtn, cheapFoodWrapper, normalFoodWrapper, goodFoodWrapper, feastFoodWrapper, specialFoodWrapper,storeFoodBtn,storeToysBtn,storeDesignBtn,buyCheapBtn,buyNormalBtn,buyGoodBtn,buyFeastBtn,addAmountBtn,minusAmountBtn,buyCancelBtn,buyConfirmBtn,taskTitleInput,nextTaskTitleBtn,timeChoice10,timeChoice25,timeChoice50,timeChoiceCustom,timeCustomInput,startTaskBtn,taskDoneBtn,exitPopUpBtn])
+
   
 }
 
