@@ -526,6 +526,7 @@ function displayTutorial (){
       case 18:
         message = 'Now, time to collect coin rewards!'
         disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
+        enablePointerEvents([taskDoneBtn])
         currentTutorialText = 19;
         break;
 
@@ -804,7 +805,13 @@ tasksBtn.addEventListener("click", () => {
       displayTutorial();
       taskTitleInput.value = "Testing Task Number 1"
       disablePointerEvents([taskTitleInput])
+      return
     }
+    taskTitle = null;
+    customTime = null;
+    taskTitleInput.value = "";
+    timeCustomInput.value = "";
+
 });
 
 //G. TUTORIAL POPUP//
@@ -994,14 +1001,18 @@ foodSprite.addEventListener('transitionend', ()=>{
 
 //P. Task Done Button//
 taskDoneBtn.addEventListener('click', ()=>{
+  
   if(tutorialMode){
     localStorage.setItem('coinAmount', 5);
     currentTutorialText = 20;
-    return
   }
-  coinAmount = NUmber(document.getElementById('coinAmount'));
+  else{
+    coinAmount = Number(localStorage.getItem('coinAmount'));
   coinAmount += Number(taskDuration)
   localStorage.setItem('coinAmount', coinAmount);
+
+  }
+  
   hideFinishedTaskScreen();
 })
 
