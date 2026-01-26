@@ -887,7 +887,7 @@ nextTaskTitleBtn.addEventListener('click', ()=>{
 
 //L. Time Custom Input//
 timeCustomInput.addEventListener('input', ()=>{
-  if(isNaN(Number(timeCustomInput))){
+  if(timeCustomInput.length > 0 && (Number(timeCustomInput))===NaN){
     timeCustomInput.value = "";
     timeCustomInput.blur();
     alert('enter valid numbers only // change to tutorial popup laterr')
@@ -1222,6 +1222,7 @@ function displayBuySuccess(){
 
 function tutorialDone(){
   tutorialMode = false;
+  tutorialCustomP.innerHTML = 'MINUTES';
   localStorage.setItem("lastHungerTimeCheck", Date.now()); 
   localStorage.setItem('tutorialDone', JSON.stringify(true));
   computeHunger()
