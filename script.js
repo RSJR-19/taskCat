@@ -743,8 +743,8 @@ function hideFinishedTaskScreen(){
 //A. BOX//
 box.addEventListener("click", () => {
     randomizeCatType();
-    setTimeout(() => displayRenamePopUp(), 100); //remove later for testing only//
-    youReceivedText.style.opacity = 1;
+    setTimeout(() => displayRenamePopUp(), 1000); //remove later for testing only//
+    displayAlert(youReceivedText.innerHTML)
     box.style.display = "none";
     cat.style.display = "flex";
 });

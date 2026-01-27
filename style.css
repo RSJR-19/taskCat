@@ -68,12 +68,6 @@ body {
     justify-content: center;
     align-items: center;
 }
-#youReceivedText {
-    position: absolute;
-    top: 65%;
-    text-align: center;
-    opacity: 0;
-}
 
 #renamePopUpScreen {
     height: 100%;
