@@ -139,6 +139,11 @@ const tutorialCustomP = document.getElementById('tutorialCustomP');
 let tutorialMode;
 let currentTutorialText = 0;
 
+//Alert related//
+const alertPopUpWrapper = document.getElementById('alertPopUpWrapper');
+const alertPopUp = document.getElementById('alertPopUp');
+const alertText = document.getElementById('alertText');
+
 //Responsive Attempts//
 const windowHeight = window.innerHeight;
 const windowWidth = window.innerWidth;
@@ -390,12 +395,12 @@ function displayTutorial (){
     let message;
     switch (currentTutorialText) {
         case 0:
-            message = "Your cat seems hungry";
+            message = "Your cat looks hungry";
             currentTutorialText = 1;
             break;
 
         case 1:
-            message = "Tap the items button";
+            message = "Tap the Items button";
             currentTutorialText = 2;
             tapToContinue.style.opacity = 0;
             bottomAccessBar.style.display = "flex";
@@ -403,32 +408,32 @@ function displayTutorial (){
             break;
 
         case 2:
-           message = "Tap the feed button";
+           message = "Tap Feed";
             tutorialPopUpWrapper.style.alignItems = 'center';
             tutorialPopUpWrapper.style.pointerEvents = 'none';
             currentTutorialText = 3;
             break;
         
         case 3:
-          message = "Tap the food";
+          message = "Tap the Food";
           tutorialPopUpWrapper.style.alignItems = 'flex-start';
           currentTutorialText = 4;
           break;
         
         case 4:
-          message = "The cat seems still hungry...";
+          message = "Hmmm... your cat is still hungry";
           tapToContinue.style.opacity = 1;
           currentTutorialText = 5;
           enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
           break;
           
         case 5:
-          message = "Since we don't no longer have food, we have to buy";
+          message = "Looks like we're out of food.<br> Let's buy some";
           currentTutorialText = 6;
           break;
         
         case 6:
-          message = "tap the exit button to close the items";
+          message = "Tap Exit to close Items";
           tutorialPopUpWrapper.style.alignItems = 'center';
           tapToContinue.style.opacity = 0;
           disablePointerEvents([itemsBtn, tutorialPopUp, tutorialPopUpWrapper]);
@@ -437,14 +442,14 @@ function displayTutorial (){
           break;
           
         case 7:
-          message = 'Now, tap the store button';
+          message = 'Now tap the Store button';
           enablePointerEvents([storeBtn]);
           disablePointerEvents([exitPopUpBtn]);
           currentTutorialText = 8;
           break;
           
         case 8:
-         message = "Here in store, we can buy food and other things";
+         message = "This is the store.<br>You can buy food and other items here";
          tutorialPopUpWrapper.style.pointerEvents = 'auto';
          tutorialPopUpWrapper.style.alignItems = 'flex-start';
          disablePointerEvents([exitPopUpBtn, storeFoodBtn, storeToysBtn, storeDesignBtn, buyCheapBtn, buyNormalBtn, buyFeastBtn, buyGoodBtn]);
@@ -454,18 +459,18 @@ function displayTutorial (){
          break;
          
       case 9:
-        message = "To buy, you need coins, currently you don't have enough coins to afford any food";
+        message = "You need coins to buy food.<br>Right now, you don't have enough";
         currentTutorialText = 10;
         break;
         
       case 10:
-        message = 'To earn coins, you must set up a task ';
+        message = 'To earn coins, you need to complete a task ';
         tutorialPopUpWrapper.style.alignItems = 'center';
         currentTutorialText = 11;
         break;
       
       case 11:
-        message = 'tap the exit button to close the store';
+        message = 'Tap Exit to close the store.';
         tapToContinue.style.opacity = 0;
         enablePointerEvents([exitPopUpBtn]);
         disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
@@ -473,14 +478,14 @@ function displayTutorial (){
         break;
         
       case 12:
-        message = 'tap the task button';
+        message = 'Tap the Task button';
         disablePointerEvents([itemsBtn, storeBtn,tasksPopUpWrapper]);
         enablePointerEvents([tasksBtn]);
         currentTutorialText = 13;
         break;
       
       case 13:
-        message = 'Here, we set up timer for tasks we need to accomplish in REAL LIFE';
+        message = 'Here, you set REAL - LIFE tasks to earn coins';
         tapToContinue.style.opacity = 1;
         tutorialPopUpWrapper.style.alignItems = 'flex-start';
         disablePointerEvents([exitPopUpBtn, taskTitleInput, nextTaskTitleBtn, tasksBtn]);
@@ -490,7 +495,7 @@ function displayTutorial (){
         break;
         
       case 14:
-        message = 'The task title for this tutorial phase is already set for you, click the next button';
+        message = 'The task title is already set.<br>Tap Next';
         tapToContinue.style.opacity = 0;
         disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
         enablePointerEvents([nextTaskTitleBtn]);
@@ -499,7 +504,7 @@ function displayTutorial (){
         break;
 
       case 15:
-        message = 'For this tutorial, a sample task would be just 10 seconds long, but later on tasks needs to be 5 minutes in minimum.';
+        message = 'Tasks can be 5 to 90 minutes long.<br>For now, 10 seconds would do';
         tapToContinue.style.opacity = 1;
         enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
         disablePointerEvents([timeChoice10, timeChoice25, timeChoice50, timeChoiceCustom,timeCustomInput, startTaskBtn, exitPopUpBtn]);
@@ -509,7 +514,7 @@ function displayTutorial (){
       break;
 
       case 16:
-        message = 'Since time and task title are all set, you can now click start task';
+        message = "Everything's ready.<br>Tap the Start Task";
         tapToContinue.style.opacity = 0;
         startTaskBtn.style.backgroundColor = 'yellow';
         disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
@@ -519,33 +524,33 @@ function displayTutorial (){
       break
 
       case 17:
-        message = 'Wait until the task are finished'
+        message = 'Wait for the task timer to finish'
         currentTutorialText = 18;
 
       break;
 
       case 18:
-        message = 'Now, time to collect coin rewards!'
+        message = 'Once done, collect your reward coins'
         disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
         enablePointerEvents([taskDoneBtn])
         currentTutorialText = 19;
         break;
 
       case 19:
-        message = 'We now have enough coins to buy food, click home'
+        message = 'You now have enough coins.<br>Go back home'
         enablePointerEvents([taskDoneBtn]);
         disablePointerEvents([tutorialPopUpWrapper, tutorialPopUp, finishedTaskPopUpWrapper])
         currentTutorialText = 20;
         break;
 
       case 20:
-        message = 'Open store again';
+        message = 'Open the Store again';
         enablePointerEvents([storeBtn]);
         currentTutorialText = 21;
         break;
 
       case 21:
-        message = 'Open store again';
+        message = 'Open the Store again';
         disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper, exitPopUpBtn])
         enablePointerEvents([buyCheapBtn]);
         currentTutorialText = 22;
@@ -558,36 +563,58 @@ function displayTutorial (){
         break;
 
       case 23:
-        message = 'Purchase Success! You can now feed it again to your cat';
+        message = 'Purchase successful!<br>You can feed your cat again';
         enablePointerEvents([exitPopUpBtn, itemsBtn, storePopUpWrapper])
         disablePointerEvents([tasksBtn, storeBtn])
         currentTutorialText = 24;
         break;
-
+      
       case 24:
+        message = 'Tap the Items button again';
+        currentTutorialText = 25;
+        break;
+      
+      case 25:
+        message = 'Tap Feed';
+        currentTutorialText = 26;
+        break;
+
+
+      case 26:
         tutorialPopUpWrapper.style.opacity = 0;
         disablePointerEvents([tutorialPopUp, tutorialPopUpWrapper]);
         break;
 
-      case 25:
-        message = 'Tutorial Finished! Take good care of your Cat!'
+      case 27:
+        message = 'Tutorial complete. <br>Take good care of your cat!'
         tutorialPopUpWrapper.style.alignItems = 'center';
         tapToContinue.style.opacity = 1;
         enablePointerEvents([tutorialPopUp, tutorialPopUpWrapper])
-        currentTutorialText = 26;
+        currentTutorialText = 28;
         break;
 
-      case 26:
+      case 28:
         tutorialPopUpWrapper.style.display = 'none';
         tutorialDone();
         break;
 
     }
+        
     
     tutorialText.innerHTML = message;
 
     
 };
+
+function displayAlert(text){
+  alertPopUpWrapper.style.display = 'flex';
+  alertPopUp.style.display = 'flex';
+  tapToContinue.style.display = 'flex';
+  alertText.innerHTML = text;
+  alertPopUpWrapper.style.alignItems = 'center';
+  alertPopUp.style.margin = 0;
+
+}
 
 
 //TOOLS / CONTROL //
@@ -891,7 +918,7 @@ timeCustomInput.addEventListener('input', ()=>{
   if(timeCustomInput.length > 0 && (Number(timeCustomInput))===NaN){
     timeCustomInput.value = "";
     timeCustomInput.blur();
-    alert('enter valid numbers only // change to tutorial popup laterr')
+    displayAlert('Please enter valid numbers');
   }
   if(timeCustomInput.value.length > 2){
     timeCustomInput.value = timeCustomInput.value.slice(0,2);
@@ -918,13 +945,13 @@ timeCustomInput.addEventListener('keydown', (event)=>{
 
 timeCustomInput.addEventListener('blur', ()=>{
   if (Number(timeCustomInput.value) < 5 && Number(timeCustomInput.value) !== 0 ){
-    alert('time cannot be less than 5 // upgrade to tu popup later')
+    displayAlert('Task time cannot be less than 5 minutes')
     timeCustomInput.value = "";
     customTimeH1.innerHTML = "00";
     customTime = "";
   }
   if (Number(timeCustomInput.value) > 90){
-    alert('time cannot be more than 90 // upgrade to popup later');
+    displayAlert('Task time cannot be more than 90 minutes');
     timeCustomInput.value = "";
     customTimeH1.innerHTML = "00";
     customTime = "";
@@ -989,9 +1016,8 @@ foodSprite.addEventListener('transitionend', ()=>{
   openSelectionMain(itemsFoodMain);
   
   if (tutorialMode){
-    alert(currentTutorialText)
-    if(currentTutorialText === 24){
-      currentTutorialText = 25;
+    if(currentTutorialText === 26){
+      currentTutorialText = 27;
     }
     tutorialPopUpWrapper.style.opacity = 1;
     displayTutorial();
@@ -1206,7 +1232,7 @@ function confirmBuy(){
     exitBuy();
   }
   else{
-    alert('Insufficient coins // TURN TO TUTORIAL DISPLAY LATER')
+    displayAlert("Oops! You don't have enough coins")
   }
 
 }
@@ -1216,7 +1242,7 @@ function displayBuySuccess(){
   if(tutorialMode){
     displayTutorial();
   }
-  alert('Purchase Successful // TURN TO TUTORIAL DISPLAY LATER')
+  displayAlert(`Purchase successful!<br>${productAmount} ${productName} added to Items!`);
 }
 
 
@@ -1230,7 +1256,7 @@ function tutorialDone(){
   if(!hungerInterval){
         hungerInterval =setInterval(computeHunger, 10000)
   }
-  enablePointerEvents([itemsBtn, storeBtn,tasksBtn,itemsFoodBtn, itemsToysBtn, itemsDesignBtn, cheapFoodWrapper, normalFoodWrapper, goodFoodWrapper, feastFoodWrapper, specialFoodWrapper,storeFoodBtn,storeToysBtn,storeDesignBtn,buyCheapBtn,buyNormalBtn,buyGoodBtn,buyFeastBtn,addAmountBtn,minusAmountBtn,buyCancelBtn,buyConfirmBtn,taskTitleInput,nextTaskTitleBtn,timeChoice10,timeChoice25,timeChoice50,timeChoiceCustom,timeCustomInput,startTaskBtn,taskDoneBtn,exitPopUpBtn])
+  enablePointerEvents([itemsBtn, storeBtn,tasksBtn,itemsFoodBtn, itemsToysBtn, itemsDesignBtn, cheapFoodWrapper, normalFoodWrapper, goodFoodWrapper, feastFoodWrapper, specialFoodWrapper,storeFoodBtn,storeToysBtn,storeDesignBtn,buyCheapBtn,buyNormalBtn,buyGoodBtn,buyFeastBtn,addAmountBtn,minusAmountBtn,buyCancelBtn,buyConfirmBtn,taskTitleInput,nextTaskTitleBtn,taskTitleText,timeChoice10,timeChoice25,timeChoice50,timeChoiceCustom,timeCustomInput,startTaskBtn,taskDoneBtn,exitPopUpBtn])
 
   
 }
