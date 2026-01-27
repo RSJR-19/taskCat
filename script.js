@@ -216,6 +216,7 @@ function checkIfFirstTime (){
         hungerInterval =setInterval(computeHunger, 10000)
         }
         displayStatusBox()
+        displayCoinBox()
         bottomAccessBar.style.display = 'flex';
     }
 };
