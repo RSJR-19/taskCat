@@ -386,8 +386,6 @@ function displayFoodWrapper(num, stock){
 
   }
 }
-
-
 //TUTORIAL//
 function displayTutorial (){
 
@@ -737,7 +735,6 @@ function hideFinishedTaskScreen(){
   displayCoinBox();
 
 }
-
 
 //EVENT LISTENERS//
 //A. BOX//
