@@ -383,7 +383,6 @@ function displayFoodWrapper(num, stock){
       stockSpecial.innerHTML = `Stock: ${stock}`;
       break
 
-
   }
 }
 //TUTORIAL//
