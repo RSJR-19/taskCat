@@ -32,10 +32,37 @@ img {
     
 }
 
+.cat_name{
+    position: absolute;
+    background-color: yellow;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    transform: translateY(-160%);
+
+}
+
+
+
 .cat_sprite{
     height: min(40cqw, 40cqh);
     aspect-ratio: 1/1;
     background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+}
+
+
+.life_bar{
+    position: absolute;
+    width: min(50dvh, 50dvw);
+    height: max(5dvh, 5dvw);
+    top: 0;
+    transform: translateY(50%);
+    background-color: yellow;
 
 }
 
@@ -55,14 +82,17 @@ img {
 
 
 .store_btn, .task_btn, .feed_btn{
-    height: 100%;
+    aspect-ratio: 1/1;
+    width: max(10cqw, 10cqh);
     padding: 0;
     margin: 0;
     background-color: yellow;
-    transform: translateY(-25%);
+    transform: translateY(-30%);
     display: flex;
     justify-content: center;
     align-items: center;
+    
+    
 }
 
 .store_btn p, .task_btn p, .feed_btn p{
@@ -73,7 +103,3 @@ img {
 
 
 
-.feed_btn{
-    margin-left: 20px;
-    margin-right: 20px;
-}

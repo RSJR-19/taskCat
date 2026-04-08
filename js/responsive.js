@@ -10,8 +10,5 @@ const width = catSprite.offsetWidth;
 
 
 
-[taskBtn, feedBtn, storeBtn].forEach(button => {
-    button.style.width = `${width/3}px`;
-});
 
 
