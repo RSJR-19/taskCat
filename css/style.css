@@ -1,0 +1,79 @@
+:root{
+    --main_background_color : whitesmoke;
+}
+
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100dvh;  
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    background-color: var(--main_background_color);
+    color: black;
+}
+
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.main_screen{
+    height: 100dvh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    
+}
+
+.cat_sprite{
+    height: min(40cqw, 40cqh);
+    aspect-ratio: 1/1;
+    background-color: red;
+
+}
+
+.control_bar{
+    position: absolute;
+    background-color: green;
+    max-width: 700px;
+    width: clamp(300px, 100%, max(50cqw, 50cqh));
+    height: max(10dvh, 10dvw);
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    
+    
+}
+
+
+.store_btn, .task_btn, .feed_btn{
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: yellow;
+    transform: translateY(-25%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.store_btn p, .task_btn p, .feed_btn p{
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+
+
+
+.feed_btn{
+    margin-left: 20px;
+    margin-right: 20px;
+}

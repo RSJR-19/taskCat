@@ -1,0 +1,1 @@
+const catSprite = document.getElementById('catSprite');
